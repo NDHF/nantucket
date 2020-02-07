@@ -9,7 +9,8 @@ console.log(
     "SAVE AS: Alt + a \n" +
     "NEW:     Alt + n \n" +
     "OPEN:    Alt + o \n" +
-    "DELETE:  Alt + d"
+    "DELETE:  Alt + d \n" +
+    "EXPORT:  Alt + x"
 );
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -238,6 +239,8 @@ document.addEventListener("DOMContentLoaded", function () {
             deleteFile();
         } else if ((alt) && (currentKey === "n")) {
             newFile();
+        } else if ((alt) && (currentKey === "x")) {
+            createDownloadableFile(gfs("lastFileOpened"), getById("textarea").value);
         }
         if (keylogArray.length === 1) {
             keylogArray.shift();
@@ -245,4 +248,37 @@ document.addEventListener("DOMContentLoaded", function () {
         keylogArray.push(event.key);
     }
     document.addEventListener("keydown", masterKeyboardListener);
+
+    function createDownloadableFile(filename, fileContent) {
+        let typeText = "text/plain;charset=UTF-8";
+        let fileText = new Blob([fileContent], {type: typeText});
+        let url = URL.createObjectURL(fileText);
+
+        // YYYYMMDD
+        let currentDate = "";
+
+        function createDateString() {
+            let date = new Date();
+            let year =  date.getFullYear() + "-";
+            let month = (date.getMonth() + 1);
+            if (month < 10) {
+                month = "0" + month + "-";
+            }
+            let dayOfMonth = date.getDate();
+            if (dayOfMonth < 10) {
+                dayOfMonth = "0" + dayOfMonth;
+            }
+            currentDate = currentDate.concat(year, month, dayOfMonth);
+        }
+        createDateString();
+
+        let link = document.createElement("A");
+        let fullFilename = filename + "_" + currentDate + ".txt"; 
+        link.download = fullFilename;
+        link.href = url;
+        link.textContent = fullFilename;
+        link.click();
+        getById("inputOutputContainer").appendChild(link);
+        getById("inputOutputContainer").innerHTML = "";
+    }
 });
