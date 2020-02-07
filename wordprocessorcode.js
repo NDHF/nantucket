@@ -4,10 +4,12 @@ console.log(
     "\n" +
     "COMMANDS: \n" +
     "\n" +
-    "PRINT:  Alt + p \n" +
-    "SAVE:   Alt + s \n" +
-    "OPEN:   Alt + o \n" +
-    "DELETE: Alt + d"
+    "PRINT:   Alt + p \n" +
+    "SAVE:    Alt + s \n" +
+    "SAVE AS: Alt + a \n" +
+    "NEW:     Alt + n \n" +
+    "OPEN:    Alt + o \n" +
+    "DELETE:  Alt + d"
 );
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -15,23 +17,23 @@ document.addEventListener("DOMContentLoaded", function () {
     function getById(id) {
         return document.getElementById(id);
     }
-    
+
     function whenClicked(id, functionToRun) {
         return getById(id).addEventListener("click", functionToRun);
     }
-    
+
     function sts(key, property) {
         return localStorage.setItem(key, property);
     }
-    
+
     function gfs(key) {
         return localStorage.getItem(key);
     }
-    
+
     function rfs(key) {
         return localStorage.removeItem(key);
     }
-    
+
     function setUpFileNameArray() {
         let fileNameArrayInStorage = gfs("fileNameArray");
         let noFileNameArrayInStorage = (fileNameArrayInStorage === null);
@@ -43,10 +45,10 @@ document.addEventListener("DOMContentLoaded", function () {
             printFileNameArray();
         }
     }
-    
+
     setUpFileNameArray();
-    
-    function printFileNameArray() {
+
+    function printFileNameArray(lastFileFailedToOpen) {
         getById("fileNameContainer").innerHTML = "";
         let lastFileOpenedHeader = document.createElement("H3");
         let lfoHeaderText = document.createTextNode("Last File Opened:");
@@ -54,7 +56,11 @@ document.addEventListener("DOMContentLoaded", function () {
         getById("fileNameContainer").appendChild(lastFileOpenedHeader);
         let lastFileOpenedUL = document.createElement("UL");
         let lastFileOpenedLI = document.createElement("LI");
-        let lfoLIText = document.createTextNode(gfs("lastFileOpened"));
+        lfoText = gfs("lastFileOpened");
+        if (lastFileFailedToOpen === true) {
+            lfoText = lfoText.concat(" (Not found)");
+        } 
+        let lfoLIText = document.createTextNode(lfoText);
         lastFileOpenedLI.appendChild(lfoLIText);
         lastFileOpenedUL.appendChild(lastFileOpenedLI);
         getById("fileNameContainer").appendChild(lastFileOpenedUL);
@@ -63,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fileNameArrayHeader.appendChild(fileNameArrayHeaderText);
         getById("fileNameContainer").appendChild(fileNameArrayHeader);
         let fileNameUL = document.createElement("UL");
+
         function printArrayItem(item) {
             let fileNameLI = document.createElement("LI");
             let fileNameLIText = document.createTextNode(item);
@@ -73,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fileNameArray.forEach(printArrayItem);
         getById("fileNameContainer").appendChild(fileNameUL);
     }
-    
+
     function loadLastFile() {
         let lastFileOpened = gfs("lastFileOpened");
         if ((lastFileOpened !== null) && (lastFileOpened !== "null")) {
@@ -81,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
     loadLastFile();
-    
+
     function tryOpening(content) {
         let specs = 'location=no,scrollbars=no,menubar=no,toolbar=no';
         let w = window.open('', '', specs);
@@ -91,12 +98,13 @@ document.addEventListener("DOMContentLoaded", function () {
         w.document.write('</body></html>');
         w.document.close();
     }
-    
+
     function printTextArea() {
         tryOpening(getById("textarea").value);
     }
-    
+
     function masterStorageAccess(mode, lastFile) {
+        let lastFileFailedToOpen = false;
         let promptMessage = "placeholder";
         if ((mode === "save") || (mode === "saveAs")) {
             promptMessage = "Save file as:";
@@ -104,6 +112,8 @@ document.addEventListener("DOMContentLoaded", function () {
             promptMessage = "Please enter file name:";
         } else if (mode === "delete") {
             promptMessage = "Name of file to delete?";
+        } else if (mode === "new") {
+            promptMessage = "Name of new file:"
         } else {
             console.error("invalid input");
         }
@@ -116,13 +126,16 @@ document.addEventListener("DOMContentLoaded", function () {
         let fileNameArrayPulled = gfs("fileNameArray");
         let fileNameArrayParsed = JSON.parse(fileNameArrayPulled);
         let fileNameExistsInArray = fileNameArrayParsed.includes(textName);
+        let proceedWithOverwrite = "";
+        let overwriteMessage = "A file with that name " +
+        "already exists. Do you want to proceed with overwrite?";
         if (fileNameExistsInArray) {
             if (mode === "save") {
                 sts(textName, getById("textarea").value);
             } else if (mode === "saveAs") {
-                let proceedWithOverwrite = confirm("A file with that name " +
-                "already exists. Do you want to proceed with overwrite?");
+                proceedWithOverwrite = confirm(overwriteMessage);
                 if (proceedWithOverwrite === true) {
+                    getById("textarea").value = "";
                     sts(textName, getById("textarea").value);
                 } else {
                     alert("Cancelled");
@@ -133,36 +146,50 @@ document.addEventListener("DOMContentLoaded", function () {
                 sts("lastFileOpened", textName);
             } else if (mode === "delete") {
                 let deleteConfirm = confirm("Are you sure you want to " +
-                "delete '" + textName + "'?");
+                    "delete '" + textName + "'?");
                 if (deleteConfirm === true) {
                     let ind = fileNameArrayParsed.indexOf(textName);
                     fileNameArrayParsed.splice(ind, 1);
-                    let backToStringDel = JSON.stringify(fileNameArrayParsed); 
+                    let backToStringDel = JSON.stringify(fileNameArrayParsed);
                     rfs(textName);
                     sts("fileNameArray", backToStringDel);
                 }
+            } else if (mode === "new") {
+                proceedWithOverwrite = confirm(overwriteMessage);
+                if (proceedWithOverwrite === true) {
+                    sts(textName, getById("textarea").value);
+                    sts("lastFileOpened", textName);
+                    printFileNameArray();
+                } else {
+                    alert("Cancelled");
+                }
             }
         } else {
-            if ((mode === "save") || (mode === "saveAs")) {
+            if ((mode === "save") || (mode === "saveAs") ||
+                (mode === "new")) {
                 fileNameArrayParsed.push(textName);
                 let backToStringSave = JSON.stringify(fileNameArrayParsed);
                 sts("fileNameArray", backToStringSave);
+                if (mode === "new") {
+                    getById("textarea").value = "";
+                }
                 sts(textName, getById("textarea").value);
                 sts("lastFileOpened", textName);
             } else if (mode === "open") {
                 if (lastFile === undefined) {
                     alert("No file found with that name.");
                 } else {
+                    lastFileFailedToOpen = true;
                     alert("The attempt to open most-recent file " +
-                    lastFile + " was unsuccessful.");
+                        lastFile + " was unsuccessful.");
                 }
             } else if (mode === "delete") {
                 alert("No file found with that name");
             }
         }
-        printFileNameArray();
+        printFileNameArray(lastFileFailedToOpen);
     }
-    
+
     function saveText() {
         let lastFileOpened = gfs("lastFileOpened");
         if ((lastFileOpened !== null) && (lastFileOpened !== "null")) {
@@ -171,47 +198,51 @@ document.addEventListener("DOMContentLoaded", function () {
             masterStorageAccess("save");
         }
     }
-    
+
     function saveAs() {
         masterStorageAccess("saveAs");
     }
-    
+
     function openFile() {
-        console.log("called");
         masterStorageAccess("open");
     }
-    
+
     function deleteFile() {
         masterStorageAccess("delete");
     }
-    
+
+    function newFile() {
+        masterStorageAccess("new");
+    }
+
     whenClicked("printButton", printTextArea);
     whenClicked("saveButton", saveText);
     whenClicked("saveAsButton", saveAs);
     whenClicked("deleteButton", deleteFile);
     whenClicked("openButton", openFile);
 
-    function lookForAlt(event) {
+    let keylogArray = [];
 
-        if ((event.altKey === true) && (event.shiftKey === false)) {
-            console.log("false");
-            if (event.key === "p") {
-                printTextArea();
-            } else if (event.key === "s") {
-                saveText();
-            } else if (event.key === "o") {
-                openFile();
-            } else if (event.key === "d") {
-                deleteFile();
-            }
-        } else if ((event.altKey === true) && (event.shiftKey === true)) {
-            console.log("true");
-            if (event.key === "s") {
-                console.log("doubly true");
-                saveAs();
-            }
+    function masterKeyboardListener(event) {
+        let currentKey = event.key;
+        let alt = (keylogArray[0] === "Alt");
+        if ((alt) && (currentKey === "a")) {
+            saveAs();
+        } else if ((alt) && (currentKey === "p")) {
+            printTextArea();
+        } else if ((alt) && (currentKey === "s")) {
+            saveText();
+        } else if ((alt) && (currentKey === "o")) {
+            openFile();
+        } else if ((alt) && (currentKey === "d")) {
+            deleteFile();
+        } else if ((alt) && (currentKey === "n")) {
+            newFile();
         }
+        if (keylogArray.length === 1) {
+            keylogArray.shift();
+        }
+        keylogArray.push(event.key);
     }
-    document.addEventListener("keydown", lookForAlt);
+    document.addEventListener("keydown", masterKeyboardListener);
 });
-
