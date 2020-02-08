@@ -222,6 +222,27 @@ document.addEventListener("DOMContentLoaded", function () {
     whenClicked("deleteButton", deleteFile);
     whenClicked("openButton", openFile);
 
+    function storageCapacityCheck() {
+        let fileNameArrForLoop = gfs("fileNameArray");
+        let fnaParsed = JSON.parse(fileNameArrForLoop);
+        let totalNumberOfCharacters = 0;
+        function getTotalFileSizeInStorage(fnaItem) {
+            fnaItemStr = JSON.stringify(gfs(fnaItem));
+            fnaItemLength = fnaItemStr.length;
+            totalNumberOfCharacters = totalNumberOfCharacters + (fnaItemLength);
+        }
+        if (Array.isArray(fnaParsed)) {
+            fnaParsed.forEach(getTotalFileSizeInStorage);
+        }
+        let totalSizeOfLocalStorage = 5242880;
+        let spaceUsedSoFar = totalNumberOfCharacters / totalSizeOfLocalStorage;
+        let spaceUsedAsPercent = ((spaceUsedSoFar * 100 )).toFixed(3);
+        let storageMessage = spaceUsedAsPercent + "% of storage used.";
+        getById("storageSpaceReadout").innerHTML = storageMessage;
+    }
+
+    setInterval(storageCapacityCheck, 10000);
+
     let keylogArray = [];
 
     function masterKeyboardListener(event) {
