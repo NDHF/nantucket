@@ -1,21 +1,3 @@
-console.log(
-    "A very, very simple word processor. \n" +
-    "In-Development. \n" +
-    "\n" +
-    "COMMANDS: \n" +
-    "\n" +
-    "PRINT:      Alt + p \n" +
-    "SAVE:       Alt + s \n" +
-    "SAVE AS:    Alt + a \n" +
-    "NEW:        Alt + n \n" +
-    "OPEN:       Alt + o \n" +
-    "DELETE:     Alt + d \n" +
-    "EXPORT:     Alt + x \n" +
-    "WORD COUNT: Alt + w \n" +
-    "GENERATE E-READER FILE: \n" +
-    "Alt + g"
-);
-
 document.addEventListener("DOMContentLoaded", function () {
 
     function getById(id) {
@@ -287,6 +269,8 @@ document.addEventListener("DOMContentLoaded", function () {
             runGam();
         } else if ((alt) && (currentKey === "w")) {
             wordCount();
+        } else if ((alt) && (currentKey === "c")) {
+            toggleCommands();
         }
         if (keylogArray.length === 1) {
             keylogArray.shift();
@@ -326,5 +310,19 @@ document.addEventListener("DOMContentLoaded", function () {
         link.click();
         getById("inputOutputContainer").appendChild(link);
         getById("inputOutputContainer").innerHTML = "";
+    }
+
+    function toggleCommands() {
+        if (getById("commandContainer").classList.contains("commandStandby")) {
+            console.log("HERE");
+            getById("commandContainer").classList.remove("commandStandby");
+            getById("commandContainer").classList.add("commandActive");
+        } else if (getById("commandContainer").classList.contains("commandActive")) {
+            console.log("HERE");
+            getById("commandContainer").classList.remove("commandActive");
+            getById("commandContainer").classList.add("commandStandby");
+        } else {
+            alert("Something has gone wrong with toggleCommands");
+        }
     }
 });

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="vvsteStyle.css" />
+    <title>VVSTE</title>
+</head>
+
+<body>
+    <main>
+
+        <div id="inputOutputContainer"></div>
+
+        <div id="textareaContainer">
+            <textarea id="textarea"></textarea>
+        </div>
+
+        <div id="commandContainer" class="commandStandby">
+            <h3>COMMANDS</h3>
+            <table>
+                <tr>
+                    <td>COMMANDS:</td>
+                    <td><kbd>Alt + c</kbd></td>
+                </tr>
+                <tr>
+                    <td>PRINT:</td>
+                    <td><kbd>Alt + p</kbd></td>
+                </tr>
+                <tr>
+                    <td>SAVE:</td>
+                    <td><kbd>Alt + s</kbd></td>
+                </tr>
+                <tr>
+                    <td>SAVE AS:</td>
+                    <td><kbd>Alt + a</kbd></td>
+                </tr>
+                <tr>
+                    <td>OPEN:</td>
+                    <td><kbd>Alt + o</kbd></td>
+                </tr>
+                <tr>
+                    <td>DELETE:</td>
+                    <td><kbd>Alt + d</kbd></td>
+                </tr>
+                <tr>
+                    <td>EXPORT:</td>
+                    <td><kbd>Alt + x</kbd></td>
+                </tr>
+                <tr>
+                    <td>WORD COUNT:</td>
+                    <td><kbd>Alt + w</kbd></td>
+                </tr>
+                <tr>
+                    <td>GENERATE <br /> E-READER FILE:</td>
+                    <td><kbd>Alt + g</kbd></td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="buttons">
+            <button id="printButton">PRINT</button>
+            <button id="saveButton">SAVE</button>
+            <button id="saveAsButton">SAVE AS</button>
+            <button id="deleteButton">DELETE</button>
+            <button id="openButton">OPEN</button>
+        </div>
+
+        <div id="fileNameContainer"></div>
+    </main>
+
+    <footer>
+        <span><strong>VVSTE</strong> (<i>Vee-Stee</i>) is a <u>V</u>ery, <u>V</u>ery
+            <u>S</u>imple <u>T</u>ext <u>E</u>ditor,
+            using local storage. Toggle Commands: <kbd>Alt + c</kbd></span>
+        <span><a target="_blank" href="shantyDocs.html">LEARN THE SYNTAX</a></span>
+        <span id="storageSpaceReadout"><i>Checking storage capacity...</i></span>
+    </footer>
+
+    <script src="vvsteLogic.js"></script>
+    <script src="gam.js"></script>
+</body>
+
+</html>

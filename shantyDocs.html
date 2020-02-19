@@ -5,11 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHANTY: SYNTAX</title>
+    <style>
+        body {
+            background-color: #fffff2;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+        header {
+            margin-bottom: 2.5%;
+        }
+        header h1 {
+            text-align: center;
+        }
+        figure#headerFigure {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 33%;
+        }
+        figure#headerFigure img {
+            width: 100%;
+        }
+        figure#headerFigure figcaption {
+            font-style: italic;
+            text-align: right;
+            font-size: smaller;
+        }
+        main {
+            display: block;
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        main h2 {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
     <header>
         <h1>LEARN SHANTY</h1>
+        <figure id="headerFigure">
+            <img
+            alt="Saturday Night at Sea by Thomas Dibdin, an illustration of sailors singing a sea shanty."
+            title="Saturday Night at Sea by Thomas Dibdin, taken from Wikimedia Commons"
+            src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Saturday_night_at_sea.jpg" />
+            <figcaption><b>Saturday Night at Sea</b> by Thomas Dibdin, taken from Wikimedia Commons.</figcaption>
+        </figure>
     </header>
 
     <main>
@@ -69,6 +111,19 @@
         <p>Some people prefer MM-DD-YYYY formats&hellip;
             I for one care less for them.</p>
 
+        <h3>CHAPTERS</h3>
+
+        <p>"#" is used for chapter titles, and "## is used for chapter subtitles.</p>
+
+        <ul>
+            <li>#Chapter One</li>
+            <li>##The Morning Shift</li>
+        </ul>
+
+        <p>VVSTE's text-parsing program will look for these codes,
+            and use them to build your E-Books Table of Contents.
+        </p>
+
         <h3>ADDING CONTENT</h3>
 
         <p>"@@" is used for adding special content to your document.</p>
@@ -85,7 +140,8 @@
         <p>The NDH E-Reader can support an indefinite number of illustrations.</p>
 
         <ul>
-            <li>@@ILLO :small [ilustration thumbnail filepath] :large [illustration filepath] :buy [link to web page where
+            <li>@@ILLO :small [ilustration thumbnail filepath] :large [illustration filepath] :buy [link to web page
+                where
                 illustration can be purchased] :orientation [landscape or portrait] :caption [text]</li>
         </ul>
 

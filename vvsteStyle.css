@@ -6,8 +6,8 @@ body {
 
 div#textareaContainer {
     display: block;
-    width: 73.41vh;
-    height: 95vh;
+    width: 72.63vh;
+    height: 94vh;
     margin-left: auto;
     margin-right: auto;
 }
@@ -19,6 +19,44 @@ textarea#textarea {
     font-size: 18pt;
     text-align: justify;
     text-justify: inter-word;
+    padding: 12px 24px 0 24px;
+}
+
+div#commandContainer {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 95vh;
+    width: 17.5%;
+}
+
+div.commandStandby {
+    visibility: hidden;
+}
+
+div.commandActive {
+    visibility: visible;
+}
+
+div#commandContainer h3 {
+    text-align: center;
+}
+
+div#commandContainer table {
+    display: block;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+}
+
+div#commandContainer td {
+    border-bottom: 1px solid black;
+}
+
+tr td:last-child {
+    padding-left: 10px;
 }
 
 div#fileNameContainer {
