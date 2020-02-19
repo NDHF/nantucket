@@ -4,13 +4,16 @@ console.log(
     "\n" +
     "COMMANDS: \n" +
     "\n" +
-    "PRINT:   Alt + p \n" +
-    "SAVE:    Alt + s \n" +
-    "SAVE AS: Alt + a \n" +
-    "NEW:     Alt + n \n" +
-    "OPEN:    Alt + o \n" +
-    "DELETE:  Alt + d \n" +
-    "EXPORT:  Alt + x"
+    "PRINT:      Alt + p \n" +
+    "SAVE:       Alt + s \n" +
+    "SAVE AS:    Alt + a \n" +
+    "NEW:        Alt + n \n" +
+    "OPEN:       Alt + o \n" +
+    "DELETE:     Alt + d \n" +
+    "EXPORT:     Alt + x \n" +
+    "WORD COUNT: Alt + w \n" +
+    "GENERATE E-READER FILE: \n" +
+    "Alt + g"
 );
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -241,6 +244,24 @@ document.addEventListener("DOMContentLoaded", function () {
         getById("storageSpaceReadout").innerHTML = storageMessage;
     }
 
+    function wordCount() {
+        let contentInTextArea = JSON.stringify(getById("textarea").value);
+        let contentToArray = contentInTextArea.split("\n");
+        let wordCounter = 0;
+        function addUpWords(contentToArrayItem) {
+            if ((contentToArrayItem.slice(0, 2) !== "**") &&
+            (contentToArrayItem.slice(0, 2) !== "!!") &&
+            (contentToArrayItem.slice(0, 2) !== "@@") &&
+            (contentToArrayItem.slice(0, 2) !== "//") &&
+            (contentToArrayItem !== "")) {
+                let wordsInItem = contentToArrayItem.split(" ").length;
+                wordCounter += wordsInItem;
+            } 
+        }
+        contentToArray.forEach(addUpWords);
+        alert("Words in text area: approximately " + wordCounter);
+    }
+
     setInterval(storageCapacityCheck, 10000);
 
     let keylogArray = [];
@@ -262,6 +283,10 @@ document.addEventListener("DOMContentLoaded", function () {
             newFile();
         } else if ((alt) && (currentKey === "x")) {
             createDownloadableFile(gfs("lastFileOpened"), getById("textarea").value);
+        } else if ((alt) && (currentKey === "g")) {
+            runGam();
+        } else if ((alt) && (currentKey === "w")) {
+            wordCount();
         }
         if (keylogArray.length === 1) {
             keylogArray.shift();

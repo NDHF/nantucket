@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHANTY: SYNTAX</title>
+</head>
+
+<body>
+    <header>
+        <h1>LEARN SHANTY</h1>
+    </header>
+
+    <main>
+
+        <p><strong>SHANTY</strong> is a syntax to make writing e-books easier.
+            With minimal markup, writing can be easily converted to
+            NDH E-Reader format.</p>
+
+        <p><strong>SHANTY</strong> is platform-independent. You may write in
+            any text editor of your choosing, or in <a href="vvste.html">VVSTE</a> (<u>V</u>ery <u>V</u>ery
+            <u>S</u>imple <u>T</u>ext <u>E</u>ditor).</p>
+
+        <p>The NDH E-Reader is a simple, lightweight e-reader platform, with
+            features including dark mode, bookmarking, illustrations,
+            audiobooks, and cover art. It is browser-based, taking up
+            minimal bandwidth, and is mobile-responsive.
+        </p>
+
+        <p>Shanty makes it a snap to convert your text files into an HTML file that
+            fits the format of the NDH E-Reader. You don't need to spend an hour
+            getting all the HTML tags into your story.
+        </p>
+
+        <h2>SYNTAX RULES</h2>
+
+        <h3>METADATA</h3>
+
+        <p>At the beginning of your document,
+            you should include all of the necessary metadata.</p>
+
+        <ul>
+            <li>!!TITLE [Put title here]</li>
+            <li>!!SUBTITLE</li>
+            <li>!!CREDIT </li>
+            <li>!!AUTHOR</li>
+            <li>!!ILLUSTRATOR</li>
+            <li>!!COVERART</li>
+        </ul>
+
+        <p>Strictly speaking, none of this metadata is
+            required for the NDH E-Reader format.</p>
+
+        <p>At the end of your document, you may want to include information
+            on where and when your content was written.
+        </p>
+
+        <ul>
+            <li>!!LOCATION [Whatever you want]</li>
+            <li>!!DATE [YYYY-MM-DD]</li>
+        </ul>
+
+        <figure>
+            <img src="" />
+            <figcaption>Nice. Just like Stephen King!</figcaption>
+        </figure>
+
+        <p>Some people prefer MM-DD-YYYY formats&hellip;
+            I for one care less for them.</p>
+
+        <h3>ADDING CONTENT</h3>
+
+        <p>"@@" is used for adding special content to your document.</p>
+
+        <h4>COVER ART</h4>
+
+        <ul>
+            <li>@@COVERIMG [file path]</li>
+        </ul>
+
+        <h4>ILLUSTRATIONS</h4>
+
+
+        <p>The NDH E-Reader can support an indefinite number of illustrations.</p>
+
+        <ul>
+            <li>@@ILLO :small [ilustration thumbnail filepath] :large [illustration filepath] :buy [link to web page where
+                illustration can be purchased] :orientation [landscape or portrait] :caption [text]</li>
+        </ul>
+
+    </main>
+
+</body>
+
+</html>
