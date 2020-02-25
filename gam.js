@@ -1,3 +1,13 @@
+// TODO 2020-02-25NB html element needs lang attribute
+// TODO 2020-02-25NB add alt tags to images
+// TODO 2020-02-25NB add doctype html
+// TODO 2020-02-25NB need <meta name="viewport"> tag with width and intial scale
+// TODO 2020-02-25NB give document meta description
+// TODO 2020-02-25NB add <meta name="theme-color"> tag
+// TODO 2020-02-25NB add apple-touch-icon tag
+    // like this: <link rel="apple-touch-icon" sizes="57x57" href="" />
+    // <link rel="apple-touch-icon" sizes="180x180" href="" >
+
 function runGam() {
 
     let input = document.getElementById("textarea").value;
@@ -24,7 +34,8 @@ function runGam() {
         keyword: "",
         copyright: "",
         location: "",
-        date: ""
+        date: "",
+        lang: ""
     }
 
     function removeThingsAndGatherMetadata() {
@@ -42,7 +53,7 @@ function runGam() {
                 let keyIndexArray = [
                     "TITLE", "SUBTITLE", "CREDIT", "AUTHOR",
                     "ILLUSTRATOR", "COVERART", "KEYWORD",
-                    "COPYRIGHT", "LOCATION", "DATE"
+                    "COPYRIGHT", "LOCATION", "DATE", "LANG"
                 ];
                 keyIndexArray.forEach(function (kiaItem) {
                     if (inputArray[i].slice(0, (kiaItem.length + 2)) ===
@@ -75,6 +86,11 @@ function runGam() {
     }
     inputArray.forEach(replaceThings);
     let html = document.createElement("HTML");
+    if (textMetadata.lang !== "") {
+        html.lang = textMetadata.lang;
+    } else {
+        html.lang = "en";
+    }
     let body = document.createElement("BODY");
 
     function createHead() {
@@ -97,7 +113,7 @@ function runGam() {
         favicon.type = "image/gif";
         favicon.href = "http://www.ndhfilms.com/assets/images/walkingfavicon.gif";
         head.appendChild(favicon);
-
+        
         html.appendChild(head);
     }
     createHead();
