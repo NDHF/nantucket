@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         lfoText = gfs("lastFileOpened");
         if (lastFileFailedToOpen === true) {
             lfoText = lfoText.concat(" (Not found)");
-        } 
+        }
         let lfoLIText = document.createTextNode(lfoText);
         lastFileOpenedLI.appendChild(lfoLIText);
         lastFileOpenedUL.appendChild(lastFileOpenedLI);
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let fileNameExistsInArray = fileNameArrayParsed.includes(textName);
         let proceedWithOverwrite = "";
         let overwriteMessage = "A file with that name " +
-        "already exists. Do you want to proceed with overwrite?";
+            "already exists. Do you want to proceed with overwrite?";
         if (fileNameExistsInArray) {
             if (mode === "save") {
                 sts(textName, getById("textarea").value);
@@ -211,6 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let fileNameArrForLoop = gfs("fileNameArray");
         let fnaParsed = JSON.parse(fileNameArrForLoop);
         let totalNumberOfCharacters = 0;
+
         function getTotalFileSizeInStorage(fnaItem) {
             fnaItemStr = JSON.stringify(gfs(fnaItem));
             fnaItemLength = fnaItemStr.length;
@@ -221,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         let totalSizeOfLocalStorage = 5242880;
         let spaceUsedSoFar = totalNumberOfCharacters / totalSizeOfLocalStorage;
-        let spaceUsedAsPercent = ((spaceUsedSoFar * 100 )).toFixed(3);
+        let spaceUsedAsPercent = ((spaceUsedSoFar * 100)).toFixed(3);
         let storageMessage = spaceUsedAsPercent + "% of storage used.";
         getById("storageSpaceReadout").innerHTML = storageMessage;
     }
@@ -230,15 +231,16 @@ document.addEventListener("DOMContentLoaded", function () {
         let contentInTextArea = JSON.stringify(getById("textarea").value);
         let contentToArray = contentInTextArea.split("\n");
         let wordCounter = 0;
+
         function addUpWords(contentToArrayItem) {
             if ((contentToArrayItem.slice(0, 2) !== "**") &&
-            (contentToArrayItem.slice(0, 2) !== "!!") &&
-            (contentToArrayItem.slice(0, 2) !== "@@") &&
-            (contentToArrayItem.slice(0, 2) !== "//") &&
-            (contentToArrayItem !== "")) {
+                (contentToArrayItem.slice(0, 2) !== "!!") &&
+                (contentToArrayItem.slice(0, 2) !== "@@") &&
+                (contentToArrayItem.slice(0, 2) !== "//") &&
+                (contentToArrayItem !== "")) {
                 let wordsInItem = contentToArrayItem.split(" ").length;
                 wordCounter += wordsInItem;
-            } 
+            }
         }
         contentToArray.forEach(addUpWords);
         alert("Words in text area: approximately " + wordCounter);
@@ -271,6 +273,8 @@ document.addEventListener("DOMContentLoaded", function () {
             wordCount();
         } else if ((alt) && (currentKey === "c")) {
             toggleCommands();
+        } else if ((alt) && (currentKey === "m")) {
+            generateEmail();
         }
         if (keylogArray.length === 1) {
             keylogArray.shift();
@@ -281,7 +285,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function createDownloadableFile(filename, fileContent) {
         let typeText = "text/plain;charset=UTF-8";
-        let fileText = new Blob([fileContent], {type: typeText});
+        let fileText = new Blob([fileContent], {
+            type: typeText
+        });
         let url = URL.createObjectURL(fileText);
 
         // YYYYMMDD
@@ -289,7 +295,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function createDateString() {
             let date = new Date();
-            let year =  date.getFullYear() + "-";
+            let year = date.getFullYear() + "-";
             let month = (date.getMonth() + 1);
             if (month < 10) {
                 month = "0" + month + "-";
@@ -303,7 +309,7 @@ document.addEventListener("DOMContentLoaded", function () {
         createDateString();
 
         let link = document.createElement("A");
-        let fullFilename = filename + "_" + currentDate + ".txt"; 
+        let fullFilename = filename + "_" + currentDate + ".txt";
         link.download = fullFilename;
         link.href = url;
         link.textContent = fullFilename;
@@ -312,13 +318,69 @@ document.addEventListener("DOMContentLoaded", function () {
         getById("inputOutputContainer").innerHTML = "";
     }
 
+    function generateEmail() {
+        let content = JSON.stringify(getById("textarea").value);
+        if (content.includes("@#@") === false) {
+            alert("Formatting error. Please review email syntax");
+            return;
+        }
+        if (content.charAt(0) === "\"") {
+            content = content.slice(1);
+        }
+        if (content.charAt(content.length - 1) === "\"") {
+            content = content.slice(0, content.length - 1);
+        }
+        let contentSplit = content.split("\\n");
+        let i = 0;
+        let emailInfo = {
+            to: "",
+            cc: "",
+            bcc: "",
+            subject: "",
+            startPoint: 0
+        }
+        for (i; i < contentSplit.length; i++) {
+            if (contentSplit[i].slice(0, 3) === "TO:") {
+                emailInfo.to = contentSplit[i].slice(3);
+            } else if (contentSplit[i].slice(0, 3) === "CC:") {
+                emailInfo.cc = contentSplit[i].slice(3);
+            } else if (contentSplit[i].slice(0, 4) === "BCC:") {
+                emailInfo.bcc = contentSplit[i].slice(4);
+            } else if (contentSplit[i].slice(0, 8) === "SUBJECT:") {
+                emailInfo.subject = contentSplit[i].slice(8);
+            } else if (contentSplit[i].slice(0, 3) === "@#@") {
+                emailInfo.startPoint = i + 1;
+            } 
+        }
+        let emailContents = "mailto:";
+        emailContents = emailContents.concat(emailInfo.to, "?");
+        if (emailInfo.cc !== "") {
+            emailContents = emailContents.concat("cc=", emailInfo.cc);
+        }
+        if (emailInfo.bcc !== "") {
+            emailContents = emailContents.concat("&bcc=", emailInfo.bcc);
+        }
+        if (emailInfo.subject !== "") {
+            emailContents = emailContents.concat("&subject=", emailInfo.subject);
+        }
+        let emailBody = contentSplit.slice(emailInfo.startPoint);
+        if (emailBody[0] === "") {
+            emailBody.shift();
+        }
+        let contentJoined = emailBody.join("%0D%0A");
+        let quotesManaged = contentJoined.replace("\"", "\'");
+        emailContents = emailContents.concat("&body=", quotesManaged);
+        let emailLink = document.createElement("A");
+        emailLink.target = "_blank";
+        emailLink.href = emailContents;
+        emailLink.click();
+    }
+
     function toggleCommands() {
         if (getById("commandContainer").classList.contains("commandStandby")) {
-            console.log("HERE");
             getById("commandContainer").classList.remove("commandStandby");
             getById("commandContainer").classList.add("commandActive");
         } else if (getById("commandContainer").classList.contains("commandActive")) {
-            console.log("HERE");
             getById("commandContainer").classList.remove("commandActive");
             getById("commandContainer").classList.add("commandStandby");
         } else {

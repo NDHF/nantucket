@@ -1,9 +1,3 @@
-console.log(
-    "GAM \n" +
-    "A program for parsing the Shanty syntax into " +
-    "the NDH E-Reader format."
-)
-
 function runGam() {
 
     let input = document.getElementById("textarea").value;
