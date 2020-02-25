@@ -354,14 +354,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         let emailContents = "mailto:";
         emailContents = emailContents.concat(emailInfo.to, "?");
+        function checkIfYouShouldAddAmpersand() {
+            if (emailContents.charAt(emailContents.length - 1) !== "?") {
+                emailContents = emailContents.concat("&");
+            }
+        }
         if (emailInfo.cc !== "") {
+            checkIfYouShouldAddAmpersand();
             emailContents = emailContents.concat("cc=", emailInfo.cc);
         }
         if (emailInfo.bcc !== "") {
-            emailContents = emailContents.concat("&bcc=", emailInfo.bcc);
+            checkIfYouShouldAddAmpersand();
+            emailContents = emailContents.concat("bcc=", emailInfo.bcc);
         }
         if (emailInfo.subject !== "") {
-            emailContents = emailContents.concat("&subject=", emailInfo.subject);
+            checkIfYouShouldAddAmpersand();
+            emailContents = emailContents.concat("subject=", emailInfo.subject);
         }
         let emailBody = contentSplit.slice(emailInfo.startPoint);
         if (emailBody[0] === "") {
