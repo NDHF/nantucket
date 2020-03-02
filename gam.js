@@ -5,8 +5,8 @@
 // TODO 2020-02-25NB give document meta description DONE
 // TODO 2020-02-25NB add <meta name="theme-color"> tag DONE
 // TODO 2020-02-25NB add apple-touch-icon tag DONE
-    // like this: <link rel="apple-touch-icon" sizes="57x57" href="" />
-    // <link rel="apple-touch-icon" sizes="180x180" href="" >
+// like this: <link rel="apple-touch-icon" sizes="57x57" href="" />
+// <link rel="apple-touch-icon" sizes="180x180" href="" >
 
 function runGam() {
 
@@ -56,8 +56,8 @@ function runGam() {
             } else if ((inputArray[i].slice(0, 2) === "!!")) {
                 let keyIndexArray = [
                     "TITLE", "SUBTITLE", "CREDIT", "AUTHOR",
-                    "ILLUSTRATOR", "COVERART", "COVERARTDESC", 
-                    "KEYWORD", "COPYRIGHT", "LOCATION", "DATE", 
+                    "ILLUSTRATOR", "COVERART", "COVERARTDESC",
+                    "KEYWORD", "COPYRIGHT", "LOCATION", "DATE",
                     "LANG", "ICON", "DESC", "KEYWORDS"
                 ];
                 keyIndexArray.forEach(function (kiaItem) {
@@ -90,12 +90,12 @@ function runGam() {
         // TODO 2020-02-15NJB Replace @@L with lyrics formatting
     }
     inputArray.forEach(replaceThings);
-    
+
     let doctypeHTML = "<!DOCTYPE html>";
     let html = document.createElement("HTML");
     let startHTMLTag = "<html lang='[lang]'>";
     if (textMetadata.lang !== "") {
-        startHTMLTag = startHTMLTag.replace("[lang]", textMetadata.lang); 
+        startHTMLTag = startHTMLTag.replace("[lang]", textMetadata.lang);
     } else {
         startHTMLTag = startHTMLTag.replace("[lang]", "en");
     }
@@ -185,22 +185,26 @@ function runGam() {
         title.id = "title";
         let titleText = document.createTextNode(textMetadata.title);
         title.appendChild(titleText);
+        hgroup.appendChild(title);
         let creditAndAuthor = document.createElement("H2");
         let creditAndAuthorText = document.createTextNode(textMetadata.credit +
             " " + textMetadata.author);
         creditAndAuthor.appendChild(creditAndAuthorText);
-        let illustrator = document.createElement("H3");
-        let illustratorText = document.createTextNode("Illustrated by " +
-            textMetadata.illustrator);
-        illustrator.appendChild(illustratorText);
-        let coverArt = document.createElement("H3");
-        let coverArtText = document.createTextNode("Cover Art by " +
-            textMetadata.coverArt);
-        coverArt.appendChild(coverArtText);
-        hgroup.appendChild(title);
         hgroup.appendChild(creditAndAuthor);
-        hgroup.appendChild(illustrator);
-        hgroup.appendChild(coverArt);
+        if (textMetadata.illustrator !== "") {
+            let illustrator = document.createElement("H3");
+            let illustratorText = document.createTextNode("Illustrated by " +
+                textMetadata.illustrator);
+            illustrator.appendChild(illustratorText);
+            hgroup.appendChild(illustrator);
+        }
+        if (textMetadata.coverart !== "") {
+            let coverArt = document.createElement("H3");
+            let coverArtText = document.createTextNode("Cover Art by " +
+                textMetadata.coverart);
+            coverArt.appendChild(coverArtText);
+            hgroup.appendChild(coverArt);
+        }
         header.appendChild(hgroup);
         body.appendChild(header);
     }
@@ -218,39 +222,39 @@ function runGam() {
         buttonContainerDiv.classList.add("menuClosed");
         buttonContainerDiv.id = "buttonContainer";
         buttonContainerDiv.innerHTML = "<div id='menuIconDiv' class='buttons' onclick=''>" +
-        "<img id='menuIconImg' alt='Click or tap to open menu' src='../../assets/images/menuicon_black.svg' />" +
-    "</div> " +
-    // "<div id='tocIconDiv' class='buttons' onclick=''>" +
-    //     "<object id='tocIconObject' type='image/svg+xml' data='../../assets/images/tocicon.svg'>" +
-    //         "Your browser does not support SVG" +
-    //     "</object>" +
-    // "</div>" +
-    "<div id='lightbulbDiv' class='buttons' onclick=''>" +
-        "<object ID='lightbulbObject' type='image/svg+xml' data='../../assets/images/lightbulb.svg'>" +
+            "<img id='menuIconImg' alt='Click or tap to open menu' src='../../assets/images/menuicon_black.svg' />" +
+            "</div> " +
+            // "<div id='tocIconDiv' class='buttons' onclick=''>" +
+            //     "<object id='tocIconObject' type='image/svg+xml' data='../../assets/images/tocicon.svg'>" +
+            //         "Your browser does not support SVG" +
+            //     "</object>" +
+            // "</div>" +
+            "<div id='lightbulbDiv' class='buttons' onclick=''>" +
+            "<object ID='lightbulbObject' type='image/svg+xml' data='../../assets/images/lightbulb.svg'>" +
             "Your browser does not support SVG" +
-        "</object>" +
-    "</div>" +
-    "<div id='bookmarkDiv' class='buttons'>" +
-        "<object id='bookmarkObject' type='image/svg+xml' data='../../assets/images/bookmark.svg'>" +
+            "</object>" +
+            "</div>" +
+            "<div id='bookmarkDiv' class='buttons'>" +
+            "<object id='bookmarkObject' type='image/svg+xml' data='../../assets/images/bookmark.svg'>" +
             "Your browser does not support SVG" +
-        "</object>" +
-    "</div>" +
-    "<div id='cassetteDiv' class='buttons'>" +
-        "<object id='cassetteObject' type='image/svg+xml' data='../../assets/images/cassette.svg'> " +
+            "</object>" +
+            "</div>" +
+            "<div id='cassetteDiv' class='buttons'>" +
+            "<object id='cassetteObject' type='image/svg+xml' data='../../assets/images/cassette.svg'> " +
             "Your browser does not support SVG" +
-        "</object>" +
-    "</div>" +
-    "<div id='monetizationDiv' class='buttons'>" +
-        "<a href='http://www.patreon.com/NDHFilms'>" +
+            "</object>" +
+            "</div>" +
+            "<div id='monetizationDiv' class='buttons'>" +
+            "<a href='http://www.patreon.com/NDHFilms'>" +
             "<img id='monetizationIcon' src='../../assets/images/monetization_black.svg' />" +
-        "</a>" +
-    "</div>" +
-    "<div id='starDiv' class='buttons'>" +
-        "<object id='starObject' type='image/svg+xml' data='../../assets/images/star.svg'>" +
+            "</a>" +
+            "</div>" +
+            "<div id='starDiv' class='buttons'>" +
+            "<object id='starObject' type='image/svg+xml' data='../../assets/images/star.svg'>" +
             "Your browser does not support SVG" +
-        "</object>" +
-    "</div>";
-    body.appendChild(buttonContainerDiv);
+            "</object>" +
+            "</div>";
+        body.appendChild(buttonContainerDiv);
     }
     addButtons();
 
@@ -272,9 +276,9 @@ function runGam() {
                     coverImage.alt = textMetadata.coverartdesc;
                 } else {
                     coverImage.title = "Cover of " + textMetadata.title +
-                    " by " + textMetadata.coverArt;
+                        " by " + textMetadata.coverArt;
                     coverImage.alt = "Cover of " + textMetadata.title +
-                    " by " + textMetadata.coverArt;
+                        " by " + textMetadata.coverArt;
                 }
                 coverImage.src = item.slice(11);
                 coverImageLink.appendChild(coverImage);
@@ -324,20 +328,20 @@ function runGam() {
                     let imgThumbnail = document.createElement("IMG");
                     imgThumbnail.id = "illustration" + illustrationNumber;
                     if ((illoMetadataObject.desc !== undefined) &&
-                    (illoMetadataObject.desc !== "")) {
+                        (illoMetadataObject.desc !== "")) {
                         imgThumbnail.title = illoMetadataObject.desc;
                         imgThumbnail.alt = illoMetadataObject.desc;
                     } else {
                         imgThumbnailMeta = "Illustration for " +
-                        textMetadata.title;
+                            textMetadata.title;
                         imgThumbnail.title = imgThumbnailMeta;
                         imgThumbnail.alt = imgThumbnailMeta;
                         if ((illoMetadataObject.illustrator !== undefined) &&
-                        (illoMetadataObject.illustrator !== "")) {
-                            let textToConcat =  " , illustration by " +
-                            illoMetadataObject.illustrator;
+                            (illoMetadataObject.illustrator !== "")) {
+                            let textToConcat = " , illustration by " +
+                                illoMetadataObject.illustrator;
                             imgThumbnail.title = imgThumbnail.title.concat(
-                               textToConcat
+                                textToConcat
                             );
                             imgThumbnail.alt = imgThumbnail.alt.concat(
                                 textToConcat
@@ -460,15 +464,26 @@ function runGam() {
     addCompletionLocationAndDate();
 
     function addCopyright() {
+        console.log("HERE");
         let copyright = document.createElement("P");
         copyright.id = "copyrightNotice";
         copyright.classList.add("center");
         let copyrightArray = textMetadata.copyright.split(" ");
         let copyrightDate = copyrightArray[0];
+        let copyrightSymbolCode = "&COPY; ";
+        let timeElement = "<time datetime='" + copyrightDate + "'>" +
+            copyrightDate + "</time>";
         let copyrightHolder = copyrightArray.slice(1).join(" ");
-        copyright.innerHTML = "&COPY; " + "<time datetime='" +
-            copyrightDate + "'>" + copyrightDate + "</time>" +
-            " " + copyrightHolder;
+        console.log(copyrightDate);
+        if (copyrightDate === "PUBLIC") {
+            copyrightDate = textMetadata.copyright;
+            copyrightSymbolCode = "<s>&COPY;</s> ";
+            timeElement = "";
+            copyrightHolder = "";
+        }
+
+        copyright.innerHTML = copyrightSymbolCode + timeElement +
+            copyrightDate + " " + copyrightHolder;
         body.appendChild(copyright);
     }
     addCopyright();
@@ -490,16 +505,20 @@ function runGam() {
             textMetadata.author);
         authorCredit.appendChild(authorCreditText);
         creditsUL.appendChild(authorCredit);
-        let coverArtCredit = document.createElement("LI");
-        let coverArtCreditText = document.createTextNode("Cover Art by " +
-            textMetadata.coverArt);
-        coverArtCredit.appendChild(coverArtCreditText);
-        creditsUL.appendChild(coverArtCredit);
-        let illustratorCredit = document.createElement("LI");
-        let illustratorCreditText = document.createTextNode("Illustrated by " +
-            textMetadata.illustrator);
-        illustratorCredit.appendChild(illustratorCreditText);
-        creditsUL.appendChild(illustratorCredit);
+        if (textMetadata.coverart !== "") {
+            let coverArtCredit = document.createElement("LI");
+            let coverArtCreditText = document.createTextNode("Cover Art by " +
+                textMetadata.coverart);
+            coverArtCredit.appendChild(coverArtCreditText);
+            creditsUL.appendChild(coverArtCredit);
+        }
+        if (textMetadata.illustrator !== "") {
+            let illustratorCredit = document.createElement("LI");
+            let illustratorCreditText = document.createTextNode("Illustrated by " +
+                textMetadata.illustrator);
+            illustratorCredit.appendChild(illustratorCreditText);
+            creditsUL.appendChild(illustratorCredit);
+        }
         creditsSection.appendChild(creditsUL);
         body.appendChild(creditsSection);
     }
@@ -563,6 +582,6 @@ function runGam() {
     }
 
     createDownloadableFile(localStorage.getItem("lastFileOpened"), doctypeHTML +
-    startHTMLTag + html.innerHTML + endHTMLTag);
+        startHTMLTag + html.innerHTML + endHTMLTag);
 
 }
