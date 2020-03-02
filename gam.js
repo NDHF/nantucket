@@ -42,6 +42,8 @@ function runGam() {
         keywords: ""
     }
 
+    let chapterArray = [];
+
     function removeThingsAndGatherMetadata() {
         let i = 0;
         for (i; i < inputArray.length; i += 1) {
@@ -95,7 +97,7 @@ function runGam() {
     let html = document.createElement("HTML");
     let startHTMLTag = "<html lang='[lang]'>";
     if (textMetadata.lang !== "") {
-        startHTMLTag = startHTMLTag.replace("[lang]", textMetadata.lang);
+        startHTMLTag = startHTMLTag.replace("[lang]", textMetadata.lang.toLowerCase());
     } else {
         startHTMLTag = startHTMLTag.replace("[lang]", "en");
     }
@@ -180,6 +182,7 @@ function runGam() {
 
     function addHeader() {
         let header = document.createElement("HEADER");
+        header.id = "header";
         let hgroup = document.createElement("HGROUP");
         let title = document.createElement("H1");
         title.id = "title";
@@ -222,7 +225,7 @@ function runGam() {
         buttonContainerDiv.classList.add("menuClosed");
         buttonContainerDiv.id = "buttonContainer";
         buttonContainerDiv.innerHTML = "<div id='menuIconDiv' class='buttons' onclick=''>" +
-            "<img id='menuIconImg' alt='Click or tap to open menu' src='../../assets/images/menuicon_black.svg' />" +
+            "<img id='menuIconImg' alt='Click or tap to open menu' src='http://www.ndhfilms.com/assets/images/menuicon_black.svg' />" +
             "</div> " +
             // "<div id='tocIconDiv' class='buttons' onclick=''>" +
             //     "<object id='tocIconObject' type='image/svg+xml' data='../../assets/images/tocicon.svg'>" +
@@ -230,27 +233,27 @@ function runGam() {
             //     "</object>" +
             // "</div>" +
             "<div id='lightbulbDiv' class='buttons' onclick=''>" +
-            "<object ID='lightbulbObject' type='image/svg+xml' data='../../assets/images/lightbulb.svg'>" +
+            "<object ID='lightbulbObject' type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/lightbulb.svg'>" +
             "Your browser does not support SVG" +
             "</object>" +
             "</div>" +
             "<div id='bookmarkDiv' class='buttons'>" +
-            "<object id='bookmarkObject' type='image/svg+xml' data='../../assets/images/bookmark.svg'>" +
+            "<object id='bookmarkObject' type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/bookmark.svg'>" +
             "Your browser does not support SVG" +
             "</object>" +
             "</div>" +
             "<div id='cassetteDiv' class='buttons'>" +
-            "<object id='cassetteObject' type='image/svg+xml' data='../../assets/images/cassette.svg'> " +
+            "<object id='cassetteObject' type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/cassette.svg'> " +
             "Your browser does not support SVG" +
             "</object>" +
             "</div>" +
             "<div id='monetizationDiv' class='buttons'>" +
             "<a href='http://www.patreon.com/NDHFilms'>" +
-            "<img id='monetizationIcon' src='../../assets/images/monetization_black.svg' />" +
+            "<img id='monetizationIcon' src='http://www.ndhfilms.com/assets/images/monetization_black.svg' />" +
             "</a>" +
             "</div>" +
             "<div id='starDiv' class='buttons'>" +
-            "<object id='starObject' type='image/svg+xml' data='../../assets/images/star.svg'>" +
+            "<object id='starObject' type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/star.svg'>" +
             "Your browser does not support SVG" +
             "</object>" +
             "</div>";
@@ -413,6 +416,39 @@ function runGam() {
                 }
                 createIllustrationDiv();
 
+            } else if (item.slice(0, 1) === "#") {
+                function createChapterHeading(headingType) {
+                    let chapterHeading = "";
+                    let chapterHeadingText = "";
+                    if (headingType === "heading") {
+                        chapterHeading = document.createElement("H1");
+                        chapterHeadingText = item.slice(1);
+                        let chapterHeadingID = chapterHeadingText.replace(" ", "_");
+                        chapterHeading.id = chapterHeadingID;
+                        let chapterObject = {
+                            id: chapterHeadingID,
+                            heading: chapterHeadingText,
+                            subheading: ""
+                        }
+                        if (inputArray[index + 1].slice(0, 2) === "##") {
+                            chapterObject.subheading = inputArray[index + 1].slice(2);
+                        }
+                        chapterArray.push(chapterObject);
+                    } else if (headingType === "subheading") {
+                        chapterHeading = document.createElement("H2");
+                        chapterHeadingText = item.slice(2);
+                    }
+                    chapterHeading.classList = "chapterHeading";
+                    let chapterHeadingNode = document.createTextNode(chapterHeadingText);
+                    chapterHeading.appendChild(chapterHeadingNode);
+                    body.appendChild(chapterHeading);
+                }
+                if ((item.charAt(0) === "#") && (item.charAt(1) !== "#")) {
+                    createChapterHeading("heading");
+                } else if ((item.charAt(0) === "#") &&
+                (item.charAt(1) === "#")) {
+                    createChapterHeading("subheading");
+                }
             } else {
                 let paragraph = document.createElement("P");
                 paragraph.innerHTML = item.replace(/\\"/g, "\"");
@@ -422,6 +458,31 @@ function runGam() {
         inputArray.forEach(appendInputArrayToBody);
     }
     addText();
+
+    function createTableOfContents() {
+        let mobileTOCDiv = document.createElement("DIV");
+        let desktopTOCSection = document.createElement("SECTION");
+        let tocSecList = document.createElement("UL");
+        tocSecList.id = "tableOfContentsSection";
+        let desktopTOCSelect = document.createElement("SELECT");
+        function loopThroughChapterArray(item, index) {
+            // FOR TOC Section
+            let tocSecLI = document.createElement("LI");
+            let tocSecLink = document.createElement("A");
+            tocSecLink.href = "#" + item.id;
+            let tocSecText = item.heading;
+            if (item.subheading !== "") {
+                tocSecText = tocSecText.concat(": " + item.subheading);
+            }
+            let tocSecLinkText = document.createTextNode(tocSecText);
+            tocSecLink.appendChild(tocSecLinkText);
+            tocSecLI.appendChild(tocSecLink);
+            tocSecList.appendChild(tocSecLI);            
+        }
+        chapterArray.forEach(loopThroughChapterArray);
+        body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(tocSecList, body.getElementsByTagName("HEADER")[0].nextSibling);
+    }
+    createTableOfContents();
 
     function addCompletionLocationAndDate() {
         let ul = document.createElement("UL");
