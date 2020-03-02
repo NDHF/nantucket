@@ -1,10 +1,10 @@
-// TODO 2020-02-25NB html element needs lang attribute
+// TODO 2020-02-25NB html element needs lang attribute DONE
 // TODO 2020-02-25NB add alt tags to images
-// TODO 2020-02-25NB add doctype html
-// TODO 2020-02-25NB need <meta name="viewport"> tag with width and intial scale
-// TODO 2020-02-25NB give document meta description
-// TODO 2020-02-25NB add <meta name="theme-color"> tag
-// TODO 2020-02-25NB add apple-touch-icon tag
+// TODO 2020-02-25NB add doctype html DONE
+// TODO 2020-02-25NB need <meta name="viewport"> tag with width and intial scale DONE
+// TODO 2020-02-25NB give document meta description DONE
+// TODO 2020-02-25NB add <meta name="theme-color"> tag DONE
+// TODO 2020-02-25NB add apple-touch-icon tag DONE
     // like this: <link rel="apple-touch-icon" sizes="57x57" href="" />
     // <link rel="apple-touch-icon" sizes="180x180" href="" >
 
@@ -30,12 +30,16 @@ function runGam() {
         credit: "",
         author: "",
         illustrator: "",
-        coverArt: "",
+        coverart: "",
+        coverartdesc: "",
         keyword: "",
         copyright: "",
         location: "",
         date: "",
-        lang: ""
+        lang: "",
+        icon: "",
+        desc: "",
+        keywords: ""
     }
 
     function removeThingsAndGatherMetadata() {
@@ -52,8 +56,9 @@ function runGam() {
             } else if ((inputArray[i].slice(0, 2) === "!!")) {
                 let keyIndexArray = [
                     "TITLE", "SUBTITLE", "CREDIT", "AUTHOR",
-                    "ILLUSTRATOR", "COVERART", "KEYWORD",
-                    "COPYRIGHT", "LOCATION", "DATE", "LANG"
+                    "ILLUSTRATOR", "COVERART", "COVERARTDESC", 
+                    "KEYWORD", "COPYRIGHT", "LOCATION", "DATE", 
+                    "LANG", "ICON", "DESC", "KEYWORDS"
                 ];
                 keyIndexArray.forEach(function (kiaItem) {
                     if (inputArray[i].slice(0, (kiaItem.length + 2)) ===
@@ -85,24 +90,62 @@ function runGam() {
         // TODO 2020-02-15NJB Replace @@L with lyrics formatting
     }
     inputArray.forEach(replaceThings);
+    
+    let doctypeHTML = "<!DOCTYPE html>";
     let html = document.createElement("HTML");
+    let startHTMLTag = "<html lang='[lang]'>";
     if (textMetadata.lang !== "") {
-        html.lang = textMetadata.lang;
+        startHTMLTag = startHTMLTag.replace("[lang]", textMetadata.lang); 
     } else {
-        html.lang = "en";
+        startHTMLTag = startHTMLTag.replace("[lang]", "en");
     }
+    let endHTMLTag = "</html>";
     let body = document.createElement("BODY");
 
     function createHead() {
         let head = document.createElement("HEAD");
+        let metaCharsetTag = document.createElement("META");
+        metaCharsetTag.httpEquiv = "content-type";
+        metaCharsetTag.content = "text/html; charset=utf-8";
+        head.appendChild(metaCharsetTag);
         let headTitle = document.createElement("title");
         let headTitleText = textMetadata.title + " " +
             textMetadata.credit + " " + textMetadata.author;
         headTitle.text = headTitleText;
         head.appendChild(headTitle);
-        let meta = document.createElement("META");
-        meta.charset = "UTF-8";
-        head.appendChild(meta);
+        // Add viewport meta tag
+        // let viewportTag = document.createElement("META");
+        // viewportTag.name = "viewport";
+        // viewportTag.content = "width=device-width, initial-scale=1.0";
+        // head.appendChild(viewportTag);
+        // Add author meta tag
+        if (textMetadata.author !== "") {
+            let authorMetaTag = document.createElement("META");
+            authorMetaTag.name = "author";
+            authorMetaTag.content = textMetadata.author;
+            head.appendChild(authorMetaTag);
+        }
+        // Add description meta tag
+        if (textMetadata.desc !== "") {
+            let descriptionMetaTag = document.createElement("META");
+            descriptionMetaTag.name = "description";
+            descriptionMetaTag.content = textMetadata.desc;
+            head.appendChild(descriptionMetaTag);
+        }
+        // Add keywords meta tag
+        if (textMetadata.keywords !== "") {
+            let keywordsMetaTag = document.createElement("META");
+            keywordsMetaTag.name = "keywords";
+            keywordsMetaTag.content = textMetadata.keywords;
+            head.appendChild(keywordsMetaTag);
+        }
+        // Add theme-color meta tag
+        // <meta name=”theme-color” content=”#ffffff”>
+        let themeColorMetaTag = document.createElement("META");
+        themeColorMetaTag.name = "theme-color";
+        themeColorMetaTag.content = "#fff5ee";
+        head.appendChild(themeColorMetaTag);
+        // Add stylesheet
         let stylesheet = document.createElement("LINK");
         stylesheet.rel = "stylesheet";
         stylesheet.type = "text/css";
@@ -111,9 +154,26 @@ function runGam() {
         let favicon = document.createElement("LINK");
         favicon.rel = "icon";
         favicon.type = "image/gif";
-        favicon.href = "http://www.ndhfilms.com/assets/images/walkingfavicon.gif";
+        // If no alternate source for icon is specified,
+        // default to my icon.
+        let iconSource = "http://www.ndhfilms.com/assets/images/walkingfavicon.gif";
+        if (textMetadata.icon !== "") {
+            iconSource = textMetadata.icon;
+        }
+        favicon.href = iconSource;
         head.appendChild(favicon);
-        
+        // CREATE TOUCH ICONS
+        // <link rel="apple-touch-icon" sizes="57x57" href="" />
+        let smallTouchIcon = document.createElement("LINK");
+        smallTouchIcon.rel = "apple-touch-icon";
+        smallTouchIcon.sizes = "57x57";
+        smallTouchIcon.href = iconSource;
+        head.appendChild(smallTouchIcon);
+        let largeTouchIcon = document.createElement("LINK");
+        largeTouchIcon.rel = "apple-touch-icon";
+        largeTouchIcon.sizes = "180x180";
+        largeTouchIcon.href = iconSource;
+        head.appendChild(largeTouchIcon);
         html.appendChild(head);
     }
     createHead();
@@ -158,7 +218,7 @@ function runGam() {
         buttonContainerDiv.classList.add("menuClosed");
         buttonContainerDiv.id = "buttonContainer";
         buttonContainerDiv.innerHTML = "<div id='menuIconDiv' class='buttons' onclick=''>" +
-        "<img id='menuIconImg' src='../../assets/images/menuicon_black.svg' />" +
+        "<img id='menuIconImg' alt='Click or tap to open menu' src='../../assets/images/menuicon_black.svg' />" +
     "</div> " +
     // "<div id='tocIconDiv' class='buttons' onclick=''>" +
     //     "<object id='tocIconObject' type='image/svg+xml' data='../../assets/images/tocicon.svg'>" +
@@ -207,6 +267,15 @@ function runGam() {
                 coverImageLink.href = item.slice(11);
                 let coverImage = document.createElement("IMG");
                 coverImage.id = "coverImg";
+                if (textMetadata.coverartdesc !== "") {
+                    coverImage.title = textMetadata.coverartdesc;
+                    coverImage.alt = textMetadata.coverartdesc;
+                } else {
+                    coverImage.title = "Cover of " + textMetadata.title +
+                    " by " + textMetadata.coverArt;
+                    coverImage.alt = "Cover of " + textMetadata.title +
+                    " by " + textMetadata.coverArt;
+                }
                 coverImage.src = item.slice(11);
                 coverImageLink.appendChild(coverImage);
                 body.insertBefore(coverImageLink, body.childNodes[0]);
@@ -234,9 +303,11 @@ function runGam() {
                             illoCaption = illoCaption.replace(/\\"/g, "");
                             illoMetadataObject.caption = illoCaption;
                         } else if (item === ":orientation") {
-                            console.log(true);
                             illoMetadataObject.orientation = illoMetadataArray[index + 1];
-                            console.log(illoMetadataObject.orientation);
+                        } else if (item === ":desc") {
+                            illoMetadataObject.desc = illoMetadataArray[index + 1];
+                        } else if (item === ":illustrator") {
+                            illoMetadataObject.illustrator = illoMetadataArray[index + 1];
                         }
                     }
                     illoMetadataArray.forEach(addIlloMetadataToObject);
@@ -252,6 +323,27 @@ function runGam() {
                     }
                     let imgThumbnail = document.createElement("IMG");
                     imgThumbnail.id = "illustration" + illustrationNumber;
+                    if ((illoMetadataObject.desc !== undefined) &&
+                    (illoMetadataObject.desc !== "")) {
+                        imgThumbnail.title = illoMetadataObject.desc;
+                        imgThumbnail.alt = illoMetadataObject.desc;
+                    } else {
+                        imgThumbnailMeta = "Illustration for " +
+                        textMetadata.title;
+                        imgThumbnail.title = imgThumbnailMeta;
+                        imgThumbnail.alt = imgThumbnailMeta;
+                        if ((illoMetadataObject.illustrator !== undefined) &&
+                        (illoMetadataObject.illustrator !== "")) {
+                            let textToConcat =  " , illustration by " +
+                            illoMetadataObject.illustrator;
+                            imgThumbnail.title = imgThumbnail.title.concat(
+                               textToConcat
+                            );
+                            imgThumbnail.alt = imgThumbnail.alt.concat(
+                                textToConcat
+                            );
+                        }
+                    }
                     imgThumbnail.classList.add("illustrationTarget");
                     imgThumbnail.src = illoMetadataObject.small;
                     body.appendChild(imgThumbnail);
@@ -261,6 +353,7 @@ function runGam() {
                 function createEnlargeIcon() {
                     let enlargeIcon = document.createElement("IMG");
                     enlargeIcon.classList.add("enlargeIcon");
+                    enlargeIcon.alt = "Click or tap to enlarge illustration";
                     enlargeIcon.src = "http://www.ndhfilms.com/assets/images/enlargeicon_black.svg";
                     body.appendChild(enlargeIcon);
                 }
@@ -272,6 +365,7 @@ function runGam() {
                     illustrationDiv.classList.add("standby");
 
                     let closeButton = document.createElement("IMG");
+                    closeButton.alt = "Click or tap to close";
                     closeButton.classList.add("closeButton");
                     closeButton.src = "http://www.ndhfilms.com/assets/images/closeButton.svg";
                     illustrationDiv.appendChild(closeButton);
@@ -431,6 +525,7 @@ function runGam() {
     }
     addJavascriptLink();
     html.appendChild(body);
+    console.log(html);
 
     function createDownloadableFile(filename, fileContent) {
         let typeText = "text/html;charset=UTF-8";
@@ -467,6 +562,7 @@ function runGam() {
         document.getElementById("inputOutputContainer").innerHTML = "";
     }
 
-    createDownloadableFile(localStorage.getItem("lastFileOpened"), html.innerHTML);
+    createDownloadableFile(localStorage.getItem("lastFileOpened"), doctypeHTML +
+    startHTMLTag + html.innerHTML + endHTMLTag);
 
 }
