@@ -18,7 +18,7 @@ textarea#textarea {
     height: 100%;
     font-size: 18pt;
     text-align: justify;
-    text-justify: inter-word;
+    text-justify: auto;
     padding: 12px 24px 0 24px;
 }
 

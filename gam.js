@@ -39,7 +39,8 @@ function runGam() {
         lang: "",
         icon: "",
         desc: "",
-        keywords: ""
+        keywords: "",
+        audio: ""
     }
 
     let chapterArray = [];
@@ -60,11 +61,12 @@ function runGam() {
                     "TITLE", "SUBTITLE", "CREDIT", "AUTHOR",
                     "ILLUSTRATOR", "COVERART", "COVERARTDESC",
                     "KEYWORD", "COPYRIGHT", "LOCATION", "DATE",
-                    "LANG", "ICON", "DESC", "KEYWORDS"
+                    "LANG", "ICON", "DESC", "KEYWORDS", "AUDIO"
                 ];
                 keyIndexArray.forEach(function (kiaItem) {
                     if (inputArray[i].slice(0, (kiaItem.length + 2)) ===
                         ("!!" + kiaItem)) {
+
                         textMetadata[kiaItem.toLowerCase()] = inputArray[i].slice(kiaItem.length + 3);
                     }
                 });
@@ -261,6 +263,48 @@ function runGam() {
     }
     addButtons();
 
+    function addAudioDiv() {
+        let audioDiv = document.createElement("DIV");
+        audioDiv.id = "audioDiv";
+        audioDiv.classList.add("active");
+
+        let audioDivObject = {}
+        
+        let arrayOfAudioDivData = textMetadata.audio.split(" ");
+        function loopThroughAudioDivArray(item, index) {
+            if (item === ":background") {
+                audioDivObject.background = arrayOfAudioDivData[index + 1];
+            }
+        }
+        arrayOfAudioDivData.forEach(loopThroughAudioDivArray);
+        if (audioDivObject.background !== undefined) {
+            audioDiv.style.backgroundImage = "url('" +
+            audioDivObject.background + "')";
+        }
+        let audioCloseButton = document.createElement("IMG");
+        audioCloseButton.id = "audioCloseButton";
+        audioCloseButton.classList.add("closeButton");
+        audioCloseButton.src = "http://www.ndhfilms.com/assets/images/closeButton.svg";
+        audioDiv.appendChild(audioCloseButton);
+        let container = document.createElement("DIV");
+        container.classList.add("container");
+        let audioIllustrationDiv = document.createElement("DIV");
+        audioIllustrationDiv.id = "audioIllustrationDiv";
+        let audioIllustration = document.createElement("IMG");
+        audioIllustration.id = "audioDivIllustration";
+        audioIllustration.src = textMetadata.coverart;
+        audioIllustrationDiv.appendChild(audioIllustration);
+        let audioInfoHgroup = document.createElement("HGROUP");
+        audioInfoHgroup.classList.add("audioInfoHgroup");
+        // Expand hgroup later
+        audioIllustrationDiv.appendChild(audioInfoHgroup);
+        container.appendChild(audioIllustrationDiv);
+        let audioCassetteDiv = document.createElement("DIV");
+        // Expand this later
+
+    }
+    addAudioDiv();
+
     function addText() {
         let illustrationCounter = 0;
 
@@ -416,6 +460,11 @@ function runGam() {
                 }
                 createIllustrationDiv();
 
+            } else if (item.slice(0, 7) === "@@AUDIO") {
+                function createAudioDiv() {
+
+                }
+                createAudioDiv();
             } else if (item.slice(0, 1) === "#") {
                 function createChapterHeading(headingType) {
                     let chapterHeading = "";
@@ -446,7 +495,7 @@ function runGam() {
                 if ((item.charAt(0) === "#") && (item.charAt(1) !== "#")) {
                     createChapterHeading("heading");
                 } else if ((item.charAt(0) === "#") &&
-                (item.charAt(1) === "#")) {
+                    (item.charAt(1) === "#")) {
                     createChapterHeading("subheading");
                 }
             } else {
@@ -465,6 +514,7 @@ function runGam() {
         let tocSecList = document.createElement("UL");
         tocSecList.id = "tableOfContentsSection";
         let desktopTOCSelect = document.createElement("SELECT");
+
         function loopThroughChapterArray(item, index) {
             // FOR TOC Section
             let tocSecLI = document.createElement("LI");
@@ -477,7 +527,7 @@ function runGam() {
             let tocSecLinkText = document.createTextNode(tocSecText);
             tocSecLink.appendChild(tocSecLinkText);
             tocSecLI.appendChild(tocSecLink);
-            tocSecList.appendChild(tocSecLI);            
+            tocSecList.appendChild(tocSecLI);
         }
         chapterArray.forEach(loopThroughChapterArray);
         body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(tocSecList, body.getElementsByTagName("HEADER")[0].nextSibling);
