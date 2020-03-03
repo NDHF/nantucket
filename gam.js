@@ -1,13 +1,3 @@
-// TODO 2020-02-25NB html element needs lang attribute DONE
-// TODO 2020-02-25NB add alt tags to images
-// TODO 2020-02-25NB add doctype html DONE
-// TODO 2020-02-25NB need <meta name="viewport"> tag with width and intial scale DONE
-// TODO 2020-02-25NB give document meta description DONE
-// TODO 2020-02-25NB add <meta name="theme-color"> tag DONE
-// TODO 2020-02-25NB add apple-touch-icon tag DONE
-// like this: <link rel="apple-touch-icon" sizes="57x57" href="" />
-// <link rel="apple-touch-icon" sizes="180x180" href="" >
-
 function runGam() {
 
     let input = document.getElementById("textarea").value;
@@ -145,10 +135,9 @@ function runGam() {
             head.appendChild(keywordsMetaTag);
         }
         // Add theme-color meta tag
-        // <meta name=”theme-color” content=”#ffffff”>
         let themeColorMetaTag = document.createElement("META");
         themeColorMetaTag.name = "theme-color";
-        themeColorMetaTag.content = "#fff5ee";
+        themeColorMetaTag.content = "#fff5ee"; // seashell color
         head.appendChild(themeColorMetaTag);
         // Add stylesheet
         let stylesheet = document.createElement("LINK");
@@ -168,7 +157,6 @@ function runGam() {
         favicon.href = iconSource;
         head.appendChild(favicon);
         // CREATE TOUCH ICONS
-        // <link rel="apple-touch-icon" sizes="57x57" href="" />
         let smallTouchIcon = document.createElement("LINK");
         smallTouchIcon.rel = "apple-touch-icon";
         smallTouchIcon.sizes = "57x57";
@@ -564,8 +552,6 @@ function runGam() {
     }
     addText();
 
-    console.log(audioSourceArray);
-
     function createTableOfContents() {
         let mobileTOCDiv = document.createElement("DIV");
         let desktopTOCSection = document.createElement("SECTION");
@@ -586,15 +572,17 @@ function runGam() {
             tocSecLink.appendChild(tocSecLinkText);
             tocSecLI.appendChild(tocSecLink);
             tocSecList.appendChild(tocSecLI);
+            desktopTOCSection.appendChild(tocSecList);
         }
         chapterArray.forEach(loopThroughChapterArray);
-        body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(tocSecList, body.getElementsByTagName("HEADER")[0].nextSibling);
+        body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSection, body.getElementsByTagName("HEADER")[0].nextSibling);
     }
     createTableOfContents();
 
     function createAudioSourceMenu() {
-        if (audioSourceArray === 0) {
-            console.log("nothing to show");
+        if (audioSourceArray.length === 0) {
+            body.querySelector("#cassetteDiv").remove();
+            body.querySelector("#audioDiv").remove();
         } else {
             let audioSourceSelect = document.createElement("SELECT");
             audioSourceSelect.id = "audioSourceSelect";
@@ -609,7 +597,7 @@ function runGam() {
             if (audioSourceArray.length === 1) {
                 audioSourceSelect.disabled = true;
             }
-            console.log(audioSourceSelect);
+            body.querySelector("#audioCassetteDiv").insertBefore(audioSourceSelect, body.querySelector("#audioCassetteDiv").childNodes[0]);
         }
     }
     createAudioSourceMenu();
@@ -655,7 +643,6 @@ function runGam() {
     addCompletionLocationAndDate();
 
     function addCopyright() {
-        console.log("HERE");
         let copyright = document.createElement("P");
         copyright.id = "copyrightNotice";
         copyright.classList.add("center");
@@ -665,7 +652,6 @@ function runGam() {
         let timeElement = "<time datetime='" + copyrightDate + "'>" +
             copyrightDate + "</time>";
         let copyrightHolder = copyrightArray.slice(1).join(" ");
-        console.log(copyrightDate);
         if (copyrightDate === "PUBLIC") {
             copyrightDate = textMetadata.copyright;
             copyrightSymbolCode = "<s>&COPY;</s> ";
