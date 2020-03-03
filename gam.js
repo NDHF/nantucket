@@ -592,6 +592,28 @@ function runGam() {
     }
     createTableOfContents();
 
+    function createAudioSourceMenu() {
+        if (audioSourceArray === 0) {
+            console.log("nothing to show");
+        } else {
+            let audioSourceSelect = document.createElement("SELECT");
+            audioSourceSelect.id = "audioSourceSelect";
+            function loopThroughAudioSourceArray(item, index) {
+                let audioSourceOption = document.createElement("OPTION");
+                audioSourceOption.value = item.source;
+                let audioSourceOptionText = document.createTextNode(item.title);
+                audioSourceOption.appendChild(audioSourceOptionText);
+                audioSourceSelect.appendChild(audioSourceOption);
+            }
+            audioSourceArray.forEach(loopThroughAudioSourceArray);
+            if (audioSourceArray.length === 1) {
+                audioSourceSelect.disabled = true;
+            }
+            console.log(audioSourceSelect);
+        }
+    }
+    createAudioSourceMenu();
+
     function addCompletionLocationAndDate() {
         let ul = document.createElement("UL");
         ul.classList.add("mainTextUL");
