@@ -44,6 +44,7 @@ function runGam() {
     }
 
     let chapterArray = [];
+    let audioSourceArray = [];
 
     function removeThingsAndGatherMetadata() {
         let i = 0;
@@ -280,6 +281,11 @@ function runGam() {
             }
         }
         arrayOfAudioDivData.forEach(loopThroughAudioDivArray);
+        let audioCloseButton = document.createElement("IMG");
+        audioCloseButton.id = "audioCloseButton";
+        audioCloseButton.classList.add("closeButton");
+        audioCloseButton.src = "http://www.ndhfilms.com/assets/images/closeButton.svg";
+        audioDiv.appendChild(audioCloseButton);
         let audioBackground = document.createElement("DIV");
         audioBackground.id = "audioBackground";
         if (audioDivObject.background !== undefined) {
@@ -287,11 +293,6 @@ function runGam() {
             audioDivObject.background + "')";
         }
         audioDiv.appendChild(audioBackground);
-        let audioCloseButton = document.createElement("IMG");
-        audioCloseButton.id = "audioCloseButton";
-        audioCloseButton.classList.add("closeButton");
-        audioCloseButton.src = "http://www.ndhfilms.com/assets/images/closeButton.svg";
-        audioDiv.appendChild(audioCloseButton);
         let container = document.createElement("DIV");
         container.id = "audioContainer";
         container.classList.add("container");
@@ -507,12 +508,19 @@ function runGam() {
                     body.appendChild(illustrationDiv);
                 }
                 createIllustrationDiv();
-
             } else if (item.slice(0, 7) === "@@AUDIO") {
-                function createAudioDiv() {
-
+                let audioSourceObject = {};
+                let audioSourceInfo = item.slice(7).split(" ");
+                function loopThroughAudioSourceInfo(item, index) {
+                    if (item === ":source") {
+                        audioSourceObject.source = audioSourceInfo[index + 1];
+                    } else if (item === ":title") {
+                        let sourceTitle = audioSourceInfo.slice(index + 1).join(" ");
+                        audioSourceObject.title = sourceTitle;
+                    }
                 }
-                createAudioDiv();
+                audioSourceInfo.forEach(loopThroughAudioSourceInfo);
+                audioSourceArray.push(audioSourceObject);
             } else if (item.slice(0, 1) === "#") {
                 function createChapterHeading(headingType) {
                     let chapterHeading = "";
@@ -555,6 +563,8 @@ function runGam() {
         inputArray.forEach(appendInputArrayToBody);
     }
     addText();
+
+    console.log(audioSourceArray);
 
     function createTableOfContents() {
         let mobileTOCDiv = document.createElement("DIV");
