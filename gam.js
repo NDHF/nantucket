@@ -266,7 +266,7 @@ function runGam() {
     function addAudioDiv() {
         let audioDiv = document.createElement("DIV");
         audioDiv.id = "audioDiv";
-        audioDiv.classList.add("active");
+        audioDiv.classList.add("standby");
 
         let audioDivObject = {}
         
@@ -274,34 +274,82 @@ function runGam() {
         function loopThroughAudioDivArray(item, index) {
             if (item === ":background") {
                 audioDivObject.background = arrayOfAudioDivData[index + 1];
+            } else if (item === ":copyright") {
+                let audioCopyrightInfo = arrayOfAudioDivData.slice(index + 1).join(" ");
+                audioDivObject.copyright = audioCopyrightInfo;
             }
         }
         arrayOfAudioDivData.forEach(loopThroughAudioDivArray);
+        let audioBackground = document.createElement("DIV");
+        audioBackground.id = "audioBackground";
         if (audioDivObject.background !== undefined) {
-            audioDiv.style.backgroundImage = "url('" +
+            audioBackground.style.backgroundImage = "url('" +
             audioDivObject.background + "')";
         }
+        audioDiv.appendChild(audioBackground);
         let audioCloseButton = document.createElement("IMG");
         audioCloseButton.id = "audioCloseButton";
         audioCloseButton.classList.add("closeButton");
         audioCloseButton.src = "http://www.ndhfilms.com/assets/images/closeButton.svg";
         audioDiv.appendChild(audioCloseButton);
         let container = document.createElement("DIV");
+        container.id = "audioContainer";
         container.classList.add("container");
         let audioIllustrationDiv = document.createElement("DIV");
         audioIllustrationDiv.id = "audioIllustrationDiv";
+        audioIllustrationDiv.classList.add("flexbox1");
         let audioIllustration = document.createElement("IMG");
         audioIllustration.id = "audioDivIllustration";
-        audioIllustration.src = textMetadata.coverart;
+        audioIllustration.src = "https://louisamayalcottismypassion.files.wordpress.com/2014/05/littlewomen00alcoiala_0025.jpg";
         audioIllustrationDiv.appendChild(audioIllustration);
         let audioInfoHgroup = document.createElement("HGROUP");
         audioInfoHgroup.classList.add("audioInfoHgroup");
-        // Expand hgroup later
+        let hTitle = document.createElement("H1");
+        let hTitleText = document.createTextNode(textMetadata.title);
+        hTitle.appendChild(hTitleText);
+        audioInfoHgroup.appendChild(hTitle);
+        let hAuthor = document.createElement("H2");
+        let hAuthorText = document.createTextNode(textMetadata.credit +
+            " " + textMetadata.author);
+        hAuthor.appendChild(hAuthorText);
+        audioInfoHgroup.appendChild(hAuthor);
+        let hAudioCopyright = document.createElement("H2");
+        hAudioCopyrightText = "Audio Recording &COPY; " + audioDivObject.copyright;
+        hAudioCopyright.innerHTML = hAudioCopyrightText;
+        audioInfoHgroup.appendChild(hAudioCopyright);
+        let hAudioCredits = document.createElement("H3");
+        let hAudioCreditsLink = document.createElement("A");
+        hAudioCreditsLink.id = "audioCreditsLink";
+        hAudioCreditsLink.href = "#creditsSection";
+        hAudioCreditsLink.onclick = true;
+        hAudioCreditsText = document.createTextNode("CREDITS");
+        hAudioCreditsLink.appendChild(hAudioCreditsText);
+        hAudioCredits.appendChild(hAudioCreditsLink);
+        audioInfoHgroup.appendChild(hAudioCredits);
         audioIllustrationDiv.appendChild(audioInfoHgroup);
         container.appendChild(audioIllustrationDiv);
         let audioCassetteDiv = document.createElement("DIV");
-        // Expand this later
-
+        audioCassetteDiv.id = "audioCassetteDiv";
+        audioCassetteDiv.classList.add("flexbox2");
+        let cassetteAnimatedDiv = document.createElement("DIV");
+        cassetteAnimatedDiv.id = "cassetteAnimatedDiv";
+        let cassetteAnimatedObject = document.createElement("OBJECT");
+        cassetteAnimatedObject.id = "cassetteAnimatedObject";
+        cassetteAnimatedObject.type = "image/svg+xml";
+        cassetteAnimatedObject.data = "http://www.ndhfilms.com/assets/images/cassetteAnimated.svg";
+        cassetteAnimatedDiv.appendChild(cassetteAnimatedObject);
+        audioCassetteDiv.appendChild(cassetteAnimatedDiv);
+        let audioElement = document.createElement("AUDIO");
+        audioElement.id = "audioElement";
+        audioElement.controls = true;
+        let audioElementSource = document.createElement("SOURCE");
+        audioElementSource.src = "";
+        audioElementSource.type = "audio/mpeg";
+        audioElement.appendChild(audioElementSource);
+        audioCassetteDiv.appendChild(audioElement);
+        container.appendChild(audioCassetteDiv);
+        audioDiv.appendChild(container);
+        body.appendChild(audioDiv);
     }
     addAudioDiv();
 
