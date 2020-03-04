@@ -71,6 +71,7 @@ function runGam() {
         }
     }
     removeThingsAndGatherMetadata();
+    console.log(textMetadata);
 
     function replaceThings(item, index) {
         // Replace asterisks with hr tag
@@ -207,7 +208,7 @@ function runGam() {
     function addKeyword() {
         let keyword = document.createElement("SPAN");
         keyword.id = "keyword";
-        keywordText = document.createTextNode(textMetadata.kywd);
+        let keywordText = document.createTextNode(textMetadata.kywd);
         keyword.appendChild(keywordText);
         body.appendChild(keyword);
     }
