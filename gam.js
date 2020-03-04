@@ -22,7 +22,7 @@ function runGam() {
         illustrator: "",
         coverart: "",
         coverartdesc: "",
-        keyword: "",
+        kywd: "",
         copyright: "",
         location: "",
         date: "",
@@ -51,7 +51,7 @@ function runGam() {
                 let keyIndexArray = [
                     "TITLE", "SUBTITLE", "CREDIT", "AUTHOR",
                     "ILLUSTRATOR", "COVERART", "COVERARTDESC",
-                    "KEYWORD", "COPYRIGHT", "LOCATION", "DATE",
+                    "KYWD", "COPYRIGHT", "LOCATION", "DATE",
                     "LANG", "ICON", "DESC", "KEYWORDS", "AUDIO"
                 ];
                 keyIndexArray.forEach(function (kiaItem) {
@@ -207,6 +207,8 @@ function runGam() {
     function addKeyword() {
         let keyword = document.createElement("SPAN");
         keyword.id = "keyword";
+        keywordText = document.createTextNode(textMetadata.kywd);
+        keyword.appendChild(keywordText);
         body.appendChild(keyword);
     }
     addKeyword();
@@ -331,10 +333,10 @@ function runGam() {
         let audioElement = document.createElement("AUDIO");
         audioElement.id = "audioElement";
         audioElement.controls = true;
-        let audioElementSource = document.createElement("SOURCE");
-        audioElementSource.src = "";
-        audioElementSource.type = "audio/mpeg";
-        audioElement.appendChild(audioElementSource);
+        // let audioElementSource = document.createElement("SOURCE");
+        // audioElementSource.src = "";
+        // audioElementSource.type = "audio/mpeg";
+        // audioElement.appendChild(audioElementSource);
         audioCassetteDiv.appendChild(audioElement);
         container.appendChild(audioCassetteDiv);
         audioDiv.appendChild(container);
