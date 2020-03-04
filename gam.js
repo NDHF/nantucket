@@ -218,11 +218,11 @@ function runGam() {
         buttonContainerDiv.innerHTML = "<div id='menuIconDiv' class='buttons' onclick=''>" +
             "<img id='menuIconImg' alt='Click or tap to open menu' src='http://www.ndhfilms.com/assets/images/menuicon_black.svg' />" +
             "</div> " +
-            // "<div id='tocIconDiv' class='buttons' onclick=''>" +
-            //     "<object id='tocIconObject' type='image/svg+xml' data='../../assets/images/tocicon.svg'>" +
-            //         "Your browser does not support SVG" +
-            //     "</object>" +
-            // "</div>" +
+            "<div id='tocIconDiv' class='buttons' onclick=''>" +
+                "<object id='tocIconObject' type='image/svg+xml' data='../../assets/images/tocicon.svg'>" +
+                    "Your browser does not support SVG" +
+                "</object>" +
+            "</div>" +
             "<div id='lightbulbDiv' class='buttons' onclick=''>" +
             "<object ID='lightbulbObject' type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/lightbulb.svg'>" +
             "Your browser does not support SVG" +
