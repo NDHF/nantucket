@@ -374,7 +374,7 @@ function runGam() {
                 body.insertBefore(coverImageLink, body.childNodes[0]);
                 illustrationArray.push({
                     link: "#coverImg",
-                    text: "COVER"
+                    text: "Cover"
                 });
             } else if (item.slice(0, 6) === "@@ILLO") {
                 illustrationCounter += 1;
@@ -534,13 +534,12 @@ function runGam() {
                         let chapterHeadingID = chapterHeadingText.replace(" ", "_");
                         chapterHeading.id = chapterHeadingID;
                         let chapterObject = {
-                            id: chapterHeadingID,
-                            heading: chapterHeadingText,
-                            subheading: ""
+                            link: chapterHeadingID
                         }
                         if (inputArray[index + 1].slice(0, 2) === "##") {
-                            chapterObject.subheading = inputArray[index + 1].slice(2);
+                            chapterHeadingText = chapterHeadingText.concat(" :", inputArray[index + 1].slice(2));
                         }
+                        chapterObject.text = chapterHeadingText;
                         chapterArray.push(chapterObject);
                     } else if (headingType === "subheading") {
                         chapterHeading = document.createElement("H2");
@@ -634,20 +633,32 @@ function runGam() {
                 // TOC SELECT FOR DESKTOP
                 let tocSelectIllustrOption = document.createElement("OPTION");
                 tocSelectIllustrOption.value = item.link;
-                let tocSelectIllustrOptionText = document.createTextNode(illustrationArray.text);
+                let tocSelectIllustrOptionText = document.createTextNode(
+                    illustrationArray.text
+                );
                 tocSelectIllustrOption.appendChild(tocSelectIllustrOptionText);
                 desktopTOCSelect.appendChild(tocSelectIllustrOption);
                 // TOC DIV FOR MOBILE
                 let mobileTOCDivIllustrLI = document.createElement("LI");
+                if (item.text !== "Cover") {
+                    mobileTOCDivIllustrLI.classList.add("listItalic");
+                }
                 let mobileTOCDivIllustrLink = document.createElement("A");
                 mobileTOCDivIllustrLink.classList.add("tocLink");
                 mobileTOCDivIllustrLink.href = item.link;
-                mobileTOCDivIllustrLinkText = document.createTextNode(item.text);
-                mobileTOCDivIllustrLink.appendChild(mobileTOCDivIllustrLinkText);
+                mobileTOCDivIllustrLinkText = document.createTextNode(
+                    item.text
+                );
+                mobileTOCDivIllustrLink.appendChild(
+                    mobileTOCDivIllustrLinkText
+                );
                 mobileTOCDivIllustrLI.appendChild(mobileTOCDivIllustrLink);
                 mobileTOCList.appendChild(mobileTOCDivIllustrLI);
                 // TOC SECTION FOR ACCESSIBILITY
-                tocSectionIllustrLI = document.createElement("LI");
+                let tocSectionIllustrLI = document.createElement("LI");
+                if (item.text !== "Cover") {
+                    tocSectionIllustrLI.classList.add("listItalic");
+                }
                 tocSectionIllustrLink = document.createElement("A");
                 tocSectionIllustrLink.href = item.link;
                 tocSectionIllustrLinkText = document.createTextNode(
@@ -673,11 +684,8 @@ function runGam() {
             // FOR TOC Section
             let tocSecLI = document.createElement("LI");
             let tocSecLink = document.createElement("A");
-            tocSecLink.href = "#" + item.id;
-            let tocSecText = item.heading;
-            if (item.subheading !== "") {
-                tocSecText = tocSecText.concat(": " + item.subheading);
-            }
+            tocSecLink.href = "#" + item.link;
+            let tocSecText = item.text;
             let tocSecLinkText = document.createTextNode(tocSecText);
             tocSecLink.appendChild(tocSecLinkText);
             tocSecLI.appendChild(tocSecLink);
@@ -688,6 +696,7 @@ function runGam() {
             let toc
         }
         chapterArray.forEach(loopThroughChapterArray);
+        body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(mobileTOCDiv, body.getElementsByTagName("HEADER")[0].nextSibling);
         body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSection, body.getElementsByTagName("HEADER")[0].nextSibling);
     }
     createTableOfContents();
