@@ -33,6 +33,7 @@ function runGam() {
         audio: ""
     }
 
+    let illustrationArray = [];
     let chapterArray = [];
     let audioSourceArray = [];
 
@@ -222,9 +223,9 @@ function runGam() {
             "<img id='menuIconImg' alt='Click or tap to open menu' src='http://www.ndhfilms.com/assets/images/menuicon_black.svg' />" +
             "</div> " +
             "<div id='tocIconDiv' class='buttons' onclick=''>" +
-                "<object id='tocIconObject' type='image/svg+xml' data='../../assets/images/tocicon.svg'>" +
-                    "Your browser does not support SVG" +
-                "</object>" +
+            "<object id='tocIconObject' type='image/svg+xml' data='../../assets/images/tocicon.svg'>" +
+            "Your browser does not support SVG" +
+            "</object>" +
             "</div>" +
             "<div id='lightbulbDiv' class='buttons' onclick=''>" +
             "<object ID='lightbulbObject' type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/lightbulb.svg'>" +
@@ -261,8 +262,9 @@ function runGam() {
         audioDiv.classList.add("standby");
 
         let audioDivObject = {}
-        
+
         let arrayOfAudioDivData = textMetadata.audio.split(" ");
+
         function loopThroughAudioDivArray(item, index) {
             if (item === ":background") {
                 audioDivObject.background = arrayOfAudioDivData[index + 1];
@@ -281,7 +283,7 @@ function runGam() {
         audioBackground.id = "audioBackground";
         if (audioDivObject.background !== undefined) {
             audioBackground.style.backgroundImage = "url('" +
-            audioDivObject.background + "')";
+                audioDivObject.background + "')";
         }
         audioDiv.appendChild(audioBackground);
         let container = document.createElement("DIV");
@@ -370,6 +372,10 @@ function runGam() {
                 coverImage.src = item.slice(11);
                 coverImageLink.appendChild(coverImage);
                 body.insertBefore(coverImageLink, body.childNodes[0]);
+                illustrationArray.push({
+                    link: "#coverImg",
+                    text: "COVER"
+                });
             } else if (item.slice(0, 6) === "@@ILLO") {
                 illustrationCounter += 1;
                 let illoMetadataObject = {};
@@ -414,6 +420,11 @@ function runGam() {
                     }
                     let imgThumbnail = document.createElement("IMG");
                     imgThumbnail.id = "illustration" + illustrationNumber;
+
+                    illustrationArray.push({
+                        link: "#" + imgThumbnail.id,
+                        text: illoMetadataObject.caption
+                    });
                     if ((illoMetadataObject.desc !== undefined) &&
                         (illoMetadataObject.desc !== "")) {
                         imgThumbnail.title = illoMetadataObject.desc;
@@ -502,6 +513,7 @@ function runGam() {
             } else if (item.slice(0, 7) === "@@AUDIO") {
                 let audioSourceObject = {};
                 let audioSourceInfo = item.slice(7).split(" ");
+
                 function loopThroughAudioSourceInfo(item, index) {
                     if (item === ":source") {
                         audioSourceObject.source = audioSourceInfo[index + 1];
@@ -556,11 +568,53 @@ function runGam() {
     addText();
 
     function createTableOfContents() {
+        console.log(illustrationArray);
+        // PREPARE TABLES OF CONTENTS
+        // TOC SELECT FOR DESKTOP
+        let desktopTOCSelect = document.createElement("SELECT");
+        desktopTOCSelect.id = "tocSelect";
+        desktopTOCSelect.classList.add("selectClosed");
+        let placeholder = document.createElement("OPTION");
+        placeholder.id = "firstOption";
+        placeholder.value = "placeholder";
+        // TOC DIV FOR MOBILE
         let mobileTOCDiv = document.createElement("DIV");
+        mobileTOCDiv.id = "tableOfContents";
+        mobileTOCDiv.classList.add("tocStandby");
+        mobileTOCDiv.onclick = true;
+        let mobileTOCHeader = document.createElement("H1");
+        mobileTOCHeader.classList.add("tocHeader");
+        let mobileTOCHeaderText = document.createTextNode("TABLE OF CONTENTS");
+        mobileTOCHeader.appendChild(mobileTOCHeaderText);
+        mobileTOCDiv.appendChild(mobileTOCHeader);
+        let mobileTOCNestedDiv = document.createElement("DIV");
+        mobileTOCNestedDiv.id = "tocMobileDiv";
+        let mobileTOCList = document.createElement("UL");
+        mobileTOCList.id = "tocList";
+        mobileTOCNestedDiv.appendChild(mobileTOCList);
+        mobileTOCDiv.appendChild(mobileTOCNestedDiv);
+
+        // TOC SECTION FOR ACCESSIBILITY
         let desktopTOCSection = document.createElement("SECTION");
         let tocSecList = document.createElement("UL");
         tocSecList.id = "tableOfContentsSection";
-        let desktopTOCSelect = document.createElement("SELECT");
+
+        // PREPARE ILLUSTRATION LISTS
+        // TOC SELECT FOR DESKTOP
+        let illustrPlaceholder = document.createElement("OPTION");
+        illustrPlaceholder.value = "placeholder";
+        let illustrPlaceholderText = document.createTextNode("-- ILLUSTRATIONS --");
+        illustrPlaceholder.appendChild(illustrPlaceholderText);
+        desktopTOCSelect.appendChild(illustrPlaceholder);
+        // TOC DIV FOR MOBILE
+        // TOC SECTION FOR ACCESSIBILITY 
+        // BUILD TABLE OF CONTENTS
+        // BUILD OTHER STUFF
+
+        let placeholderText = document.createTextNode("TABLE OF CONTENTS");
+        placeholder.appendChild(placeholderText);
+        desktopTOCSelect.appendChild(placeholder);
+        let tocSectionPlaceholder = document.createElement("OPTION");
 
         function loopThroughChapterArray(item, index) {
             // FOR TOC Section
@@ -576,6 +630,9 @@ function runGam() {
             tocSecLI.appendChild(tocSecLink);
             tocSecList.appendChild(tocSecLI);
             desktopTOCSection.appendChild(tocSecList);
+            // FOR DESKTOP TOC SELECT
+            let tocOption = document.createElement("OPTION");
+            let toc
         }
         chapterArray.forEach(loopThroughChapterArray);
         body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSection, body.getElementsByTagName("HEADER")[0].nextSibling);
@@ -589,6 +646,7 @@ function runGam() {
         } else {
             let audioSourceSelect = document.createElement("SELECT");
             audioSourceSelect.id = "audioSourceSelect";
+
             function loopThroughAudioSourceArray(item, index) {
                 let audioSourceOption = document.createElement("OPTION");
                 audioSourceOption.value = item.source;
