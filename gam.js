@@ -593,23 +593,76 @@ function runGam() {
         mobileTOCList.id = "tocList";
         mobileTOCNestedDiv.appendChild(mobileTOCList);
         mobileTOCDiv.appendChild(mobileTOCNestedDiv);
-
         // TOC SECTION FOR ACCESSIBILITY
         let desktopTOCSection = document.createElement("SECTION");
         let tocSecList = document.createElement("UL");
         tocSecList.id = "tableOfContentsSection";
 
-        // PREPARE ILLUSTRATION LISTS
-        // TOC SELECT FOR DESKTOP
-        let illustrPlaceholder = document.createElement("OPTION");
-        illustrPlaceholder.value = "placeholder";
-        let illustrPlaceholderText = document.createTextNode("-- ILLUSTRATIONS --");
-        illustrPlaceholder.appendChild(illustrPlaceholderText);
-        desktopTOCSelect.appendChild(illustrPlaceholder);
-        // TOC DIV FOR MOBILE
-        // TOC SECTION FOR ACCESSIBILITY 
+        // ILLUSTRATION LIST GENERATOR
+        if (illustrationArray.length > 0) {
+            // PREPARE ILLUSTRATION LISTS
+            // TOC SELECT FOR DESKTOP
+            let illustrPlaceholder = document.createElement("OPTION");
+            illustrPlaceholder.value = "placeholder";
+            let illustrPlaceholderText = document.createTextNode(
+                "-- ILLUSTRATIONS --"
+            );
+            illustrPlaceholder.appendChild(illustrPlaceholderText);
+            desktopTOCSelect.appendChild(illustrPlaceholder);
+            // TOC DIV FOR MOBILE
+            let mobileIllustrHeading = document.createElement("LI");
+            mobileIllustrHeading.classList.add("listHeading");
+            let mobileIllustrH3 = document.createElement("H3");
+            let mobileIllustrH3Text = document.createTextNode("ILLUSTRATIONS");
+            mobileIllustrH3.appendChild(mobileIllustrH3Text);
+            mobileIllustrHeading.appendChild(mobileIllustrH3);
+            mobileTOCList.appendChild(mobileIllustrHeading);
+            // TOC SECTION FOR ACCESSIBILITY 
+            let tocSectionIllustrPlaceholder = document.createElement("LI");
+            tocSectionIllustrPlaceholder.classList.add("listHeading");
+            let tocSectionIllustrPlaceholderH3 = document.createElement("H3");
+            let tocSectionIllustrPlaceholderH3Text = document.createTextNode(
+                "ILLUSTRATIONS"
+            );
+            tocSectionIllustrPlaceholderH3.appendChild(tocSectionIllustrPlaceholderH3Text);
+            tocSectionIllustrPlaceholder.appendChild(tocSectionIllustrPlaceholderH3);
+            tocSecList.appendChild(tocSectionIllustrPlaceholder);
+
+            // LOOP THROUGH ILLUSTRATION ARRAY
+
+            function loopThroughIllustrationArray(item, index) {
+                // TOC SELECT FOR DESKTOP
+                let tocSelectIllustrOption = document.createElement("OPTION");
+                tocSelectIllustrOption.value = item.link;
+                let tocSelectIllustrOptionText = document.createTextNode(illustrationArray.text);
+                tocSelectIllustrOption.appendChild(tocSelectIllustrOptionText);
+                desktopTOCSelect.appendChild(tocSelectIllustrOption);
+                // TOC DIV FOR MOBILE
+                let mobileTOCDivIllustrLI = document.createElement("LI");
+                let mobileTOCDivIllustrLink = document.createElement("A");
+                mobileTOCDivIllustrLink.classList.add("tocLink");
+                mobileTOCDivIllustrLink.href = item.link;
+                mobileTOCDivIllustrLinkText = document.createTextNode(item.text);
+                mobileTOCDivIllustrLink.appendChild(mobileTOCDivIllustrLinkText);
+                mobileTOCDivIllustrLI.appendChild(mobileTOCDivIllustrLink);
+                mobileTOCList.appendChild(mobileTOCDivIllustrLI);
+                // TOC SECTION FOR ACCESSIBILITY
+                tocSectionIllustrLI = document.createElement("LI");
+                tocSectionIllustrLink = document.createElement("A");
+                tocSectionIllustrLink.href = item.link;
+                tocSectionIllustrLinkText = document.createTextNode(
+                    item.text
+                );
+                tocSectionIllustrLink.appendChild(tocSectionIllustrLinkText);
+                tocSectionIllustrLI.appendChild(tocSectionIllustrLink);
+                tocSecList.appendChild(tocSectionIllustrLI);
+            }
+            illustrationArray.forEach(loopThroughIllustrationArray);
+        }
+
         // BUILD TABLE OF CONTENTS
         // BUILD OTHER STUFF
+
 
         let placeholderText = document.createTextNode("TABLE OF CONTENTS");
         placeholder.appendChild(placeholderText);
