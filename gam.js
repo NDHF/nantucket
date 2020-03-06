@@ -1,3 +1,15 @@
+/*
+TODO 2020-03-06NJB ADD @@RAW and @@RAWEND tags, where pure HTML can be placed 
+in-between.
+
+TODO 2020-03-06NJB Add something similar to the above RAW idea, but strictly
+for <pre> tag in HTML. EXAMPLE: The mouse's poem in Chapter 3 of Alice in
+Wonderland
+
+TODO 2020-03-06NJB Something similar to RAW, but for tables (could use a CSV
+format)
+*/ 
+
 function runGam() {
 
     // QUALITY-OF-LIFE FUNCTIONS START
