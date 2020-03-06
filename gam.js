@@ -72,7 +72,6 @@ function runGam() {
         }
     }
     removeThingsAndGatherMetadata();
-    console.log(textMetadata);
 
     function replaceThings(item, index) {
         // Replace asterisks with hr tag
@@ -219,39 +218,91 @@ function runGam() {
         let buttonContainerDiv = document.createElement("DIV");
         buttonContainerDiv.classList.add("menuClosed");
         buttonContainerDiv.id = "buttonContainer";
-        buttonContainerDiv.innerHTML = "<div id='menuIconDiv' class='buttons' onclick=''>" +
-            "<img id='menuIconImg' alt='Click or tap to open menu' src='http://www.ndhfilms.com/assets/images/menuicon_black.svg' />" +
-            "</div> " +
-            "<div id='tocIconDiv' class='buttons' onclick=''>" +
-            "<object id='tocIconObject' type='image/svg+xml' data='../../assets/images/tocicon.svg'>" +
-            "Your browser does not support SVG" +
-            "</object>" +
-            "</div>" +
-            "<div id='lightbulbDiv' class='buttons' onclick=''>" +
-            "<object ID='lightbulbObject' type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/lightbulb.svg'>" +
-            "Your browser does not support SVG" +
-            "</object>" +
-            "</div>" +
-            "<div id='bookmarkDiv' class='buttons'>" +
-            "<object id='bookmarkObject' type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/bookmark.svg'>" +
-            "Your browser does not support SVG" +
-            "</object>" +
-            "</div>" +
-            "<div id='cassetteDiv' class='buttons'>" +
-            "<object id='cassetteObject' type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/cassette.svg'> " +
-            "Your browser does not support SVG" +
-            "</object>" +
-            "</div>" +
-            "<div id='monetizationDiv' class='buttons'>" +
-            "<a href='http://www.patreon.com/NDHFilms'>" +
-            "<img id='monetizationIcon' src='http://www.ndhfilms.com/assets/images/monetization_black.svg' />" +
-            "</a>" +
-            "</div>" +
-            "<div id='starDiv' class='buttons'>" +
-            "<object id='starObject' type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/star.svg'>" +
-            "Your browser does not support SVG" +
-            "</object>" +
-            "</div>";
+        let buttonArray = [
+            {
+                divID: "menuIcon",
+                onClickYN: true,
+                imgOrObject: "img",
+                altText: "Click or tap to open menu",
+                sourceText: "menuicon_black"
+            },
+            {
+                divID: "tocIcon",
+                onClickYN: true,
+                imgOrObject: "object",
+                altText: "",
+                sourceText: "tocicon"
+            },
+            {
+                divID: "lightbulb",
+                onClickYN: true,
+                imgOrObject: "object",
+                altText: "",
+                sourceText: "lightbulb"
+            },
+            {
+                divID: "bookmark",
+                onClickYN: false,
+                imgOrObject: "object",
+                altText: "",
+                sourceText: "bookmark"
+            },
+            {
+                divID: "cassette",
+                onClickYN: false,
+                imgOrObject: "object",
+                altText: "",
+                sourceText: "cassette"
+            },
+            {
+                divID: "monetization",
+                onClickYN: false,
+                imgOrObject: "img",
+                altText: "Support this author",
+                sourceText: "monetization"
+            },
+            {
+                divID: "star",
+                onClickYN: false,
+                imgOrObject: "object",
+                altText: "",
+                sourceText: "star"
+            }
+        ];
+        function loopButtonArray(item) {
+            let menuDiv = document.createElement("DIV");
+            menuDiv.id = item.divID + "Div";
+            menuDiv.classList.add("buttons");
+            menuDiv.onclick = item.onClickYN;
+            let internalImage = document.createElement(item.imgOrObject.toUpperCase());
+            let sourcePrefix = "http://www.ndhfilms.com/assets/images/";
+            let sourceString = sourcePrefix + item.sourceText + ".svg";
+            if (item.imgOrObject === "img") {
+                internalImage.id = item.divID + "Img";
+                internalImage.alt = item.altText;
+                internalImage.src = sourceString;
+            } else if (item.imgOrObject === "object") {
+                internalImage.id = item.divID + "Object";
+                internalImage.type = "images/svg+xml";
+                internalImage.data = sourceString;
+                let noSVG = document.createTextNode(
+                    "Your browser does not support SVG"
+                );
+                internalImage.appendChild(noSVG);
+                // console.log(internalImage);
+            }
+            if (item.divID === "monetization") {
+                let monetizationLink = document.createElement("A");
+                monetizationLink.href = "httts://www.patreon.com/NDHFilms";
+                monetizationLink.appendChild(internalImage);
+                menuDiv.appendChild(monetizationLink);
+            } else {
+                menuDiv.appendChild(internalImage);
+                console.log(menuDiv);
+            }
+            buttonContainerDiv.appendChild(menuDiv);
+        }
+        buttonArray.forEach(loopButtonArray);
         body.appendChild(buttonContainerDiv);
     }
     addButtons();
@@ -528,6 +579,8 @@ function runGam() {
                 function createChapterHeading(headingType) {
                     let chapterHeading = "";
                     let chapterHeadingText = "";
+                    // sh is the chapter subheading
+                    let sh = "";
                     if (headingType === "heading") {
                         chapterHeading = document.createElement("H1");
                         chapterHeadingText = item.slice(1);
@@ -537,9 +590,9 @@ function runGam() {
                             link: chapterHeadingID
                         }
                         if (inputArray[index + 1].slice(0, 2) === "##") {
-                            chapterHeadingText = chapterHeadingText.concat(" :", inputArray[index + 1].slice(2));
+                            sh = inputArray[index + 1].slice(2);
                         }
-                        chapterObject.text = chapterHeadingText;
+                        chapterObject.text = chapterHeadingText + ": " + sh;
                         chapterArray.push(chapterObject);
                     } else if (headingType === "subheading") {
                         chapterHeading = document.createElement("H2");
@@ -567,7 +620,6 @@ function runGam() {
     addText();
 
     function createTableOfContents() {
-        console.log(illustrationArray);
         // PREPARE TABLES OF CONTENTS
         // TOC SELECT FOR DESKTOP
         let desktopTOCSelect = document.createElement("SELECT");
@@ -594,108 +646,94 @@ function runGam() {
         mobileTOCDiv.appendChild(mobileTOCNestedDiv);
         // TOC SECTION FOR ACCESSIBILITY
         let desktopTOCSection = document.createElement("SECTION");
+        desktopTOCSection.id = "tableOfContentsSection";
         let tocSecList = document.createElement("UL");
-        tocSecList.id = "tableOfContentsSection";
 
-        // ILLUSTRATION LIST GENERATOR
-        if (illustrationArray.length > 0) {
-            // PREPARE ILLUSTRATION LISTS
-            // TOC SELECT FOR DESKTOP
-            let illustrPlaceholder = document.createElement("OPTION");
-            illustrPlaceholder.value = "placeholder";
-            let illustrPlaceholderText = document.createTextNode(
-                "-- ILLUSTRATIONS --"
-            );
-            illustrPlaceholder.appendChild(illustrPlaceholderText);
-            desktopTOCSelect.appendChild(illustrPlaceholder);
-            // TOC DIV FOR MOBILE
-            let mobileIllustrHeading = document.createElement("LI");
-            mobileIllustrHeading.classList.add("listHeading");
-            let mobileIllustrH3 = document.createElement("H3");
-            let mobileIllustrH3Text = document.createTextNode("ILLUSTRATIONS");
-            mobileIllustrH3.appendChild(mobileIllustrH3Text);
-            mobileIllustrHeading.appendChild(mobileIllustrH3);
-            mobileTOCList.appendChild(mobileIllustrHeading);
-            // TOC SECTION FOR ACCESSIBILITY 
-            let tocSectionIllustrPlaceholder = document.createElement("LI");
-            tocSectionIllustrPlaceholder.classList.add("listHeading");
-            let tocSectionIllustrPlaceholderH3 = document.createElement("H3");
-            let tocSectionIllustrPlaceholderH3Text = document.createTextNode(
-                "ILLUSTRATIONS"
-            );
-            tocSectionIllustrPlaceholderH3.appendChild(tocSectionIllustrPlaceholderH3Text);
-            tocSectionIllustrPlaceholder.appendChild(tocSectionIllustrPlaceholderH3);
-            tocSecList.appendChild(tocSectionIllustrPlaceholder);
-
-            // LOOP THROUGH ILLUSTRATION ARRAY
-
-            function loopThroughIllustrationArray(item, index) {
+        function prepareATOCList(array, mode) {
+            // ILLUSTRATION LIST GENERATOR
+            if (array.length > 0) {
+                // PREPARE ILLUSTRATION LISTS
                 // TOC SELECT FOR DESKTOP
-                let tocSelectIllustrOption = document.createElement("OPTION");
-                tocSelectIllustrOption.value = item.link;
-                let tocSelectIllustrOptionText = document.createTextNode(
-                    illustrationArray.text
+                let illustrPlaceholder = document.createElement("OPTION");
+                illustrPlaceholder.value = "placeholder";
+                let sectionText = "ILLUSTRATIONS";
+                if (mode === "chapters") {
+                    sectionText = "SECTIONS"
+                }
+                let illustrPlaceholderText = document.createTextNode(
+                    "-- " + sectionText + " --"
                 );
-                tocSelectIllustrOption.appendChild(tocSelectIllustrOptionText);
-                desktopTOCSelect.appendChild(tocSelectIllustrOption);
+                illustrPlaceholder.appendChild(illustrPlaceholderText);
+                desktopTOCSelect.appendChild(illustrPlaceholder);
                 // TOC DIV FOR MOBILE
-                let mobileTOCDivIllustrLI = document.createElement("LI");
-                if (item.text !== "Cover") {
-                    mobileTOCDivIllustrLI.classList.add("listItalic");
+                let mobileIllustrHeading = document.createElement("LI");
+                mobileIllustrHeading.classList.add("listHeading");
+                let mobileIllustrH3 = document.createElement("H3");
+                let mobileIllustrH3Text = document.createTextNode(sectionText);
+                mobileIllustrH3.appendChild(mobileIllustrH3Text);
+                mobileIllustrHeading.appendChild(mobileIllustrH3);
+                mobileTOCList.appendChild(mobileIllustrHeading);
+                // TOC SECTION FOR ACCESSIBILITY 
+                let tocSectionIllustrPlaceholder = document.createElement("LI");
+                tocSectionIllustrPlaceholder.classList.add("listHeading");
+                let tocSectionIllustrPlaceholderH3 = document.createElement("H3");
+                let tocSectionIllustrPlaceholderH3Text = document.createTextNode(
+                    sectionText
+                );
+                tocSectionIllustrPlaceholderH3.appendChild(tocSectionIllustrPlaceholderH3Text);
+                tocSectionIllustrPlaceholder.appendChild(tocSectionIllustrPlaceholderH3);
+                tocSecList.appendChild(tocSectionIllustrPlaceholder);
+
+                // LOOP THROUGH ILLUSTRATION ARRAY
+
+                function loopThroughIllustrationArray(item, index) {
+                    // TOC SELECT FOR DESKTOP
+                    let tocSelectIllustrOption = document.createElement("OPTION");
+                    tocSelectIllustrOption.value = item.link;
+                    let tocSelectIllustrOptionText = document.createTextNode(
+                        item.text
+                    );
+                    tocSelectIllustrOption.appendChild(tocSelectIllustrOptionText);
+                    desktopTOCSelect.appendChild(tocSelectIllustrOption);
+                    // TOC DIV FOR MOBILE
+                    let mobileTOCDivIllustrLI = document.createElement("LI");
+                    if ((mode === "illustrations") && (item.text !== "Cover")) {
+                        mobileTOCDivIllustrLI.classList.add("listItalic");
+                    }
+                    let mobileTOCDivIllustrLink = document.createElement("A");
+                    mobileTOCDivIllustrLink.classList.add("tocLink");
+                    mobileTOCDivIllustrLink.href = item.link;
+                    mobileTOCDivIllustrLinkText = document.createTextNode(
+                        item.text
+                    );
+                    mobileTOCDivIllustrLink.appendChild(
+                        mobileTOCDivIllustrLinkText
+                    );
+                    mobileTOCDivIllustrLI.appendChild(mobileTOCDivIllustrLink);
+                    mobileTOCList.appendChild(mobileTOCDivIllustrLI);
+                    // TOC SECTION FOR ACCESSIBILITY
+                    let tocSectionIllustrLI = document.createElement("LI");
+                    if ((mode === "illustrations") && (item.text !== "Cover")) {
+                        tocSectionIllustrLI.classList.add("listItalic");
+                    }
+                    tocSectionIllustrLink = document.createElement("A");
+                    tocSectionIllustrLink.href = item.link;
+                    tocSectionIllustrLinkText = document.createTextNode(
+                        item.text
+                    );
+                    tocSectionIllustrLink.appendChild(tocSectionIllustrLinkText);
+                    tocSectionIllustrLI.appendChild(tocSectionIllustrLink);
+                    tocSecList.appendChild(tocSectionIllustrLI);
                 }
-                let mobileTOCDivIllustrLink = document.createElement("A");
-                mobileTOCDivIllustrLink.classList.add("tocLink");
-                mobileTOCDivIllustrLink.href = item.link;
-                mobileTOCDivIllustrLinkText = document.createTextNode(
-                    item.text
-                );
-                mobileTOCDivIllustrLink.appendChild(
-                    mobileTOCDivIllustrLinkText
-                );
-                mobileTOCDivIllustrLI.appendChild(mobileTOCDivIllustrLink);
-                mobileTOCList.appendChild(mobileTOCDivIllustrLI);
-                // TOC SECTION FOR ACCESSIBILITY
-                let tocSectionIllustrLI = document.createElement("LI");
-                if (item.text !== "Cover") {
-                    tocSectionIllustrLI.classList.add("listItalic");
-                }
-                tocSectionIllustrLink = document.createElement("A");
-                tocSectionIllustrLink.href = item.link;
-                tocSectionIllustrLinkText = document.createTextNode(
-                    item.text
-                );
-                tocSectionIllustrLink.appendChild(tocSectionIllustrLinkText);
-                tocSectionIllustrLI.appendChild(tocSectionIllustrLink);
-                tocSecList.appendChild(tocSectionIllustrLI);
+                array.forEach(loopThroughIllustrationArray);
             }
-            illustrationArray.forEach(loopThroughIllustrationArray);
         }
 
-        // BUILD TABLE OF CONTENTS
-        // BUILD OTHER STUFF
+        prepareATOCList(illustrationArray, "illustrations");
+        prepareATOCList(chapterArray, "chapters");
 
-
-        let placeholderText = document.createTextNode("TABLE OF CONTENTS");
-        placeholder.appendChild(placeholderText);
-        desktopTOCSelect.appendChild(placeholder);
-        let tocSectionPlaceholder = document.createElement("OPTION");
-
-        function loopThroughChapterArray(item, index) {
-            // FOR TOC Section
-            let tocSecLI = document.createElement("LI");
-            let tocSecLink = document.createElement("A");
-            tocSecLink.href = "#" + item.link;
-            let tocSecText = item.text;
-            let tocSecLinkText = document.createTextNode(tocSecText);
-            tocSecLink.appendChild(tocSecLinkText);
-            tocSecLI.appendChild(tocSecLink);
-            tocSecList.appendChild(tocSecLI);
-            desktopTOCSection.appendChild(tocSecList);
-            // FOR DESKTOP TOC SELECT
-            let tocOption = document.createElement("OPTION");
-            let toc
-        }
-        chapterArray.forEach(loopThroughChapterArray);
+        desktopTOCSection.appendChild(tocSecList);
+        body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSelect, body.getElementsByTagName("HEADER")[0].nextSibling);
         body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(mobileTOCDiv, body.getElementsByTagName("HEADER")[0].nextSibling);
         body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSection, body.getElementsByTagName("HEADER")[0].nextSibling);
     }
