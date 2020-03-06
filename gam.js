@@ -463,6 +463,19 @@ function runGam() {
                     link: "#coverImg",
                     text: "Cover"
                 });
+            } else if (item.slice(0, 8) === "@@BLOCKQ") {
+                let blockquoteContents = item.slice(8);
+                let blockquote = newEl("BLOCKQUOTE");
+                let blockquoteText = ctn(blockquoteContents);
+                blockquote.appendChild(blockquoteText);
+                body.appendChild(blockquote);
+            } else if (item.slice(0, 11) === "@@QUOTEATTR") {
+                let blockquoteAttrContent = " - " + item.slice(11);
+                let blockquoteAttr = newEl("P");
+                blockquoteAttr.classList.add("blockquoteAttr");
+                let blockquoteAttrText = ctn(blockquoteAttrContent);
+                blockquoteAttr.appendChild(blockquoteAttrText);
+                body.appendChild(blockquoteAttr);
             } else if (item.slice(0, 6) === "@@ILLO") {
                 illustrationCounter += 1;
                 let illoMetadataObject = {};
