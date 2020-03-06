@@ -8,6 +8,9 @@ Wonderland
 
 TODO 2020-03-06NJB Something similar to RAW, but for tables (could use a CSV
 format)
+
+TODO 2020-0306NJB Finish up the table of contents, with the notices and
+credits at the end, and close button on the mobile div.
 */ 
 
 function runGam() {
@@ -61,7 +64,8 @@ function runGam() {
         audio: "",
         monetizelink: "",
         monetizeicon: "",
-        small: ""
+        small: "",
+        stylesheet: []
     }
 
     let illustrationArray = [];
@@ -86,13 +90,16 @@ function runGam() {
                     "ILLUSTRATOR", "COVERART", "COVERARTDESC",
                     "KYWD", "COPYRIGHT", "LOCATION", "DATE",
                     "LANG", "ICON", "DESC", "KEYWORDS", "AUDIO",
-                    "MONETIZELINK", "MONETIZEICON", "SMALL"
+                    "MONETIZELINK", "MONETIZEICON", "SMALL",
+                    "STYLESHEET"
                 ];
                 keyIndexArray.forEach(function (kiaItem) {
                     if (inputArray[i].slice(0, (kiaItem.length + 2)) ===
                         ("!!" + kiaItem)) {
                         if (kiaItem === "SMALL") {
                             textMetadata.small = "small";
+                        } else if (kiaItem === "STYLESHEET") {
+                            textMetadata.stylesheet.push(inputArray[i].slice(0,12));
                         } else {
                             textMetadata[kiaItem.toLowerCase()] = inputArray[i].slice(kiaItem.length + 3);
                         }
@@ -196,11 +203,21 @@ function runGam() {
         themeColorMetaTag.content = "#fff5ee"; // seashell color
         head.appendChild(themeColorMetaTag);
         // Add stylesheet
-        let stylesheet = newEl("LINK");
-        stylesheet.rel = "stylesheet";
-        stylesheet.type = "text/css";
-        stylesheet.href = "http://www.ndhfilms.com/assets/style/e-readerstyle.css";
-        head.appendChild(stylesheet);
+        function buildStylesheetTag(link) {
+            let stylesheet = newEl("LINK");
+            stylesheet.rel = "stylesheet";
+            stylesheet.type = "text/css";
+            stylesheet.href = link;
+            head.appendChild(stylesheet);
+        }
+        buildStylesheetTag("http://www.ndhfilms.com/assets/style/e-readerstyle.css");
+        // CHECK FOR OTHER STYLESHEETS
+        if (textMetadata.stylesheet.length > 0) {
+            function loopThroughStylesheetArray(item) {
+                buildStylesheetTag(item);
+            }
+            textMetadata.stylesheet.forEach(loopThroughStylesheetArray);
+        }
         let favicon = newEl("LINK");
         favicon.rel = "icon";
         favicon.type = "image/gif";
