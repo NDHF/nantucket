@@ -1,6 +1,22 @@
 function runGam() {
 
-    let input = document.getElementById("textarea").value;
+    // QUALITY-OF-LIFE FUNCTIONS START
+
+    function getById(id) {
+        return document.getElementById(id);
+    }
+
+    function newEl(elementName) {
+        return document.createElement(elementName);
+    }
+
+    function ctn(text) {
+        return document.createTextNode(text);
+    }
+
+    // QUALITY-OF-LIFE FUNCTIONS END
+
+    let input = getById("textarea").value;
     let inputToString = JSON.stringify(input);
 
     if (inputToString.charAt(0) === "\"") {
@@ -30,12 +46,16 @@ function runGam() {
         icon: "",
         desc: "",
         keywords: "",
-        audio: ""
+        audio: "",
+        monetizelink: "",
+        monetizeicon: "",
+        small: ""
     }
 
     let illustrationArray = [];
     let chapterArray = [];
     let audioSourceArray = [];
+    let monetizationObject = "";
 
     function removeThingsAndGatherMetadata() {
         let i = 0;
@@ -53,13 +73,17 @@ function runGam() {
                     "TITLE", "SUBTITLE", "CREDIT", "AUTHOR",
                     "ILLUSTRATOR", "COVERART", "COVERARTDESC",
                     "KYWD", "COPYRIGHT", "LOCATION", "DATE",
-                    "LANG", "ICON", "DESC", "KEYWORDS", "AUDIO"
+                    "LANG", "ICON", "DESC", "KEYWORDS", "AUDIO",
+                    "MONETIZELINK", "MONETIZEICON", "SMALL"
                 ];
                 keyIndexArray.forEach(function (kiaItem) {
                     if (inputArray[i].slice(0, (kiaItem.length + 2)) ===
                         ("!!" + kiaItem)) {
-
-                        textMetadata[kiaItem.toLowerCase()] = inputArray[i].slice(kiaItem.length + 3);
+                        if (kiaItem === "SMALL") {
+                            textMetadata.small = "small";
+                        } else {
+                            textMetadata[kiaItem.toLowerCase()] = inputArray[i].slice(kiaItem.length + 3);
+                        }
                     }
                 });
                 inputArray.splice(i, 1);
@@ -72,6 +96,25 @@ function runGam() {
         }
     }
     removeThingsAndGatherMetadata();
+
+    // CHECK FOR MONETIZATION 
+
+    if (((textMetadata.monetizelink !== "") &&
+            (textMetadata.monetizeicon === "")) ||
+        ((textMetadata.monetizelink === "") &&
+            (textMetadata.monetizeicon !== ""))) {
+        alert("Missing information for monetization.");
+    } else if ((textMetadata.monetizelink !== "") &&
+        (textMetadata.monetizeicon !== "")) {
+        monetizationObject = {
+            divID: "monetization",
+            onClickYN: false,
+            imgOrObject: "img",
+            link: textMetadata.monetizelink,
+            altText: "Support this author",
+            sourceText: textMetadata.monetizeicon
+        }
+    }
 
     function replaceThings(item, index) {
         // Replace asterisks with hr tag
@@ -88,7 +131,7 @@ function runGam() {
     inputArray.forEach(replaceThings);
 
     let doctypeHTML = "<!DOCTYPE html>";
-    let html = document.createElement("HTML");
+    let html = newEl("HTML");
     let startHTMLTag = "<html lang='[lang]'>";
     if (textMetadata.lang !== "") {
         startHTMLTag = startHTMLTag.replace("[lang]", textMetadata.lang.toLowerCase());
@@ -96,57 +139,57 @@ function runGam() {
         startHTMLTag = startHTMLTag.replace("[lang]", "en");
     }
     let endHTMLTag = "</html>";
-    let body = document.createElement("BODY");
+    let body = newEl("BODY");
 
     function createHead() {
-        let head = document.createElement("HEAD");
-        let metaCharsetTag = document.createElement("META");
+        let head = newEl("HEAD");
+        let metaCharsetTag = newEl("META");
         metaCharsetTag.httpEquiv = "content-type";
         metaCharsetTag.content = "text/html; charset=utf-8";
         head.appendChild(metaCharsetTag);
-        let headTitle = document.createElement("title");
+        let headTitle = newEl("title");
         let headTitleText = textMetadata.title + " " +
             textMetadata.credit + " " + textMetadata.author;
         headTitle.text = headTitleText;
         head.appendChild(headTitle);
         // Add viewport meta tag
-        // let viewportTag = document.createElement("META");
+        // let viewportTag = newEl("META");
         // viewportTag.name = "viewport";
         // viewportTag.content = "width=device-width, initial-scale=1.0";
         // head.appendChild(viewportTag);
         // Add author meta tag
         if (textMetadata.author !== "") {
-            let authorMetaTag = document.createElement("META");
+            let authorMetaTag = newEl("META");
             authorMetaTag.name = "author";
             authorMetaTag.content = textMetadata.author;
             head.appendChild(authorMetaTag);
         }
         // Add description meta tag
         if (textMetadata.desc !== "") {
-            let descriptionMetaTag = document.createElement("META");
+            let descriptionMetaTag = newEl("META");
             descriptionMetaTag.name = "description";
             descriptionMetaTag.content = textMetadata.desc;
             head.appendChild(descriptionMetaTag);
         }
         // Add keywords meta tag
         if (textMetadata.keywords !== "") {
-            let keywordsMetaTag = document.createElement("META");
+            let keywordsMetaTag = newEl("META");
             keywordsMetaTag.name = "keywords";
             keywordsMetaTag.content = textMetadata.keywords;
             head.appendChild(keywordsMetaTag);
         }
         // Add theme-color meta tag
-        let themeColorMetaTag = document.createElement("META");
+        let themeColorMetaTag = newEl("META");
         themeColorMetaTag.name = "theme-color";
         themeColorMetaTag.content = "#fff5ee"; // seashell color
         head.appendChild(themeColorMetaTag);
         // Add stylesheet
-        let stylesheet = document.createElement("LINK");
+        let stylesheet = newEl("LINK");
         stylesheet.rel = "stylesheet";
         stylesheet.type = "text/css";
         stylesheet.href = "http://www.ndhfilms.com/assets/style/e-readerstyle.css";
         head.appendChild(stylesheet);
-        let favicon = document.createElement("LINK");
+        let favicon = newEl("LINK");
         favicon.rel = "icon";
         favicon.type = "image/gif";
         // If no alternate source for icon is specified,
@@ -158,12 +201,12 @@ function runGam() {
         favicon.href = iconSource;
         head.appendChild(favicon);
         // CREATE TOUCH ICONS
-        let smallTouchIcon = document.createElement("LINK");
+        let smallTouchIcon = newEl("LINK");
         smallTouchIcon.rel = "apple-touch-icon";
         smallTouchIcon.sizes = "57x57";
         smallTouchIcon.href = iconSource;
         head.appendChild(smallTouchIcon);
-        let largeTouchIcon = document.createElement("LINK");
+        let largeTouchIcon = newEl("LINK");
         largeTouchIcon.rel = "apple-touch-icon";
         largeTouchIcon.sizes = "180x180";
         largeTouchIcon.href = iconSource;
@@ -173,29 +216,29 @@ function runGam() {
     createHead();
 
     function addHeader() {
-        let header = document.createElement("HEADER");
+        let header = newEl("HEADER");
         header.id = "header";
-        let hgroup = document.createElement("HGROUP");
-        let title = document.createElement("H1");
+        let hgroup = newEl("HGROUP");
+        let title = newEl("H1");
         title.id = "title";
-        let titleText = document.createTextNode(textMetadata.title);
+        let titleText = ctn(textMetadata.title);
         title.appendChild(titleText);
         hgroup.appendChild(title);
-        let creditAndAuthor = document.createElement("H2");
-        let creditAndAuthorText = document.createTextNode(textMetadata.credit +
+        let creditAndAuthor = newEl("H2");
+        let creditAndAuthorText = ctn(textMetadata.credit +
             " " + textMetadata.author);
         creditAndAuthor.appendChild(creditAndAuthorText);
         hgroup.appendChild(creditAndAuthor);
         if (textMetadata.illustrator !== "") {
-            let illustrator = document.createElement("H3");
-            let illustratorText = document.createTextNode("Illustrated by " +
+            let illustrator = newEl("H3");
+            let illustratorText = ctn("Illustrated by " +
                 textMetadata.illustrator);
             illustrator.appendChild(illustratorText);
             hgroup.appendChild(illustrator);
         }
         if (textMetadata.coverart !== "") {
-            let coverArt = document.createElement("H3");
-            let coverArtText = document.createTextNode("Cover Art by " +
+            let coverArt = newEl("H3");
+            let coverArtText = ctn("Cover Art by " +
                 textMetadata.coverart);
             coverArt.appendChild(coverArtText);
             hgroup.appendChild(coverArt);
@@ -206,20 +249,19 @@ function runGam() {
     addHeader();
 
     function addKeyword() {
-        let keyword = document.createElement("SPAN");
+        let keyword = newEl("SPAN");
         keyword.id = "keyword";
-        let keywordText = document.createTextNode(textMetadata.kywd);
+        let keywordText = ctn(textMetadata.kywd);
         keyword.appendChild(keywordText);
         body.appendChild(keyword);
     }
     addKeyword();
 
     function addButtons() {
-        let buttonContainerDiv = document.createElement("DIV");
+        let buttonContainerDiv = newEl("DIV");
         buttonContainerDiv.classList.add("menuClosed");
         buttonContainerDiv.id = "buttonContainer";
-        let buttonArray = [
-            {
+        let buttonArray = [{
                 divID: "menuIcon",
                 onClickYN: true,
                 imgOrObject: "img",
@@ -255,13 +297,6 @@ function runGam() {
                 sourceText: "cassette"
             },
             {
-                divID: "monetization",
-                onClickYN: false,
-                imgOrObject: "img",
-                altText: "Support this author",
-                sourceText: "monetization"
-            },
-            {
                 divID: "star",
                 onClickYN: false,
                 imgOrObject: "object",
@@ -269,12 +304,16 @@ function runGam() {
                 sourceText: "star"
             }
         ];
+        if (monetizationObject !== "") {
+            buttonArray.push(monetizationObject)
+        }
+
         function loopButtonArray(item) {
-            let menuDiv = document.createElement("DIV");
+            let menuDiv = newEl("DIV");
             menuDiv.id = item.divID + "Div";
             menuDiv.classList.add("buttons");
             menuDiv.onclick = item.onClickYN;
-            let internalImage = document.createElement(item.imgOrObject.toUpperCase());
+            let internalImage = newEl(item.imgOrObject.toUpperCase());
             let sourcePrefix = "http://www.ndhfilms.com/assets/images/";
             let sourceString = sourcePrefix + item.sourceText + ".svg";
             if (item.imgOrObject === "img") {
@@ -285,20 +324,19 @@ function runGam() {
                 internalImage.id = item.divID + "Object";
                 internalImage.type = "images/svg+xml";
                 internalImage.data = sourceString;
-                let noSVG = document.createTextNode(
+                let noSVG = ctn(
                     "Your browser does not support SVG"
                 );
                 internalImage.appendChild(noSVG);
-                // console.log(internalImage);
             }
             if (item.divID === "monetization") {
-                let monetizationLink = document.createElement("A");
-                monetizationLink.href = "httts://www.patreon.com/NDHFilms";
+                let monetizationLink = newEl("A");
+                monetizationLink.href = item.link;
+                internalImage.src = monetizationObject.sourceText;
                 monetizationLink.appendChild(internalImage);
                 menuDiv.appendChild(monetizationLink);
             } else {
                 menuDiv.appendChild(internalImage);
-                console.log(menuDiv);
             }
             buttonContainerDiv.appendChild(menuDiv);
         }
@@ -308,7 +346,7 @@ function runGam() {
     addButtons();
 
     function addAudioDiv() {
-        let audioDiv = document.createElement("DIV");
+        let audioDiv = newEl("DIV");
         audioDiv.id = "audioDiv";
         audioDiv.classList.add("standby");
 
@@ -325,72 +363,70 @@ function runGam() {
             }
         }
         arrayOfAudioDivData.forEach(loopThroughAudioDivArray);
-        let audioCloseButton = document.createElement("IMG");
+        let audioCloseButton = newEl("IMG");
         audioCloseButton.id = "audioCloseButton";
         audioCloseButton.classList.add("closeButton");
         audioCloseButton.src = "http://www.ndhfilms.com/assets/images/closeButton.svg";
         audioDiv.appendChild(audioCloseButton);
-        let audioBackground = document.createElement("DIV");
+        let audioBackground = newEl("DIV");
         audioBackground.id = "audioBackground";
         if (audioDivObject.background !== undefined) {
             audioBackground.style.backgroundImage = "url('" +
                 audioDivObject.background + "')";
         }
         audioDiv.appendChild(audioBackground);
-        let container = document.createElement("DIV");
+        let container = newEl("DIV");
         container.id = "audioContainer";
         container.classList.add("container");
-        let audioIllustrationDiv = document.createElement("DIV");
+        let audioIllustrationDiv = newEl("DIV");
         audioIllustrationDiv.id = "audioIllustrationDiv";
         audioIllustrationDiv.classList.add("flexbox1");
-        let audioIllustration = document.createElement("IMG");
+        let audioIllustration = newEl("IMG");
         audioIllustration.id = "audioDivIllustration";
         audioIllustration.src = "https://louisamayalcottismypassion.files.wordpress.com/2014/05/littlewomen00alcoiala_0025.jpg";
         audioIllustrationDiv.appendChild(audioIllustration);
-        let audioInfoHgroup = document.createElement("HGROUP");
+        let audioInfoHgroup = newEl("HGROUP");
         audioInfoHgroup.classList.add("audioInfoHgroup");
-        let hTitle = document.createElement("H1");
-        let hTitleText = document.createTextNode(textMetadata.title);
+        let hTitle = newEl("H1");
+        let hTitleText = ctn(textMetadata.title);
         hTitle.appendChild(hTitleText);
         audioInfoHgroup.appendChild(hTitle);
-        let hAuthor = document.createElement("H2");
-        let hAuthorText = document.createTextNode(textMetadata.credit +
+        let hAuthor = newEl("H2");
+        let hAuthorText = ctn(textMetadata.credit +
             " " + textMetadata.author);
         hAuthor.appendChild(hAuthorText);
         audioInfoHgroup.appendChild(hAuthor);
-        let hAudioCopyright = document.createElement("H2");
-        hAudioCopyrightText = "Audio Recording &COPY; " + audioDivObject.copyright;
+        let hAudioCopyright = newEl("H2");
+        hAudioCopyrightText = "Audio Recording &COPY; " +
+            audioDivObject.copyright;
         hAudioCopyright.innerHTML = hAudioCopyrightText;
         audioInfoHgroup.appendChild(hAudioCopyright);
-        let hAudioCredits = document.createElement("H3");
-        let hAudioCreditsLink = document.createElement("A");
+        let hAudioCredits = newEl("H3");
+        let hAudioCreditsLink = newEl("A");
         hAudioCreditsLink.id = "audioCreditsLink";
         hAudioCreditsLink.href = "#creditsSection";
         hAudioCreditsLink.onclick = true;
-        hAudioCreditsText = document.createTextNode("CREDITS");
+        hAudioCreditsText = ctn("CREDITS");
         hAudioCreditsLink.appendChild(hAudioCreditsText);
         hAudioCredits.appendChild(hAudioCreditsLink);
         audioInfoHgroup.appendChild(hAudioCredits);
         audioIllustrationDiv.appendChild(audioInfoHgroup);
         container.appendChild(audioIllustrationDiv);
-        let audioCassetteDiv = document.createElement("DIV");
+        let audioCassetteDiv = newEl("DIV");
         audioCassetteDiv.id = "audioCassetteDiv";
         audioCassetteDiv.classList.add("flexbox2");
-        let cassetteAnimatedDiv = document.createElement("DIV");
+        let cassetteAnimatedDiv = newEl("DIV");
         cassetteAnimatedDiv.id = "cassetteAnimatedDiv";
-        let cassetteAnimatedObject = document.createElement("OBJECT");
+        let cassetteAnimatedObject = newEl("OBJECT");
         cassetteAnimatedObject.id = "cassetteAnimatedObject";
         cassetteAnimatedObject.type = "image/svg+xml";
-        cassetteAnimatedObject.data = "http://www.ndhfilms.com/assets/images/cassetteAnimated.svg";
+        cassetteAnimatedObject.data = "http://www.ndhfilms.com/assets/" +
+            "images/cassetteAnimated.svg";
         cassetteAnimatedDiv.appendChild(cassetteAnimatedObject);
         audioCassetteDiv.appendChild(cassetteAnimatedDiv);
-        let audioElement = document.createElement("AUDIO");
+        let audioElement = newEl("AUDIO");
         audioElement.id = "audioElement";
         audioElement.controls = true;
-        // let audioElementSource = document.createElement("SOURCE");
-        // audioElementSource.src = "";
-        // audioElementSource.type = "audio/mpeg";
-        // audioElement.appendChild(audioElementSource);
         audioCassetteDiv.appendChild(audioElement);
         container.appendChild(audioCassetteDiv);
         audioDiv.appendChild(container);
@@ -403,13 +439,13 @@ function runGam() {
 
         function appendInputArrayToBody(item, index) {
             if (item === "[break]") {
-                let hr = document.createElement("HR");
+                let hr = newEl("HR");
                 hr.classList.add("style-two");
                 body.appendChild(hr);
             } else if (item.slice(0, 10) === "@@COVERIMG") {
-                let coverImageLink = document.createElement("A");
+                let coverImageLink = newEl("A");
                 coverImageLink.href = item.slice(11);
-                let coverImage = document.createElement("IMG");
+                let coverImage = newEl("IMG");
                 coverImage.id = "coverImg";
                 if (textMetadata.coverartdesc !== "") {
                     coverImage.title = textMetadata.coverartdesc;
@@ -440,20 +476,25 @@ function runGam() {
 
                     function addIlloMetadataToObject(item, index) {
                         if (item === ":small") {
-                            illoMetadataObject.small = illoMetadataArray[index + 1];
+                            illoMetadataObject.small = illoMetadataArray[index +
+                                1];
                         } else if (item === ":large") {
-                            illoMetadataObject.large = illoMetadataArray[index + 1];
+                            illoMetadataObject.large = illoMetadataArray[index +
+                                1];
                         } else if (item === ":buy") {
-                            illoMetadataObject.buy = illoMetadataArray[index + 1];
+                            illoMetadataObject.buy = illoMetadataArray[index +
+                                1];
                         } else if (item === ":caption") {
-                            let illoCaption = illoMetadataArray.slice((index + 1));
+                            let illoCaption = illoMetadataArray.slice((index +
+                                1));
                             illoCaption = illoCaption.join(" ");
                             illoCaption = illoCaption.replace(/\\"/g, "");
                             illoMetadataObject.caption = illoCaption;
                         } else if (item === ":orientation") {
                             illoMetadataObject.orientation = illoMetadataArray[index + 1];
                         } else if (item === ":desc") {
-                            illoMetadataObject.desc = illoMetadataArray[index + 1];
+                            illoMetadataObject.desc = illoMetadataArray[index +
+                                1];
                         } else if (item === ":illustrator") {
                             illoMetadataObject.illustrator = illoMetadataArray[index + 1];
                         }
@@ -469,7 +510,7 @@ function runGam() {
                     } else {
                         illustrationNumber = illustrationCounter;
                     }
-                    let imgThumbnail = document.createElement("IMG");
+                    let imgThumbnail = newEl("IMG");
                     imgThumbnail.id = "illustration" + illustrationNumber;
 
                     illustrationArray.push({
@@ -504,32 +545,34 @@ function runGam() {
                 createIllustrationThumbnail();
 
                 function createEnlargeIcon() {
-                    let enlargeIcon = document.createElement("IMG");
+                    let enlargeIcon = newEl("IMG");
                     enlargeIcon.classList.add("enlargeIcon");
                     enlargeIcon.alt = "Click or tap to enlarge illustration";
-                    enlargeIcon.src = "http://www.ndhfilms.com/assets/images/enlargeicon_black.svg";
+                    enlargeIcon.src = "http://www.ndhfilms.com/assets/images/" +
+                    "enlargeicon_black.svg";
                     body.appendChild(enlargeIcon);
                 }
                 createEnlargeIcon();
 
                 function createIllustrationDiv() {
-                    let illustrationDiv = document.createElement("DIV");
+                    let illustrationDiv = newEl("DIV");
                     illustrationDiv.classList.add("illustrationDiv");
                     illustrationDiv.classList.add("standby");
 
-                    let closeButton = document.createElement("IMG");
+                    let closeButton = newEl("IMG");
                     closeButton.alt = "Click or tap to close";
                     closeButton.classList.add("closeButton");
-                    closeButton.src = "http://www.ndhfilms.com/assets/images/closeButton.svg";
+                    closeButton.src = "http://www.ndhfilms.com/assets/images/" +
+                    "closeButton.svg";
                     illustrationDiv.appendChild(closeButton);
 
-                    let container = document.createElement("DIV");
+                    let container = newEl("DIV");
                     container.classList.add("container");
 
-                    let flexbox1 = document.createElement("DIV");
+                    let flexbox1 = newEl("DIV");
                     flexbox1.classList.add("flexbox1");
 
-                    let fullImage = document.createElement("IMG");
+                    let fullImage = newEl("IMG");
                     fullImage.classList.add("illustration");
                     fullImage.classList.add(illoMetadataObject.orientation +
                         "Illustration");
@@ -541,17 +584,17 @@ function runGam() {
                     flexbox1.appendChild(fullImage);
                     container.appendChild(flexbox1);
 
-                    let flexbox2 = document.createElement("DIV");
+                    let flexbox2 = newEl("DIV");
                     flexbox2.classList.add("illustrationCaptionDiv");
                     flexbox2.classList.add("flexbox2");
-                    let flexbox2Hgroup = document.createElement("HGROUP");
+                    let flexbox2Hgroup = newEl("HGROUP");
                     flexbox2Hgroup.classList.add("illustrationCaption");
-                    let caption = document.createElement("H2");
-                    captionText = document.createTextNode(illoMetadataObject.caption);
+                    let caption = newEl("H2");
+                    captionText = ctn(illoMetadataObject.caption);
                     caption.appendChild(captionText);
                     flexbox2Hgroup.appendChild(caption);
-                    let illustratorInfo = document.createElement("H3");
-                    illustratorInfoText = document.createTextNode("Illustration by " +
+                    let illustratorInfo = newEl("H3");
+                    illustratorInfoText = ctn("Illustration by " +
                         textMetadata.illustrator);
                     illustratorInfo.appendChild(illustratorInfoText);
                     flexbox2Hgroup.appendChild(illustratorInfo);
@@ -569,7 +612,8 @@ function runGam() {
                     if (item === ":source") {
                         audioSourceObject.source = audioSourceInfo[index + 1];
                     } else if (item === ":title") {
-                        let sourceTitle = audioSourceInfo.slice(index + 1).join(" ");
+                        let sourceTitle = audioSourceInfo.slice(index +
+                            1).join(" ");
                         audioSourceObject.title = sourceTitle;
                     }
                 }
@@ -582,12 +626,12 @@ function runGam() {
                     // sh is the chapter subheading
                     let sh = "";
                     if (headingType === "heading") {
-                        chapterHeading = document.createElement("H1");
+                        chapterHeading = newEl("H1");
                         chapterHeadingText = item.slice(1);
                         let chapterHeadingID = chapterHeadingText.replace(" ", "_");
                         chapterHeading.id = chapterHeadingID;
                         let chapterObject = {
-                            link: chapterHeadingID
+                            link: "#" + chapterHeadingID
                         }
                         if (inputArray[index + 1].slice(0, 2) === "##") {
                             sh = inputArray[index + 1].slice(2);
@@ -595,11 +639,11 @@ function runGam() {
                         chapterObject.text = chapterHeadingText + ": " + sh;
                         chapterArray.push(chapterObject);
                     } else if (headingType === "subheading") {
-                        chapterHeading = document.createElement("H2");
+                        chapterHeading = newEl("H2");
                         chapterHeadingText = item.slice(2);
                     }
                     chapterHeading.classList = "chapterHeading";
-                    let chapterHeadingNode = document.createTextNode(chapterHeadingText);
+                    let chapterHeadingNode = ctn(chapterHeadingText);
                     chapterHeading.appendChild(chapterHeadingNode);
                     body.appendChild(chapterHeading);
                 }
@@ -610,7 +654,7 @@ function runGam() {
                     createChapterHeading("subheading");
                 }
             } else {
-                let paragraph = document.createElement("P");
+                let paragraph = newEl("P");
                 paragraph.innerHTML = item.replace(/\\"/g, "\"");
                 body.appendChild(paragraph);
             }
@@ -622,62 +666,63 @@ function runGam() {
     function createTableOfContents() {
         // PREPARE TABLES OF CONTENTS
         // TOC SELECT FOR DESKTOP
-        let desktopTOCSelect = document.createElement("SELECT");
+        let desktopTOCSelect = newEl("SELECT");
         desktopTOCSelect.id = "tocSelect";
         desktopTOCSelect.classList.add("selectClosed");
-        let placeholder = document.createElement("OPTION");
+        let placeholder = newEl("OPTION");
         placeholder.id = "firstOption";
         placeholder.value = "placeholder";
         // TOC DIV FOR MOBILE
-        let mobileTOCDiv = document.createElement("DIV");
+        let mobileTOCDiv = newEl("DIV");
         mobileTOCDiv.id = "tableOfContents";
         mobileTOCDiv.classList.add("tocStandby");
         mobileTOCDiv.onclick = true;
-        let mobileTOCHeader = document.createElement("H1");
+        let mobileTOCHeader = newEl("H1");
         mobileTOCHeader.classList.add("tocHeader");
-        let mobileTOCHeaderText = document.createTextNode("TABLE OF CONTENTS");
+        let mobileTOCHeaderText = ctn("TABLE OF CONTENTS");
         mobileTOCHeader.appendChild(mobileTOCHeaderText);
         mobileTOCDiv.appendChild(mobileTOCHeader);
-        let mobileTOCNestedDiv = document.createElement("DIV");
+        let mobileTOCNestedDiv = newEl("DIV");
         mobileTOCNestedDiv.id = "tocMobileDiv";
-        let mobileTOCList = document.createElement("UL");
+        let mobileTOCList = newEl("UL");
         mobileTOCList.id = "tocList";
         mobileTOCNestedDiv.appendChild(mobileTOCList);
         mobileTOCDiv.appendChild(mobileTOCNestedDiv);
         // TOC SECTION FOR ACCESSIBILITY
-        let desktopTOCSection = document.createElement("SECTION");
+        let desktopTOCSection = newEl("SECTION");
         desktopTOCSection.id = "tableOfContentsSection";
-        let tocSecList = document.createElement("UL");
+        let tocSecList = newEl("UL");
 
         function prepareATOCList(array, mode) {
             // ILLUSTRATION LIST GENERATOR
             if (array.length > 0) {
                 // PREPARE ILLUSTRATION LISTS
                 // TOC SELECT FOR DESKTOP
-                let illustrPlaceholder = document.createElement("OPTION");
+                let illustrPlaceholder = newEl("OPTION");
                 illustrPlaceholder.value = "placeholder";
                 let sectionText = "ILLUSTRATIONS";
                 if (mode === "chapters") {
                     sectionText = "SECTIONS"
                 }
-                let illustrPlaceholderText = document.createTextNode(
+                let illustrPlaceholderText = ctn(
                     "-- " + sectionText + " --"
                 );
                 illustrPlaceholder.appendChild(illustrPlaceholderText);
                 desktopTOCSelect.appendChild(illustrPlaceholder);
                 // TOC DIV FOR MOBILE
-                let mobileIllustrHeading = document.createElement("LI");
+                let mobileIllustrHeading = newEl("LI");
                 mobileIllustrHeading.classList.add("listHeading");
-                let mobileIllustrH3 = document.createElement("H3");
-                let mobileIllustrH3Text = document.createTextNode(sectionText);
+                let mobileIllustrH3 = newEl("H3");
+                let mobileIllustrH3Text = ctn(sectionText);
                 mobileIllustrH3.appendChild(mobileIllustrH3Text);
                 mobileIllustrHeading.appendChild(mobileIllustrH3);
                 mobileTOCList.appendChild(mobileIllustrHeading);
                 // TOC SECTION FOR ACCESSIBILITY 
-                let tocSectionIllustrPlaceholder = document.createElement("LI");
+                let tocSectionIllustrPlaceholder = newEl("LI");
                 tocSectionIllustrPlaceholder.classList.add("listHeading");
-                let tocSectionIllustrPlaceholderH3 = document.createElement("H3");
-                let tocSectionIllustrPlaceholderH3Text = document.createTextNode(
+                let tocSectionIllustrPlaceholderH3 = newEl("H3");
+                let tocSectionIllustrPlaceholderH3Text = ctn(
+
                     sectionText
                 );
                 tocSectionIllustrPlaceholderH3.appendChild(tocSectionIllustrPlaceholderH3Text);
@@ -688,22 +733,22 @@ function runGam() {
 
                 function loopThroughIllustrationArray(item, index) {
                     // TOC SELECT FOR DESKTOP
-                    let tocSelectIllustrOption = document.createElement("OPTION");
+                    let tocSelectIllustrOption = newEl("OPTION");
                     tocSelectIllustrOption.value = item.link;
-                    let tocSelectIllustrOptionText = document.createTextNode(
+                    let tocSelectIllustrOptionText = ctn(
                         item.text
                     );
                     tocSelectIllustrOption.appendChild(tocSelectIllustrOptionText);
                     desktopTOCSelect.appendChild(tocSelectIllustrOption);
                     // TOC DIV FOR MOBILE
-                    let mobileTOCDivIllustrLI = document.createElement("LI");
+                    let mobileTOCDivIllustrLI = newEl("LI");
                     if ((mode === "illustrations") && (item.text !== "Cover")) {
                         mobileTOCDivIllustrLI.classList.add("listItalic");
                     }
-                    let mobileTOCDivIllustrLink = document.createElement("A");
+                    let mobileTOCDivIllustrLink = newEl("A");
                     mobileTOCDivIllustrLink.classList.add("tocLink");
                     mobileTOCDivIllustrLink.href = item.link;
-                    mobileTOCDivIllustrLinkText = document.createTextNode(
+                    mobileTOCDivIllustrLinkText = ctn(
                         item.text
                     );
                     mobileTOCDivIllustrLink.appendChild(
@@ -712,13 +757,13 @@ function runGam() {
                     mobileTOCDivIllustrLI.appendChild(mobileTOCDivIllustrLink);
                     mobileTOCList.appendChild(mobileTOCDivIllustrLI);
                     // TOC SECTION FOR ACCESSIBILITY
-                    let tocSectionIllustrLI = document.createElement("LI");
+                    let tocSectionIllustrLI = newEl("LI");
                     if ((mode === "illustrations") && (item.text !== "Cover")) {
                         tocSectionIllustrLI.classList.add("listItalic");
                     }
-                    tocSectionIllustrLink = document.createElement("A");
+                    tocSectionIllustrLink = newEl("A");
                     tocSectionIllustrLink.href = item.link;
-                    tocSectionIllustrLinkText = document.createTextNode(
+                    tocSectionIllustrLinkText = ctn(
                         item.text
                     );
                     tocSectionIllustrLink.appendChild(tocSectionIllustrLinkText);
@@ -735,7 +780,9 @@ function runGam() {
         desktopTOCSection.appendChild(tocSecList);
         body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSelect, body.getElementsByTagName("HEADER")[0].nextSibling);
         body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(mobileTOCDiv, body.getElementsByTagName("HEADER")[0].nextSibling);
-        body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSection, body.getElementsByTagName("HEADER")[0].nextSibling);
+        if (textMetadata.small !== "small") {
+            body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSection, body.getElementsByTagName("HEADER")[0].nextSibling);
+        }
     }
     createTableOfContents();
 
@@ -744,13 +791,13 @@ function runGam() {
             body.querySelector("#cassetteDiv").remove();
             body.querySelector("#audioDiv").remove();
         } else {
-            let audioSourceSelect = document.createElement("SELECT");
+            let audioSourceSelect = newEl("SELECT");
             audioSourceSelect.id = "audioSourceSelect";
 
             function loopThroughAudioSourceArray(item, index) {
-                let audioSourceOption = document.createElement("OPTION");
+                let audioSourceOption = newEl("OPTION");
                 audioSourceOption.value = item.source;
-                let audioSourceOptionText = document.createTextNode(item.title);
+                let audioSourceOptionText = ctn(item.title);
                 audioSourceOption.appendChild(audioSourceOptionText);
                 audioSourceSelect.appendChild(audioSourceOption);
             }
@@ -764,13 +811,13 @@ function runGam() {
     createAudioSourceMenu();
 
     function addCompletionLocationAndDate() {
-        let ul = document.createElement("UL");
+        let ul = newEl("UL");
         ul.classList.add("mainTextUL");
         ul.id = "endingDate";
-        let location = document.createElement("LI");
-        let locationText = document.createTextNode(textMetadata.location);
+        let location = newEl("LI");
+        let locationText = ctn(textMetadata.location);
         location.appendChild(locationText);
-        let date = document.createElement("LI");
+        let date = newEl("LI");
         let dateText = textMetadata.date;
         let dateTextArray = dateText.split("-");
         let goodOlMonthArray = [
@@ -793,7 +840,7 @@ function runGam() {
         } else {
             day = day.concat("<sup>th</sup>");
         }
-        let completionTime = document.createElement("TIME");
+        let completionTime = newEl("TIME");
         completionTime.datetime = dateText;
 
         date.innerHTML = month + " " + day + ", " + year;
@@ -804,7 +851,7 @@ function runGam() {
     addCompletionLocationAndDate();
 
     function addCopyright() {
-        let copyright = document.createElement("P");
+        let copyright = newEl("P");
         copyright.id = "copyrightNotice";
         copyright.classList.add("center");
         let copyrightArray = textMetadata.copyright.split(" ");
@@ -827,32 +874,32 @@ function runGam() {
     addCopyright();
 
     function addCredits() {
-        let creditsSection = document.createElement("SECTION");
+        let creditsSection = newEl("SECTION");
         creditsSection.classList.add("endingSection");
         creditsSection.id = "creditsSection";
-        let creditsSectionHeader = document.createElement("H3");
+        let creditsSectionHeader = newEl("H3");
         creditsSectionHeader.classList.add("sectionHeader");
-        creditsSectionHeaderText = document.createTextNode("CREDITS");
+        creditsSectionHeaderText = ctn("CREDITS");
         creditsSectionHeader.appendChild(creditsSectionHeaderText);
         creditsSection.appendChild(creditsSectionHeader);
-        let creditsUL = document.createElement("UL");
+        let creditsUL = newEl("UL");
         creditsUL.classList.add("mainTextUL");
         creditsUL.id = "creditsList";
-        let authorCredit = document.createElement("LI");
-        let authorCreditText = document.createTextNode("Written by " +
+        let authorCredit = newEl("LI");
+        let authorCreditText = ctn("Written by " +
             textMetadata.author);
         authorCredit.appendChild(authorCreditText);
         creditsUL.appendChild(authorCredit);
         if (textMetadata.coverart !== "") {
-            let coverArtCredit = document.createElement("LI");
-            let coverArtCreditText = document.createTextNode("Cover Art by " +
+            let coverArtCredit = newEl("LI");
+            let coverArtCreditText = ctn("Cover Art by " +
                 textMetadata.coverart);
             coverArtCredit.appendChild(coverArtCreditText);
             creditsUL.appendChild(coverArtCredit);
         }
         if (textMetadata.illustrator !== "") {
-            let illustratorCredit = document.createElement("LI");
-            let illustratorCreditText = document.createTextNode("Illustrated by " +
+            let illustratorCredit = newEl("LI");
+            let illustratorCreditText = ctn("Illustrated by " +
                 textMetadata.illustrator);
             illustratorCredit.appendChild(illustratorCreditText);
             creditsUL.appendChild(illustratorCredit);
@@ -863,9 +910,9 @@ function runGam() {
     addCredits();
 
     function addEReaderNotice() {
-        let eReaderNotice = document.createElement("P");
+        let eReaderNotice = newEl("P");
         eReaderNotice.id = "eReaderNotice";
-        let eReaderNoticeText = document.createTextNode("This e-Reader was " +
+        let eReaderNoticeText = ctn("This e-Reader was " +
             "developed by Nicholas Bernhard. No part of the source code or " +
             "user interface can be used without explicit permission from the " +
             "developer. For licensing information, send an email to " +
@@ -876,7 +923,7 @@ function runGam() {
     addEReaderNotice();
 
     function addJavascriptLink() {
-        let script = document.createElement("SCRIPT");
+        let script = newEl("SCRIPT");
         script.src = "http://www.ndhfilms.com/assets/javascript/e-readerjs.js";
         body.appendChild(script);
     }
@@ -909,17 +956,16 @@ function runGam() {
         }
         createDateString();
 
-        let link = document.createElement("A");
+        let link = newEl("A");
         let fullFilename = filename + "_" + currentDate + ".html";
         link.download = fullFilename;
         link.href = url;
         link.textContent = fullFilename;
         link.click();
-        document.getElementById("inputOutputContainer").appendChild(link);
-        document.getElementById("inputOutputContainer").innerHTML = "";
+        getById("inputOutputContainer").appendChild(link);
+        getById("inputOutputContainer").innerHTML = "";
     }
 
     createDownloadableFile(localStorage.getItem("lastFileOpened"), doctypeHTML +
         startHTMLTag + html.innerHTML + endHTMLTag);
-
-}
+};
