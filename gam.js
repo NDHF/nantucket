@@ -33,6 +33,7 @@ function runGam() {
         audio: ""
     }
 
+    let illustrationArray = [];
     let chapterArray = [];
     let audioSourceArray = [];
 
@@ -221,11 +222,11 @@ function runGam() {
         buttonContainerDiv.innerHTML = "<div id='menuIconDiv' class='buttons' onclick=''>" +
             "<img id='menuIconImg' alt='Click or tap to open menu' src='http://www.ndhfilms.com/assets/images/menuicon_black.svg' />" +
             "</div> " +
-            // "<div id='tocIconDiv' class='buttons' onclick=''>" +
-            //     "<object id='tocIconObject' type='image/svg+xml' data='../../assets/images/tocicon.svg'>" +
-            //         "Your browser does not support SVG" +
-            //     "</object>" +
-            // "</div>" +
+            "<div id='tocIconDiv' class='buttons' onclick=''>" +
+            "<object id='tocIconObject' type='image/svg+xml' data='../../assets/images/tocicon.svg'>" +
+            "Your browser does not support SVG" +
+            "</object>" +
+            "</div>" +
             "<div id='lightbulbDiv' class='buttons' onclick=''>" +
             "<object ID='lightbulbObject' type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/lightbulb.svg'>" +
             "Your browser does not support SVG" +
@@ -261,8 +262,9 @@ function runGam() {
         audioDiv.classList.add("standby");
 
         let audioDivObject = {}
-        
+
         let arrayOfAudioDivData = textMetadata.audio.split(" ");
+
         function loopThroughAudioDivArray(item, index) {
             if (item === ":background") {
                 audioDivObject.background = arrayOfAudioDivData[index + 1];
@@ -281,7 +283,7 @@ function runGam() {
         audioBackground.id = "audioBackground";
         if (audioDivObject.background !== undefined) {
             audioBackground.style.backgroundImage = "url('" +
-            audioDivObject.background + "')";
+                audioDivObject.background + "')";
         }
         audioDiv.appendChild(audioBackground);
         let container = document.createElement("DIV");
@@ -370,6 +372,10 @@ function runGam() {
                 coverImage.src = item.slice(11);
                 coverImageLink.appendChild(coverImage);
                 body.insertBefore(coverImageLink, body.childNodes[0]);
+                illustrationArray.push({
+                    link: "#coverImg",
+                    text: "Cover"
+                });
             } else if (item.slice(0, 6) === "@@ILLO") {
                 illustrationCounter += 1;
                 let illoMetadataObject = {};
@@ -414,6 +420,11 @@ function runGam() {
                     }
                     let imgThumbnail = document.createElement("IMG");
                     imgThumbnail.id = "illustration" + illustrationNumber;
+
+                    illustrationArray.push({
+                        link: "#" + imgThumbnail.id,
+                        text: illoMetadataObject.caption
+                    });
                     if ((illoMetadataObject.desc !== undefined) &&
                         (illoMetadataObject.desc !== "")) {
                         imgThumbnail.title = illoMetadataObject.desc;
@@ -502,6 +513,7 @@ function runGam() {
             } else if (item.slice(0, 7) === "@@AUDIO") {
                 let audioSourceObject = {};
                 let audioSourceInfo = item.slice(7).split(" ");
+
                 function loopThroughAudioSourceInfo(item, index) {
                     if (item === ":source") {
                         audioSourceObject.source = audioSourceInfo[index + 1];
@@ -522,13 +534,12 @@ function runGam() {
                         let chapterHeadingID = chapterHeadingText.replace(" ", "_");
                         chapterHeading.id = chapterHeadingID;
                         let chapterObject = {
-                            id: chapterHeadingID,
-                            heading: chapterHeadingText,
-                            subheading: ""
+                            link: chapterHeadingID
                         }
                         if (inputArray[index + 1].slice(0, 2) === "##") {
-                            chapterObject.subheading = inputArray[index + 1].slice(2);
+                            chapterHeadingText = chapterHeadingText.concat(" :", inputArray[index + 1].slice(2));
                         }
+                        chapterObject.text = chapterHeadingText;
                         chapterArray.push(chapterObject);
                     } else if (headingType === "subheading") {
                         chapterHeading = document.createElement("H2");
@@ -556,28 +567,136 @@ function runGam() {
     addText();
 
     function createTableOfContents() {
+        console.log(illustrationArray);
+        // PREPARE TABLES OF CONTENTS
+        // TOC SELECT FOR DESKTOP
+        let desktopTOCSelect = document.createElement("SELECT");
+        desktopTOCSelect.id = "tocSelect";
+        desktopTOCSelect.classList.add("selectClosed");
+        let placeholder = document.createElement("OPTION");
+        placeholder.id = "firstOption";
+        placeholder.value = "placeholder";
+        // TOC DIV FOR MOBILE
         let mobileTOCDiv = document.createElement("DIV");
+        mobileTOCDiv.id = "tableOfContents";
+        mobileTOCDiv.classList.add("tocStandby");
+        mobileTOCDiv.onclick = true;
+        let mobileTOCHeader = document.createElement("H1");
+        mobileTOCHeader.classList.add("tocHeader");
+        let mobileTOCHeaderText = document.createTextNode("TABLE OF CONTENTS");
+        mobileTOCHeader.appendChild(mobileTOCHeaderText);
+        mobileTOCDiv.appendChild(mobileTOCHeader);
+        let mobileTOCNestedDiv = document.createElement("DIV");
+        mobileTOCNestedDiv.id = "tocMobileDiv";
+        let mobileTOCList = document.createElement("UL");
+        mobileTOCList.id = "tocList";
+        mobileTOCNestedDiv.appendChild(mobileTOCList);
+        mobileTOCDiv.appendChild(mobileTOCNestedDiv);
+        // TOC SECTION FOR ACCESSIBILITY
         let desktopTOCSection = document.createElement("SECTION");
         let tocSecList = document.createElement("UL");
         tocSecList.id = "tableOfContentsSection";
-        let desktopTOCSelect = document.createElement("SELECT");
+
+        // ILLUSTRATION LIST GENERATOR
+        if (illustrationArray.length > 0) {
+            // PREPARE ILLUSTRATION LISTS
+            // TOC SELECT FOR DESKTOP
+            let illustrPlaceholder = document.createElement("OPTION");
+            illustrPlaceholder.value = "placeholder";
+            let illustrPlaceholderText = document.createTextNode(
+                "-- ILLUSTRATIONS --"
+            );
+            illustrPlaceholder.appendChild(illustrPlaceholderText);
+            desktopTOCSelect.appendChild(illustrPlaceholder);
+            // TOC DIV FOR MOBILE
+            let mobileIllustrHeading = document.createElement("LI");
+            mobileIllustrHeading.classList.add("listHeading");
+            let mobileIllustrH3 = document.createElement("H3");
+            let mobileIllustrH3Text = document.createTextNode("ILLUSTRATIONS");
+            mobileIllustrH3.appendChild(mobileIllustrH3Text);
+            mobileIllustrHeading.appendChild(mobileIllustrH3);
+            mobileTOCList.appendChild(mobileIllustrHeading);
+            // TOC SECTION FOR ACCESSIBILITY 
+            let tocSectionIllustrPlaceholder = document.createElement("LI");
+            tocSectionIllustrPlaceholder.classList.add("listHeading");
+            let tocSectionIllustrPlaceholderH3 = document.createElement("H3");
+            let tocSectionIllustrPlaceholderH3Text = document.createTextNode(
+                "ILLUSTRATIONS"
+            );
+            tocSectionIllustrPlaceholderH3.appendChild(tocSectionIllustrPlaceholderH3Text);
+            tocSectionIllustrPlaceholder.appendChild(tocSectionIllustrPlaceholderH3);
+            tocSecList.appendChild(tocSectionIllustrPlaceholder);
+
+            // LOOP THROUGH ILLUSTRATION ARRAY
+
+            function loopThroughIllustrationArray(item, index) {
+                // TOC SELECT FOR DESKTOP
+                let tocSelectIllustrOption = document.createElement("OPTION");
+                tocSelectIllustrOption.value = item.link;
+                let tocSelectIllustrOptionText = document.createTextNode(
+                    illustrationArray.text
+                );
+                tocSelectIllustrOption.appendChild(tocSelectIllustrOptionText);
+                desktopTOCSelect.appendChild(tocSelectIllustrOption);
+                // TOC DIV FOR MOBILE
+                let mobileTOCDivIllustrLI = document.createElement("LI");
+                if (item.text !== "Cover") {
+                    mobileTOCDivIllustrLI.classList.add("listItalic");
+                }
+                let mobileTOCDivIllustrLink = document.createElement("A");
+                mobileTOCDivIllustrLink.classList.add("tocLink");
+                mobileTOCDivIllustrLink.href = item.link;
+                mobileTOCDivIllustrLinkText = document.createTextNode(
+                    item.text
+                );
+                mobileTOCDivIllustrLink.appendChild(
+                    mobileTOCDivIllustrLinkText
+                );
+                mobileTOCDivIllustrLI.appendChild(mobileTOCDivIllustrLink);
+                mobileTOCList.appendChild(mobileTOCDivIllustrLI);
+                // TOC SECTION FOR ACCESSIBILITY
+                let tocSectionIllustrLI = document.createElement("LI");
+                if (item.text !== "Cover") {
+                    tocSectionIllustrLI.classList.add("listItalic");
+                }
+                tocSectionIllustrLink = document.createElement("A");
+                tocSectionIllustrLink.href = item.link;
+                tocSectionIllustrLinkText = document.createTextNode(
+                    item.text
+                );
+                tocSectionIllustrLink.appendChild(tocSectionIllustrLinkText);
+                tocSectionIllustrLI.appendChild(tocSectionIllustrLink);
+                tocSecList.appendChild(tocSectionIllustrLI);
+            }
+            illustrationArray.forEach(loopThroughIllustrationArray);
+        }
+
+        // BUILD TABLE OF CONTENTS
+        // BUILD OTHER STUFF
+
+
+        let placeholderText = document.createTextNode("TABLE OF CONTENTS");
+        placeholder.appendChild(placeholderText);
+        desktopTOCSelect.appendChild(placeholder);
+        let tocSectionPlaceholder = document.createElement("OPTION");
 
         function loopThroughChapterArray(item, index) {
             // FOR TOC Section
             let tocSecLI = document.createElement("LI");
             let tocSecLink = document.createElement("A");
-            tocSecLink.href = "#" + item.id;
-            let tocSecText = item.heading;
-            if (item.subheading !== "") {
-                tocSecText = tocSecText.concat(": " + item.subheading);
-            }
+            tocSecLink.href = "#" + item.link;
+            let tocSecText = item.text;
             let tocSecLinkText = document.createTextNode(tocSecText);
             tocSecLink.appendChild(tocSecLinkText);
             tocSecLI.appendChild(tocSecLink);
             tocSecList.appendChild(tocSecLI);
             desktopTOCSection.appendChild(tocSecList);
+            // FOR DESKTOP TOC SELECT
+            let tocOption = document.createElement("OPTION");
+            let toc
         }
         chapterArray.forEach(loopThroughChapterArray);
+        body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(mobileTOCDiv, body.getElementsByTagName("HEADER")[0].nextSibling);
         body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSection, body.getElementsByTagName("HEADER")[0].nextSibling);
     }
     createTableOfContents();
@@ -589,6 +708,7 @@ function runGam() {
         } else {
             let audioSourceSelect = document.createElement("SELECT");
             audioSourceSelect.id = "audioSourceSelect";
+
             function loopThroughAudioSourceArray(item, index) {
                 let audioSourceOption = document.createElement("OPTION");
                 audioSourceOption.value = item.source;

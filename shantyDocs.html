@@ -35,9 +35,17 @@
             width: 85%;
             margin-left: auto;
             margin-right: auto;
+            margin-bottom: 10%;
         }
         main h2 {
             text-decoration: underline;
+        }
+        .seashellExample {
+            background-color: seashell;
+            border: 1px solid gray;
+            font-weight: bold;
+            padding-left: 5px;
+            padding-right: 5px;
         }
     </style>
 </head>
@@ -92,6 +100,38 @@
             <li>!!AUDIO</li>
         </ul>
 
+        <p>If you would like to include audio files with your e-book,
+            include the !!AUDIO notice in your metadata. 
+        </p>
+
+        <p>Users will access the audio from the e-reader menu, 
+            by clicking on the cassette icon:
+        </p>
+
+        <p>This will take users to the audio section.</p>
+
+        <p><strong>!!AUDIO :background [source of background image] 
+            :copyright [recording copyright information]
+        </strong></p>
+
+        <ul>
+            <li>The <strong>:background</strong> notice specifies the image
+            you'd like for the background of the audio section. The image 
+        is stylistically altered to emphasize the foreground.
+                <ul>
+                    <li>If no background is specified, the e-reader 
+                        will default to the 
+                        <span 
+                        title="fff5ee / 100,96,93"
+                        class="seashellExample">seashell color.</span>
+                    </li>
+                </ul>
+            </li>
+            <li>The <strong>:copyright</strong> notice 
+            allows you to specify the copyright status for the audio file.</li>
+            <li><strong>:copyright MUST come after :background</strong></li>
+        </ul>
+
         <p>Strictly speaking, none of this metadata is
             required for the NDH E-Reader format.</p>
 
@@ -104,6 +144,8 @@
             <li>!!DATE [YYYY-MM-DD]</li>
         </ul>
 
+        <!-- TODO 2020-03-03NJB Add example. -->
+
         <figure>
             <img src="" />
             <figcaption>Nice. Just like Stephen King!</figcaption>
@@ -114,15 +156,23 @@
 
         <h3>CHAPTERS</h3>
 
-        <p>"#" is used for chapter titles, and "## is used for chapter subtitles.</p>
+        <p>"#" is used for chapter titles, and "##'' is used for chapter subtitles.</p>
 
         <ul>
             <li>#Chapter One</li>
             <li>##The Morning Shift</li>
         </ul>
 
+        <!-- TODO 2020-03-03NJB Add example. -->
+
         <p>VVSTE's text-parsing program will look for these codes,
             and use them to build your e-book's Table of Contents.
+        </p>
+
+        <p>The NDH E-Reader uses three tables of contents: a drop-down list
+            accessed from the menu for desktop users, a full page 
+            for mobile users, and one displayed within the page layout 
+            for accessibility. 
         </p>
 
         <h3>ADDING CONTENT</h3>
@@ -137,14 +187,25 @@
 
         <h4>ILLUSTRATIONS</h4>
 
-
         <p>The NDH E-Reader can support an indefinite number of illustrations.</p>
 
-        <ul>
-            <li>@@ILLO :small [ilustration thumbnail filepath] :large [illustration filepath] :buy [link to web page
-                where
-                illustration can be purchased] :orientation [landscape or portrait] :caption [text]</li>
-        </ul>
+        <p><strong>@@ILLO :small [illustration thumbnail filepath] 
+                :large [illustration filepath] :buy [link to web page where
+                illustration can be purchased] 
+                :orientation [landscape or portrait]
+                :caption [text]</strong>
+        </p>
+
+        <p><strong>:caption MUST come last.</strong></p>
+
+        <h4>AUDIO FILES</h4>
+
+        <p>The NDH E-Reader supports an indefinite number of audio files.</p>
+
+        <p><strong>@@AUDIO :source [audio filepath] 
+            :title [name for audio file]</strong></p>
+
+        <p><strong>:title MUST come last.</strong></p>
 
     </main>
 
