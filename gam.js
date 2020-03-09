@@ -242,7 +242,7 @@ function runGam() {
 
     function addHeader() {
         let header = newEl("HEADER");
-        header.id = "header";
+        // header.id = "header";
         let hgroup = newEl("HGROUP");
         let title = newEl("H1");
         title.id = "title";
@@ -441,7 +441,6 @@ function runGam() {
                         " by " + textMetadata.coverArt;
                 }
                 coverImage.src = textMetadata.coverlink;
-                console.log(textMetadata.coverlink);
                 coverImageLink.appendChild(coverImage);
                 body.insertBefore(coverImageLink, body.childNodes[0]);
                 illustrationArray.push({
@@ -461,6 +460,52 @@ function runGam() {
                 let blockquoteAttrText = ctn(blockquoteAttrContent);
                 blockquoteAttr.appendChild(blockquoteAttrText);
                 body.appendChild(blockquoteAttr);
+            } else if (item.slice(0, 9) === "@@SUPPORT") {
+                let supportArray = item.slice(9).split(" ");
+                if ((supportArray.includes(":title") === false) ||
+                (supportArray.includes(":text") === false)) {
+                    alert("@@SUPPORT section is missing required information");
+                    return;
+                }
+                let supportObject = {
+                    title: "",
+                    text: ""
+                }
+                function loopThroughSupportArray(saItem, saIndex) {
+                    let supportTitleString = "";
+                    let supportTextString = "";
+                    let saI = 0;
+                    if (saItem === ":title") {
+                        for (saI = saIndex + 1; saI < supportArray.indexOf(":text"); saI += 1) {
+                            supportTitleString = supportTitleString.concat(" " + supportArray[saI]);
+                        }
+                        saI = 0;
+                        supportObject.title = supportTitleString;
+                    } else if (saItem === ":text") {
+                        console.log(true);
+                        for (saI = saIndex +
+                            1; saI < supportArray.length; saI += 1) {
+                            console.log(supportArray[saI]);
+                            supportTextString = supportTextString.concat(" " +
+                            supportArray[saI]);
+                        }
+                        saI = 0;
+                        console.log(supportTextString);
+                        supportObject.text = supportTextString;
+                    }
+                }
+                supportArray.forEach(loopThroughSupportArray);
+                let supportSection = newEl("SECTION");
+                supportSection.classList.add("endingSection");
+                supportSection.id = "supportSection";
+                let supportSectionH3 = newEl("H3");
+                let supportSectionH3Text = ctn(supportObject.title);
+                supportSectionH3.appendChild(supportSectionH3Text);
+                supportSection.appendChild(supportSectionH3);
+                let supportSectionTextDiv = newEl("DIV");
+                supportSectionTextDiv.innerHTML = supportObject.text;
+                supportSection.appendChild(supportSectionTextDiv);
+                body.appendChild(supportSection);
             } else if (item.slice(0, 6) === "@@ILLO") {
                 illustrationCounter += 1;
                 let illoMetadataObject = {};
