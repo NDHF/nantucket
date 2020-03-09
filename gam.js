@@ -244,16 +244,30 @@ function runGam() {
         let header = newEl("HEADER");
         // header.id = "header";
         let hgroup = newEl("HGROUP");
-        let title = newEl("H1");
-        title.id = "title";
-        let titleText = ctn(textMetadata.title);
-        title.appendChild(titleText);
-        hgroup.appendChild(title);
-        let creditAndAuthor = newEl("H2");
-        let creditAndAuthorText = ctn(textMetadata.credit +
-            " " + textMetadata.author);
-        creditAndAuthor.appendChild(creditAndAuthorText);
-        hgroup.appendChild(creditAndAuthor);
+        if (textMetadata.title !== "") {
+            let title = newEl("H1");
+            title.id = "title";
+            let titleText = ctn(textMetadata.title);
+            title.appendChild(titleText);
+            hgroup.appendChild(title);
+        }
+        if (textMetadata.subtitle !== "") {
+            let subTitle = newEl("H2");
+            subTitle.id = "subtitle";
+            let subTitleText = ctn(textMetadata.subtitle);
+            subTitle.appendChild(subTitleText);
+            hgroup.appendChild(subTitle);
+        }
+        if (textMetadata.author !== "") {
+            let creditAndAuthor = newEl("H2");
+            if (textMetadata.credit === "") {
+                textMetadata.credit = "By";
+            }
+            let creditAndAuthorText = ctn(textMetadata.credit +
+                " " + textMetadata.author);
+            creditAndAuthor.appendChild(creditAndAuthorText);
+            hgroup.appendChild(creditAndAuthor);
+        }
         if (textMetadata.illustrator !== "") {
             let illustrator = newEl("H3");
             let illustratorText = ctn("Illustrated by " +
