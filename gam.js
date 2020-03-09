@@ -499,6 +499,7 @@ function runGam() {
                 supportSection.classList.add("endingSection");
                 supportSection.id = "supportSection";
                 let supportSectionH3 = newEl("H3");
+                supportSectionH3.classList.add("sectionHeader");
                 let supportSectionH3Text = ctn(supportObject.title);
                 supportSectionH3.appendChild(supportSectionH3Text);
                 supportSection.appendChild(supportSectionH3);
