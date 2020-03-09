@@ -428,7 +428,6 @@ function runGam() {
             } else if (item.slice(0, 10) === "@@COVERIMG") {
                 let coverImageLink = newEl("A");
                 textMetadata.coverlink = item.slice(11);
-                console.log(textMetadata.coverlink);
                 coverImageLink.href = textMetadata.coverlink;
                 let coverImage = newEl("IMG");
                 coverImage.id = "coverImg";
@@ -442,6 +441,7 @@ function runGam() {
                         " by " + textMetadata.coverArt;
                 }
                 coverImage.src = textMetadata.coverlink;
+                console.log(textMetadata.coverlink);
                 coverImageLink.appendChild(coverImage);
                 body.insertBefore(coverImageLink, body.childNodes[0]);
                 illustrationArray.push({
@@ -779,6 +779,15 @@ function runGam() {
         prepareATOCList(illustrationArray, "illustrations");
         prepareATOCList(chapterArray, "chapters");
 
+        // CREATE AND APPEND CLOSE BUTTON
+
+        let tocCloseButton = newEl("IMG");
+        tocCloseButton.id = "audioCloseButton";
+        tocCloseButton.classList.add("closeButton");
+        tocCloseButton.src = "http://www.ndhfilms.com/assets/images/" +
+        "closeButton.svg";
+        mobileTOCDiv.appendChild(tocCloseButton);
+
         desktopTOCSection.appendChild(tocSecList);
         body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSelect, body.getElementsByTagName("HEADER")[0].nextSibling);
         body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(mobileTOCDiv, body.getElementsByTagName("HEADER")[0].nextSibling);
@@ -925,7 +934,7 @@ function runGam() {
     addEReaderNotice();
 
     function addCoverToAudioDiv() {
-        body.querySelector("#audioDivIllustration").src = textMetadata.coverlink;
+        body.querySelectorAll("#audioDivIllustration").src = textMetadata.coverlink;
     }
     addCoverToAudioDiv();
 
