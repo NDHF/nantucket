@@ -350,7 +350,7 @@ function runGam() {
         audioCloseButton.id = "audioCloseButton";
         audioCloseButton.classList.add("closeButton");
         audioCloseButton.src = "http://www.ndhfilms.com/assets/images/" +
-        "closeButton.svg";
+            "closeButton.svg";
         audioDiv.appendChild(audioCloseButton);
         let audioBackground = newEl("DIV");
         audioBackground.id = "audioBackground";
@@ -463,7 +463,7 @@ function runGam() {
             } else if (item.slice(0, 9) === "@@SUPPORT") {
                 let supportArray = item.slice(9).split(" ");
                 if ((supportArray.includes(":title") === false) ||
-                (supportArray.includes(":text") === false)) {
+                    (supportArray.includes(":text") === false)) {
                     alert("@@SUPPORT section is missing required information");
                     return;
                 }
@@ -471,6 +471,7 @@ function runGam() {
                     title: "",
                     text: ""
                 }
+
                 function loopThroughSupportArray(saItem, saIndex) {
                     let supportTitleString = "";
                     let supportTextString = "";
@@ -487,7 +488,7 @@ function runGam() {
                             1; saI < supportArray.length; saI += 1) {
                             console.log(supportArray[saI]);
                             supportTextString = supportTextString.concat(" " +
-                            supportArray[saI]);
+                                supportArray[saI]);
                         }
                         saI = 0;
                         console.log(supportTextString);
@@ -831,7 +832,7 @@ function runGam() {
         tocCloseButton.id = "audioCloseButton";
         tocCloseButton.classList.add("closeButton");
         tocCloseButton.src = "http://www.ndhfilms.com/assets/images/" +
-        "closeButton.svg";
+            "closeButton.svg";
         mobileTOCDiv.appendChild(tocCloseButton);
 
         desktopTOCSection.appendChild(tocSecList);
@@ -862,7 +863,11 @@ function runGam() {
             if (audioSourceArray.length === 1) {
                 audioSourceSelect.disabled = true;
             }
-            body.querySelector("#audioCassetteDiv").insertBefore(audioSourceSelect, body.querySelector("#audioCassetteDiv").childNodes[0]);
+            body.querySelector(
+                "#audioCassetteDiv"
+            ).insertBefore(audioSourceSelect, body.querySelector(
+                "#audioCassetteDiv"
+            ).childNodes[0]);
         }
     }
     createAudioSourceMenu();
@@ -903,7 +908,11 @@ function runGam() {
         date.innerHTML = month + " " + day + ", " + year;
         ul.appendChild(location);
         ul.appendChild(date);
-        body.appendChild(ul);
+        if (body.querySelectorAll("#supportSection") !== null) {
+            body.insertBefore(ul, body.querySelectorAll("#supportSection")[0]);
+        } else {
+            body.appendChild(ul);
+        }
     }
     addCompletionLocationAndDate();
 
@@ -926,7 +935,11 @@ function runGam() {
 
         copyright.innerHTML = copyrightSymbolCode + timeElement +
             copyrightDate + " " + copyrightHolder;
-        body.appendChild(copyright);
+        if (body.querySelectorAll("#supportSection") !== null) {
+            body.insertBefore(copyright, body.querySelectorAll("#supportSection")[0]);
+        } else {
+            body.appendChild(copyright);
+        }
     }
     addCopyright();
 
