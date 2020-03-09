@@ -11,7 +11,7 @@ format)
 
 TODO 2020-0306NJB Finish up the table of contents, with the notices and
 credits at the end, and close button on the mobile div.
-*/ 
+*/
 
 function runGam() {
 
@@ -53,6 +53,7 @@ function runGam() {
         illustrator: "",
         coverart: "",
         coverartdesc: "",
+        coverlink: "",
         kywd: "",
         copyright: "",
         location: "",
@@ -66,7 +67,7 @@ function runGam() {
         monetizeicon: "",
         small: "",
         stylesheet: []
-    }
+    };
 
     let illustrationArray = [];
     let chapterArray = [];
@@ -99,7 +100,7 @@ function runGam() {
                         if (kiaItem === "SMALL") {
                             textMetadata.small = "small";
                         } else if (kiaItem === "STYLESHEET") {
-                            textMetadata.stylesheet.push(inputArray[i].slice(0,12));
+                            textMetadata.stylesheet.push(inputArray[i].slice(0, 12));
                         } else {
                             textMetadata[kiaItem.toLowerCase()] = inputArray[i].slice(kiaItem.length + 3);
                         }
@@ -125,14 +126,9 @@ function runGam() {
         alert("Missing information for monetization.");
     } else if ((textMetadata.monetizelink !== "") &&
         (textMetadata.monetizeicon !== "")) {
-        monetizationObject = {
-            divID: "monetization",
-            onClickYN: false,
-            imgOrObject: "img",
-            link: textMetadata.monetizelink,
-            altText: "Support this author",
-            sourceText: textMetadata.monetizeicon
-        }
+        monetizationObject = "<div id='monetizationDiv' class='buttons'><a href='[monetizationLink]'><img id='monetizationIcon' src='../../assets/images/[monetizationIcon].svg' /></a></div>";
+        monetizationObject = monetizationObject.replace("[monetizationLink]", textMetadata.monetizelink);
+        monetizationObject = monetizationObject.replace("[monetizationIcon", textMetadata.monetizeicon);
     }
 
     function replaceThings(item, index) {
@@ -290,86 +286,43 @@ function runGam() {
         let buttonContainerDiv = newEl("DIV");
         buttonContainerDiv.classList.add("menuClosed");
         buttonContainerDiv.id = "buttonContainer";
-        let buttonArray = [{
-                divID: "menuIcon",
-                onClickYN: true,
-                imgOrObject: "img",
-                altText: "Click or tap to open menu",
-                sourceText: "menuicon_black"
-            },
-            {
-                divID: "tocIcon",
-                onClickYN: true,
-                imgOrObject: "object",
-                altText: "",
-                sourceText: "tocicon"
-            },
-            {
-                divID: "lightbulb",
-                onClickYN: true,
-                imgOrObject: "object",
-                altText: "",
-                sourceText: "lightbulb"
-            },
-            {
-                divID: "bookmark",
-                onClickYN: false,
-                imgOrObject: "object",
-                altText: "",
-                sourceText: "bookmark"
-            },
-            {
-                divID: "cassette",
-                onClickYN: false,
-                imgOrObject: "object",
-                altText: "",
-                sourceText: "cassette"
-            },
-            {
-                divID: "star",
-                onClickYN: false,
-                imgOrObject: "object",
-                altText: "",
-                sourceText: "star"
-            }
+        let buttonArray = [
+            "<div id='menuIconDiv' class='buttons' onclick=''>" +
+            "<img id='menuIconImg' " +
+            "src='../../assets/images/menuicon_black.svg' />" +
+            "</div>",
+            "<div id='tocIconDiv' class='buttons' onclick=''>" +
+            "<object id='tocIconObject'" +
+            "type='image/svg+xml' data='../../assets/images/tocicon.svg'>" +
+            "Your browser does not support SVG</object></div>",
+            "<div id='lightbulbDiv' class=' buttons' onclick=''>" +
+            "<object ID='lightbulbObject'" +
+            "type='image/svg+xml' data='../../assets/images/lightbulb.svg'>" +
+            "Your browser does not support SVG</object></div>",
+            "<div id='bookmarkDiv'" +
+            "class='buttons'>" +
+            "<object id='bookmarkObject' type='image/svg+xml'" +
+            "data='../../assets/images/bookmark.svg'>" +
+            "Your browser does not support SVG</object></div>",
+            "<div id='cassetteDiv' class='buttons'>" +
+            "<object id='cassetteObject' type='image/svg+xml'" +
+            "data='../../assets/images/cassette.svg'>" +
+            "Your browser does not support SVG</object></div>",
+            "<div id='starDiv' class='buttons'>" +
+            "<object id='starObject'" +
+            " type='image/svg+xml' data='../../assets/images/star.svg'>" +
+            "Your browser does not support SVG</object></div>"
         ];
         if (monetizationObject !== "") {
             buttonArray.push(monetizationObject)
         }
+        let menuHTML = "";
 
         function loopButtonArray(item) {
-            let menuDiv = newEl("DIV");
-            menuDiv.id = item.divID + "Div";
-            menuDiv.classList.add("buttons");
-            menuDiv.onclick = item.onClickYN;
-            let internalImage = newEl(item.imgOrObject.toUpperCase());
-            let sourcePrefix = "http://www.ndhfilms.com/assets/images/";
-            let sourceString = sourcePrefix + item.sourceText + ".svg";
-            if (item.imgOrObject === "img") {
-                internalImage.id = item.divID + "Img";
-                internalImage.alt = item.altText;
-                internalImage.src = sourceString;
-            } else if (item.imgOrObject === "object") {
-                internalImage.id = item.divID + "Object";
-                internalImage.type = "images/svg+xml";
-                internalImage.data = sourceString;
-                let noSVG = ctn(
-                    "Your browser does not support SVG"
-                );
-                internalImage.appendChild(noSVG);
-            }
-            if (item.divID === "monetization") {
-                let monetizationLink = newEl("A");
-                monetizationLink.href = item.link;
-                internalImage.src = monetizationObject.sourceText;
-                monetizationLink.appendChild(internalImage);
-                menuDiv.appendChild(monetizationLink);
-            } else {
-                menuDiv.appendChild(internalImage);
-            }
-            buttonContainerDiv.appendChild(menuDiv);
+            menuHTML = menuHTML.concat(item);
         }
         buttonArray.forEach(loopButtonArray);
+        buttonContainerDiv.innerHTML = menuHTML;
         body.appendChild(buttonContainerDiv);
     }
     addButtons();
@@ -387,7 +340,8 @@ function runGam() {
             if (item === ":background") {
                 audioDivObject.background = arrayOfAudioDivData[index + 1];
             } else if (item === ":copyright") {
-                let audioCopyrightInfo = arrayOfAudioDivData.slice(index + 1).join(" ");
+                let audioCopyrightInfo = arrayOfAudioDivData.slice(index +
+                    1).join(" ");
                 audioDivObject.copyright = audioCopyrightInfo;
             }
         }
@@ -395,7 +349,8 @@ function runGam() {
         let audioCloseButton = newEl("IMG");
         audioCloseButton.id = "audioCloseButton";
         audioCloseButton.classList.add("closeButton");
-        audioCloseButton.src = "http://www.ndhfilms.com/assets/images/closeButton.svg";
+        audioCloseButton.src = "http://www.ndhfilms.com/assets/images/" +
+        "closeButton.svg";
         audioDiv.appendChild(audioCloseButton);
         let audioBackground = newEl("DIV");
         audioBackground.id = "audioBackground";
@@ -412,7 +367,6 @@ function runGam() {
         audioIllustrationDiv.classList.add("flexbox1");
         let audioIllustration = newEl("IMG");
         audioIllustration.id = "audioDivIllustration";
-        audioIllustration.src = "https://louisamayalcottismypassion.files.wordpress.com/2014/05/littlewomen00alcoiala_0025.jpg";
         audioIllustrationDiv.appendChild(audioIllustration);
         let audioInfoHgroup = newEl("HGROUP");
         audioInfoHgroup.classList.add("audioInfoHgroup");
@@ -473,7 +427,9 @@ function runGam() {
                 body.appendChild(hr);
             } else if (item.slice(0, 10) === "@@COVERIMG") {
                 let coverImageLink = newEl("A");
-                coverImageLink.href = item.slice(11);
+                textMetadata.coverlink = item.slice(11);
+                console.log(textMetadata.coverlink);
+                coverImageLink.href = textMetadata.coverlink;
                 let coverImage = newEl("IMG");
                 coverImage.id = "coverImg";
                 if (textMetadata.coverartdesc !== "") {
@@ -485,7 +441,7 @@ function runGam() {
                     coverImage.alt = "Cover of " + textMetadata.title +
                         " by " + textMetadata.coverArt;
                 }
-                coverImage.src = item.slice(11);
+                coverImage.src = textMetadata.coverlink;
                 coverImageLink.appendChild(coverImage);
                 body.insertBefore(coverImageLink, body.childNodes[0]);
                 illustrationArray.push({
@@ -591,7 +547,7 @@ function runGam() {
                     enlargeIcon.classList.add("enlargeIcon");
                     enlargeIcon.alt = "Click or tap to enlarge illustration";
                     enlargeIcon.src = "http://www.ndhfilms.com/assets/images/" +
-                    "enlargeicon_black.svg";
+                        "enlargeicon_black.svg";
                     body.appendChild(enlargeIcon);
                 }
                 createEnlargeIcon();
@@ -605,7 +561,7 @@ function runGam() {
                     closeButton.alt = "Click or tap to close";
                     closeButton.classList.add("closeButton");
                     closeButton.src = "http://www.ndhfilms.com/assets/images/" +
-                    "closeButton.svg";
+                        "closeButton.svg";
                     illustrationDiv.appendChild(closeButton);
 
                     let container = newEl("DIV");
@@ -733,6 +689,10 @@ function runGam() {
         // TOC SECTION FOR ACCESSIBILITY
         let desktopTOCSection = newEl("SECTION");
         desktopTOCSection.id = "tableOfContentsSection";
+        let desktopTOCHeader = newEl("H2");
+        let desktopTOCHeaderText = ctn("TABLE OF CONTENTS");
+        desktopTOCHeader.appendChild(desktopTOCHeaderText);
+        desktopTOCSection.appendChild(desktopTOCHeader);
         let tocSecList = newEl("UL");
 
         function prepareATOCList(array, mode) {
@@ -963,6 +923,11 @@ function runGam() {
         body.appendChild(eReaderNotice);
     }
     addEReaderNotice();
+
+    function addCoverToAudioDiv() {
+        body.querySelector("#audioDivIllustration").src = textMetadata.coverlink;
+    }
+    addCoverToAudioDiv();
 
     function addJavascriptLink() {
         let script = newEl("SCRIPT");
