@@ -1,14 +1,4 @@
 /*
-TODO 2020-03-06NJB ADD @@RAW and @@RAWEND tags, where pure HTML can be placed 
-in-between.
-
-TODO 2020-03-06NJB Add something similar to the above RAW idea, but strictly
-for <pre> tag in HTML. EXAMPLE: The mouse's poem in Chapter 3 of Alice in
-Wonderland
-
-TODO 2020-03-06NJB Something similar to RAW, but for tables (could use a CSV
-format)
-
 TODO 2020-0306NJB Finish up the table of contents, with the notices and
 credits at the end, and close button on the mobile div.
 */
@@ -1030,10 +1020,54 @@ function runGam() {
     }
     addEReaderNotice();
 
+    // FINISH UP THE TABLES OF CONTENTS
+
+    function addToEndOfTOCs(elementToLinkTo, textToGrab) {
+        // TOC SELECT FOR DESKTOP
+        let supportSectionOption = newEl("OPTION");
+        supportSectionOption.value = elementToLinkTo;
+        supportSectionOptionText = ctn(textToGrab);
+        supportSectionOption.appendChild(supportSectionOptionText);
+        body.querySelectorAll("#tocSelect")[0].appendChild(supportSectionOption);
+        // TOC MOBILE DIV
+        let mobileTOCLI = newEl("LI");
+        let mobileTOCLink = newEl("A");
+        mobileTOCLink.href = elementToLinkTo;
+        mobileTOCLinkText = ctn(textToGrab);
+        mobileTOCLink.appendChild(mobileTOCLinkText);
+        mobileTOCLI.appendChild(mobileTOCLink);
+        body.querySelectorAll("#tocList")[0].appendChild(mobileTOCLI);
+        // INLINE TOC FOR ACCESSIBILITY
+        if (body.querySelectorAll("#tableOfContentsSection") !== null) {
+            let inlineTOCLI = newEl("LI");
+            let inlineTOCLink = newEl("A");
+            inlineTOCLink.href = elementToLinkTo;
+            inlineTOCLinkText = ctn(textToGrab);
+            inlineTOCLink.appendChild(inlineTOCLinkText);
+            inlineTOCLI.appendChild(inlineTOCLink);
+            body.querySelectorAll("#tableOfContentsSection")[0].children[1].appendChild(inlineTOCLI);
+        }
+    }
+
+    // console.log(body);
+    // console.log(body.querySelectorAll("#supportSection")[0].children[0]);
+
+    if (body.querySelectorAll("#supportSection") !== undefined) {
+        addToEndOfTOCs("#supportSection", body.querySelectorAll("#supportSection")[0].children[0].innerText);
+    }
+
+    if (body.querySelectorAll("#creditsSection") !== null) {
+        addToEndOfTOCs("#creditsSection", "CREDITS");
+    }
+
+    addToEndOfTOCs("#eReaderNotice", "NDH E-READER COPYRIGHT NOTICE")
+
     function addCoverToAudioDiv() {
         body.querySelectorAll("#audioDivIllustration").src = textMetadata.coverlink;
     }
     addCoverToAudioDiv();
+
+    console.log("Hello");
 
     function addJavascriptLink() {
         let script = newEl("SCRIPT");
