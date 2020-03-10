@@ -162,10 +162,10 @@ function runGam() {
         headTitle.text = headTitleText;
         head.appendChild(headTitle);
         // Add viewport meta tag
-        // let viewportTag = newEl("META");
-        // viewportTag.name = "viewport";
-        // viewportTag.content = "width=device-width, initial-scale=1.0";
-        // head.appendChild(viewportTag);
+        let viewportTag = newEl("META");
+        viewportTag.name = "viewport";
+        viewportTag.content = "width=device-width, initial-scale=0";
+        head.appendChild(viewportTag);
         // Add author meta tag
         if (textMetadata.author !== "") {
             let authorMetaTag = newEl("META");
@@ -1091,8 +1091,6 @@ function runGam() {
         body.querySelectorAll("#audioDivIllustration").src = textMetadata.coverlink;
     }
     addCoverToAudioDiv();
-
-    console.log("Hello");
 
     function addJavascriptLink() {
         let script = newEl("SCRIPT");
