@@ -56,7 +56,9 @@ function runGam() {
         monetizelink: "",
         monetizeicon: "",
         small: "",
-        stylesheet: []
+        stylesheet: [],
+        menu: "",
+        favorites: ""
     };
 
     let illustrationArray = [];
@@ -84,7 +86,7 @@ function runGam() {
                     "KYWD", "COPYRIGHT", "LOCATION", "DATE",
                     "LANG", "ICON", "DESC", "KEYWORDS", "AUDIO",
                     "MONETIZELINK", "MONETIZEICON", "SMALL",
-                    "STYLESHEET"
+                    "STYLESHEET", "MENU", "FAVORITES"
                 ];
                 keyIndexArray.forEach(function (kiaItem) {
                     if (inputArray[i].slice(0, (kiaItem.length + 2)) ===
@@ -92,7 +94,7 @@ function runGam() {
                         if (kiaItem === "SMALL") {
                             textMetadata.small = "small";
                         } else if (kiaItem === "STYLESHEET") {
-                            textMetadata.stylesheet.push(inputArray[i].slice(0, 12));
+                            textMetadata.stylesheet.push(inputArray[i].slice(0, 12).replace(" ", "_"));
                         } else {
                             textMetadata[kiaItem.toLowerCase()] = inputArray[i].slice(kiaItem.length + 3);
                         }
@@ -190,6 +192,26 @@ function runGam() {
         themeColorMetaTag.name = "theme-color";
         themeColorMetaTag.content = "#fff5ee"; // seashell color
         head.appendChild(themeColorMetaTag);
+        // ADD FAVORITES INFORMATION
+        if ((textMetadata.kywd === "") && (textMetadata.favorites !== "")) {
+            alert("WARNING: Designated a favorites-array, but no keyword for e-book");
+        } else if ((textMetadata.kywd !== "") &&
+            (textMetadata.favorites === "")) {
+            alert("WARNING: Designated a keyword for e-book, but no favorites-array");
+        } else if ((textMetadata.favorites !== "") &&
+            (textMetadata.kywd !== "")) {
+            // ADD FAVORITES ARRAY PROPERTY NAME
+            let favoritesArrayMeta = newEl("META");
+            favoritesArrayMeta.name = "nameOfFavoritesArray";
+            let favoritesArrayMetaText = textMetadata.favorites;
+            favoritesArrayMeta.content = favoritesArrayMetaText;
+            head.appendChild(favoritesArrayMeta);
+            // ADD EBOOK KEYWORD (KYWD)
+            let keyword = newEl("META");
+            keyword.name = "keyword";
+            keyword.content = textMetadata.kywd;
+            head.appendChild(keyword);
+        }
         // Add stylesheet
         function buildStylesheetTag(link) {
             let stylesheet = newEl("LINK");
@@ -279,15 +301,6 @@ function runGam() {
     }
     addHeader();
 
-    function addKeyword() {
-        let keyword = newEl("SPAN");
-        keyword.id = "keyword";
-        let keywordText = ctn(textMetadata.kywd);
-        keyword.appendChild(keywordText);
-        body.appendChild(keyword);
-    }
-    addKeyword();
-
     function addButtons() {
         let buttonContainerDiv = newEl("DIV");
         buttonContainerDiv.classList.add("menuClosed");
@@ -313,14 +326,18 @@ function runGam() {
             "<div id='cassetteDiv' class='buttons'>" +
             "<object id='cassetteObject' type='image/svg+xml'" +
             "data='../../assets/images/cassette.svg'>" +
-            "Your browser does not support SVG</object></div>",
-            "<div id='starDiv' class='buttons'>" +
-            "<object id='starObject'" +
-            " type='image/svg+xml' data='../../assets/images/star.svg'>" +
             "Your browser does not support SVG</object></div>"
         ];
         if (monetizationObject !== "") {
             buttonArray.push(monetizationObject)
+        }
+        if (textMetadata.favorites !== "") {
+            buttonArray.push(
+                "<div id='starDiv' class='buttons'>" +
+                "<object id='starObject'" +
+                " type='image/svg+xml' data='../../assets/images/star.svg'>" +
+                "Your browser does not support SVG</object></div>"
+            );
         }
         let menuHTML = "";
 
@@ -441,10 +458,12 @@ function runGam() {
                     coverImage.title = textMetadata.coverartdesc;
                     coverImage.alt = textMetadata.coverartdesc;
                 } else {
-                    coverImage.title = "Cover of " + textMetadata.title +
-                        " by " + textMetadata.coverArt;
-                    coverImage.alt = "Cover of " + textMetadata.title +
-                        " by " + textMetadata.coverArt;
+                    coverImage.title = "Cover of " + textMetadata.title;
+                    coverImage.alt = "Cover of " + textMetadata.title;
+                    if (textMetadata.coverart !== "") {
+                        coverImage.title = coverImage.title.concat(" by " + textMetadata.coverart);
+                        coverImage.alt = coverImage.alt.concat(" by " + textMetadata.coverart);
+                    }
                 }
                 coverImage.src = textMetadata.coverlink;
                 coverImageLink.appendChild(coverImage);
@@ -1042,15 +1061,17 @@ function runGam() {
             let inlineTOCLI = newEl("LI");
             let inlineTOCLink = newEl("A");
             inlineTOCLink.href = elementToLinkTo;
-            inlineTOCLinkText = ctn(textToGrab);
+            let inlineTOCLinkText = "";
+            if (textToGrab === "Back To Menu") {
+                inlineTOCLinkText = ctn("-- BACK TO MENU --");
+            } else {
+                inlineTOCLinkText = ctn(textToGrab);
+            }
             inlineTOCLink.appendChild(inlineTOCLinkText);
             inlineTOCLI.appendChild(inlineTOCLink);
             body.querySelectorAll("#tableOfContentsSection")[0].children[1].appendChild(inlineTOCLI);
         }
     }
-
-    // console.log(body);
-    // console.log(body.querySelectorAll("#supportSection")[0].children[0]);
 
     if (body.querySelectorAll("#supportSection") !== undefined) {
         addToEndOfTOCs("#supportSection", body.querySelectorAll("#supportSection")[0].children[0].innerText);
@@ -1060,7 +1081,11 @@ function runGam() {
         addToEndOfTOCs("#creditsSection", "CREDITS");
     }
 
-    addToEndOfTOCs("#eReaderNotice", "NDH E-READER COPYRIGHT NOTICE")
+    addToEndOfTOCs("#eReaderNotice", "NDH E-READER COPYRIGHT NOTICE");
+
+    if (textMetadata.menu !== "") {
+        addToEndOfTOCs(textMetadata.menu, "Back to Menu");
+    }
 
     function addCoverToAudioDiv() {
         body.querySelectorAll("#audioDivIllustration").src = textMetadata.coverlink;
