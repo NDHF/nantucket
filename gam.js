@@ -73,6 +73,8 @@ function runGam() {
     let chapterArray = [];
     let audioSourceArray = [];
     let monetizationObject = "";
+    let htmlGrabberRunning = false;
+    let rawHTMLStorage = [];
 
     function removeThingsAndGatherMetadata() {
         let i = 0;
@@ -497,15 +499,12 @@ function runGam() {
                         saI = 0;
                         supportObject.title = supportTitleString;
                     } else if (saItem === ":text") {
-                        console.log(true);
                         for (saI = saIndex +
                             1; saI < supportArray.length; saI += 1) {
-                            console.log(supportArray[saI]);
                             supportTextString = supportTextString.concat(" " +
                                 supportArray[saI]);
                         }
                         saI = 0;
-                        console.log(supportTextString);
                         supportObject.text = supportTextString;
                     }
                 }
@@ -522,6 +521,24 @@ function runGam() {
                 supportSectionTextDiv.innerHTML = supportObject.text;
                 supportSection.appendChild(supportSectionTextDiv);
                 body.appendChild(supportSection);
+            } else if (item.slice(0, 11) === "@@HTMLSTART") {
+                htmlGrabberRunning = true;
+                let htmlStartI = index + 1;
+                for (htmlStartI; htmlStartI < inputArray.length; htmlStartI += 1) {
+                    if (inputArray[htmlStartI] === "@@HTMLEND") {
+                        break;
+                    } else {
+                        rawHTMLStorage.push(inputArray[htmlStartI]);
+                    }
+                }
+            } else if (item.slice(0, 9) === "@@HTMLEND") {
+                htmlGrabberRunning = false;
+                let rawHTMLDiv = newEl("DIV");
+                rawHTMLDiv.classList.add("rawHTMLDiv");
+                let rawHTML = rawHTMLStorage.join("");
+                rawHTMLDiv.innerHTML = rawHTML;
+                body.appendChild(rawHTMLDiv);
+                rawHTMLStorage = [];
             } else if (item.slice(0, 6) === "@@ILLO") {
                 illustrationCounter += 1;
                 let illoMetadataObject = {};
@@ -712,10 +729,17 @@ function runGam() {
                     (item.charAt(1) === "#")) {
                     createChapterHeading("subheading");
                 }
+            } else if (item.slice(0, 1) === "`") {
+                let poetryParagraph = newEl("P");
+                poetryParagraph.classList.add("lyricalP");
+                poetryParagraph.innerHTML = item.slice(1).replace(/\\"/g, "\"");
+                body.appendChild(poetryParagraph);
             } else {
-                let paragraph = newEl("P");
-                paragraph.innerHTML = item.replace(/\\"/g, "\"");
-                body.appendChild(paragraph);
+                if (htmlGrabberRunning === false) {
+                    let paragraph = newEl("P");
+                    paragraph.innerHTML = item.replace(/\\"/g, "\"");
+                    body.appendChild(paragraph);
+                }
             }
         }
         inputArray.forEach(appendInputArrayToBody);
