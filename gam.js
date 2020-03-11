@@ -775,8 +775,8 @@ function runGam() {
                     } else {
                         paragraph.innerHTML = item.replace(/\\"/g, "\"");
                     }
+                    body.appendChild(paragraph);
                 }
-                body.appendChild(paragraph);
             }
         }
         inputArray.forEach(appendInputArrayToBody);
