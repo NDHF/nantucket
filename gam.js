@@ -67,6 +67,9 @@ function runGam() {
     let monetizationObject = "";
     let htmlGrabberRunning = false;
     let rawHTMLStorage = [];
+    let footnoteCounter = 0;
+    let footnoteSection = newEl("SECTION");
+    footnoteSection.id = "footnoteSection";
 
     function removeThingsAndGatherMetadata() {
         let i = 0;
@@ -464,8 +467,10 @@ function runGam() {
                     coverImage.title = "Cover of " + textMetadata.title;
                     coverImage.alt = "Cover of " + textMetadata.title;
                     if (textMetadata.coverart !== "") {
-                        coverImage.title = coverImage.title.concat(" by " + textMetadata.coverart);
-                        coverImage.alt = coverImage.alt.concat(" by " + textMetadata.coverart);
+                        coverImage.title = coverImage.title.concat(" by " +
+                        textMetadata.coverart);
+                        coverImage.alt = coverImage.alt.concat(" by " +
+                        textMetadata.coverart);
                     }
                 }
                 coverImage.src = textMetadata.coverlink;
@@ -721,7 +726,8 @@ function runGam() {
                     if (headingType === "heading") {
                         chapterHeading = newEl("H1");
                         chapterHeadingText = item.slice(1);
-                        let chapterHeadingID = chapterHeadingText.replace(" ", "_");
+                        let chapterHeadingID = chapterHeadingText.replace(
+                            " ", "_");
                         chapterHeading.id = chapterHeadingID;
                         let chapterObject = {
                             link: "#" + chapterHeadingID
@@ -759,6 +765,19 @@ function runGam() {
                 let dedicationText = ctn(item.slice(5));
                 dedication.appendChild(dedicationText);
                 body.appendChild(dedication);
+            } else if (item.slice(0, 4) === "@@FN") {
+                console.log(true);
+                let footnote = document.createElement("P");
+                let footnoteContents = ctn(item.slice(4));
+                let backToOriginalLink = newEl("A");
+                let footnoteNumber = footnoteSection.children.length + 1;
+                backToOriginalLink.id = "footnote" + footnoteNumber;
+                backToOriginalLink.href = "#footnoteLink" + footnoteNumber;
+                backToOriginalLink.innerHTML = "<sup>" + footnoteNumber +
+                "</sup>";
+                footnote.appendChild(backToOriginalLink);
+                footnote.appendChild(footnoteContents);
+                footnoteSection.appendChild(footnote);
             } else {
                 if (htmlGrabberRunning === false) {
                     let paragraph = newEl("P");
@@ -780,6 +799,14 @@ function runGam() {
                         paragraph.innerHTML = pText;
                     } else {
                         paragraph.innerHTML = item.replace(/\\"/g, "\"");
+                    }
+                    if (paragraph.innerHTML.includes("<fn>")) {
+                        footnoteCounter += 1;
+                        paragraph.innerHTML = paragraph.innerHTML.replace(
+                            "<fn>", "<a id='footnoteLink" + footnoteCounter +
+                            "' href='#footnote" + footnoteCounter +
+                            "'><sup>" + footnoteCounter + "</sup></a>"
+                        );
                     }
                     body.appendChild(paragraph);
                 }
@@ -918,10 +945,23 @@ function runGam() {
 
         desktopTOCSection.appendChild(tocSecList);
         if ((chapterArray.length > 0) && (illustrationArray.length > 0)) {
-            body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSelect, body.getElementsByTagName("HEADER")[0].nextSibling);
-            body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(mobileTOCDiv, body.getElementsByTagName("HEADER")[0].nextSibling);
-            if (textMetadata.small !== "small") {
-                body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSection, body.getElementsByTagName("HEADER")[0].nextSibling);
+            body.getElementsByTagName(
+                "HEADER"
+                )[0].parentNode.insertBefore(desktopTOCSelect, body.getElementsByTagName(
+                    "HEADER"
+                    )[0].nextSibling);
+            body.getElementsByTagName(
+                "HEADER"
+                )[0].parentNode.insertBefore(mobileTOCDiv, body.getElementsByTagName(
+                    "HEADER"
+                    )[0].nextSibling);
+            if (textMetadata.small !==
+                "small") {
+                body.getElementsByTagName(
+                    "HEADER"
+                    )[0].parentNode.insertBefore(desktopTOCSection, body.getElementsByTagName(
+                        "HEADER"
+                        )[0].nextSibling);
             }
         }
     }
@@ -1088,6 +1128,19 @@ function runGam() {
     }
     addEReaderNotice();
 
+    // ADD FOOTNOTES SECTION
+
+    if (footnoteSection.children.length > 0) {
+        let footnotesSectionHeader = newEl("H3");
+        footnotesSectionHeader.classList.add("sectionHeader");
+        let footnotesSectionHeaderText = ctn("FOOTNOTES");
+        footnotesSectionHeader.appendChild(footnotesSectionHeaderText);
+        footnoteSection.insertBefore(footnotesSectionHeader, footnoteSection.children[0]);
+        body.insertBefore(footnoteSection, body.querySelectorAll(
+            "#eReaderNotice"
+            )[0]);
+    }
+
     // FINISH UP THE TABLES OF CONTENTS
 
     function addToEndOfTOCs(elementToLinkTo, textToGrab) {
@@ -1146,6 +1199,10 @@ function runGam() {
 
     if (inputArray.length > 0) {
         addToEndOfTOCs("#eReaderNotice", "NDH E-READER COPYRIGHT NOTICE");
+    }
+
+    if (footnoteSection.children.length > 0) {
+        addToEndOfTOCs("#footnoteSection", "Footnotes")
     }
 
     if (textMetadata.menu !== "") {
