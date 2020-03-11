@@ -156,9 +156,12 @@ function runGam() {
         metaCharsetTag.httpEquiv = "content-type";
         metaCharsetTag.content = "text/html; charset=utf-8";
         head.appendChild(metaCharsetTag);
-        let headTitle = newEl("title");
+        let headTitle = newEl("TITLE");
         let headTitleText = textMetadata.title + " " +
             textMetadata.credit + " " + textMetadata.author;
+        if (textMetadata.credit === "") {
+            headTitleText = textMetadata.title + " by " + textMetadata.author;
+        }
         headTitle.text = headTitleText;
         head.appendChild(headTitle);
         // Add viewport meta tag
@@ -474,6 +477,8 @@ function runGam() {
                 });
             } else if (item.slice(0, 8) === "@@BLOCKQ") {
                 let blockquoteContents = item.slice(8);
+                console.log(blockquoteContents);
+                blockquoteContents = blockquoteContents.replace(/\\"/g, '"');
                 let blockquote = newEl("BLOCKQUOTE");
                 let blockquoteText = ctn(blockquoteContents);
                 blockquote.appendChild(blockquoteText);
@@ -718,8 +723,10 @@ function runGam() {
                         let chapterObject = {
                             link: "#" + chapterHeadingID
                         }
-                        if (inputArray[index + 1].slice(0, 2) === "##") {
-                            sh = inputArray[index + 1].slice(2);
+                        if (inputArray[index + 1] !== undefined) {
+                            if (inputArray[index + 1].slice(0, 2) === "##") {
+                                sh = inputArray[index + 1].slice(2);
+                            }
                         }
                         chapterObject.text = chapterHeadingText + ": " + sh;
                         chapterArray.push(chapterObject);
@@ -883,10 +890,12 @@ function runGam() {
         mobileTOCDiv.appendChild(tocCloseButton);
 
         desktopTOCSection.appendChild(tocSecList);
-        body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSelect, body.getElementsByTagName("HEADER")[0].nextSibling);
-        body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(mobileTOCDiv, body.getElementsByTagName("HEADER")[0].nextSibling);
-        if (textMetadata.small !== "small") {
-            body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSection, body.getElementsByTagName("HEADER")[0].nextSibling);
+        if (inputArray > 0) {
+            body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSelect, body.getElementsByTagName("HEADER")[0].nextSibling);
+            body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(mobileTOCDiv, body.getElementsByTagName("HEADER")[0].nextSibling);
+            if (textMetadata.small !== "small") {
+                body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSection, body.getElementsByTagName("HEADER")[0].nextSibling);
+            }
         }
     }
     createTableOfContents();
@@ -961,34 +970,45 @@ function runGam() {
             body.appendChild(ul);
         }
     }
-    addCompletionLocationAndDate();
+    if (textMetadata.date !== "") {
+        addCompletionLocationAndDate();
+    }
 
     function addCopyright() {
         let copyright = newEl("P");
         copyright.id = "copyrightNotice";
         copyright.classList.add("center");
-        let copyrightArray = textMetadata.copyright.split(" ");
-        let copyrightDate = copyrightArray[0];
-        let copyrightSymbolCode = "&COPY; ";
-        let timeElement = "<time datetime='" + copyrightDate + "'>" +
-            copyrightDate + "</time>";
-        let copyrightHolder = copyrightArray.slice(1).join(" ");
-        if (copyrightDate === "PUBLIC") {
-            copyrightDate = textMetadata.copyright;
-            copyrightSymbolCode = "<s>&COPY;</s> ";
-            timeElement = "";
-            copyrightHolder = "";
+        if (textMetadata.copyright !== "") {
+            let copyrightArray = textMetadata.copyright.split(" ");
+            let copyrightDate = copyrightArray[0];
+            let copyrightSymbolCode = "&COPY; ";
+            let timeElement = "<time datetime='" + copyrightDate + "'>" +
+                copyrightDate + "</time>";
+            let copyrightHolder = copyrightArray.slice(1).join(" ");
+            if (copyrightDate === "PUBLIC") {
+                copyrightDate = textMetadata.copyright;
+                copyrightSymbolCode = "<s>&COPY;</s> ";
+                timeElement = "";
+                copyrightHolder = "";
+            }
+    
+            copyright.innerHTML = copyrightSymbolCode + timeElement +
+                copyrightDate + " " + copyrightHolder;
+        } else {
+            copyright.innerHTML = "No copyright information available " +
+            "at this time";
         }
-
-        copyright.innerHTML = copyrightSymbolCode + timeElement +
-            copyrightDate + " " + copyrightHolder;
         if (body.querySelectorAll("#supportSection") !== null) {
-            body.insertBefore(copyright, body.querySelectorAll("#supportSection")[0]);
+            body.insertBefore(copyright, body.querySelectorAll(
+                "#supportSection"
+                )[0]);
         } else {
             body.appendChild(copyright);
         }
     }
-    addCopyright();
+    if (inputArray.length > 0) {
+        addCopyright();
+    }
 
     function addCredits() {
         let creditsSection = newEl("SECTION");
@@ -1024,7 +1044,9 @@ function runGam() {
         creditsSection.appendChild(creditsUL);
         body.appendChild(creditsSection);
     }
-    addCredits();
+    if (inputArray.length > 0) {
+        addCredits();
+    }
 
     function addEReaderNotice() {
         let eReaderNotice = newEl("P");
@@ -1047,7 +1069,11 @@ function runGam() {
         supportSectionOption.value = elementToLinkTo;
         supportSectionOptionText = ctn(textToGrab);
         supportSectionOption.appendChild(supportSectionOptionText);
-        body.querySelectorAll("#tocSelect")[0].appendChild(supportSectionOption);
+        if (body.querySelectorAll("#tocSelect")[0] !== undefined) {
+            body.querySelectorAll(
+                "#tocSelect"
+            )[0].appendChild(supportSectionOption);
+        }
         // TOC MOBILE DIV
         let mobileTOCLI = newEl("LI");
         let mobileTOCLink = newEl("A");
@@ -1055,7 +1081,9 @@ function runGam() {
         mobileTOCLinkText = ctn(textToGrab);
         mobileTOCLink.appendChild(mobileTOCLinkText);
         mobileTOCLI.appendChild(mobileTOCLink);
-        body.querySelectorAll("#tocList")[0].appendChild(mobileTOCLI);
+        if (body.querySelectorAll("#tocList")[0] !== undefined) {
+            body.querySelectorAll("#tocList")[0].appendChild(mobileTOCLI);
+        }
         // INLINE TOC FOR ACCESSIBILITY
         if (body.querySelectorAll("#tableOfContentsSection") !== null) {
             let inlineTOCLI = newEl("LI");
@@ -1069,19 +1097,31 @@ function runGam() {
             }
             inlineTOCLink.appendChild(inlineTOCLinkText);
             inlineTOCLI.appendChild(inlineTOCLink);
-            body.querySelectorAll("#tableOfContentsSection")[0].children[1].appendChild(inlineTOCLI);
+            if (body.querySelectorAll(
+                    "#tableOfContentsSection"
+                )[0] !== undefined) {
+                body.querySelectorAll(
+                    "#tableOfContentsSection"
+                )[0].children[1].appendChild(inlineTOCLI);
+            }
         }
     }
 
-    if (body.querySelectorAll("#supportSection") !== undefined) {
+    if ((body.querySelectorAll("#supportSection") !== undefined) &&
+        (typeof body.querySelectorAll("#supportSection") !== "object")) {
+        console.log(true);
+        console.log(typeof body.querySelectorAll("#supportSection"));
         addToEndOfTOCs("#supportSection", body.querySelectorAll("#supportSection")[0].children[0].innerText);
     }
 
-    if (body.querySelectorAll("#creditsSection") !== null) {
+    if ((body.querySelectorAll("#creditsSection") !== null) &&
+        (inputArray.length > 0)) {
         addToEndOfTOCs("#creditsSection", "CREDITS");
     }
 
-    addToEndOfTOCs("#eReaderNotice", "NDH E-READER COPYRIGHT NOTICE");
+    if (inputArray.length > 0) {
+        addToEndOfTOCs("#eReaderNotice", "NDH E-READER COPYRIGHT NOTICE");
+    }
 
     if (textMetadata.menu !== "") {
         addToEndOfTOCs(textMetadata.menu, "Back to Menu");
@@ -1098,6 +1138,18 @@ function runGam() {
         body.appendChild(script);
     }
     addJavascriptLink();
+    if ((inputArray.length === 0) &&
+        (body.querySelectorAll("HEADER")[0].children[0].innerHTML === "")) {
+        let geeH1 = newEl("H1");
+        geeH1.classList.add("chapterHeading");
+        let geeH1Text = ctn("GEE...");
+        geeH1.appendChild(geeH1Text);
+        body.insertBefore(geeH1, body.querySelectorAll("#eReaderNotice")[0]);
+        let nothingHereP = newEl("P");
+        nothingHerePText = ctn("It sure is boring around here.");
+        nothingHereP.appendChild(nothingHerePText);
+        body.insertBefore(nothingHereP, body.querySelectorAll("#eReaderNotice")[0]);
+    }
     html.appendChild(body);
     console.log(html);
 
