@@ -477,7 +477,6 @@ function runGam() {
                 });
             } else if (item.slice(0, 8) === "@@BLOCKQ") {
                 let blockquoteContents = item.slice(8);
-                console.log(blockquoteContents);
                 blockquoteContents = blockquoteContents.replace(/\\"/g, '"');
                 let blockquote = newEl("BLOCKQUOTE");
                 let blockquoteText = ctn(blockquoteContents);
@@ -487,8 +486,12 @@ function runGam() {
                 let blockquoteAttrContent = " - " + item.slice(11);
                 let blockquoteAttr = newEl("P");
                 blockquoteAttr.classList.add("blockquoteAttr");
-                let blockquoteAttrText = ctn(blockquoteAttrContent);
-                blockquoteAttr.appendChild(blockquoteAttrText);
+                if (blockquoteAttrContent.includes("<i>")) {
+                    blockquoteAttr.innerHTML = blockquoteAttrContent;
+                } else {
+                    let blockquoteAttrText = ctn(blockquoteAttrContent);
+                    blockquoteAttr.appendChild(blockquoteAttrText);
+                }
                 body.appendChild(blockquoteAttr);
             } else if (item.slice(0, 9) === "@@SUPPORT") {
                 let supportArray = item.slice(9).split(" ");
@@ -890,7 +893,7 @@ function runGam() {
         mobileTOCDiv.appendChild(tocCloseButton);
 
         desktopTOCSection.appendChild(tocSecList);
-        if (inputArray > 0) {
+        if ((chapterArray.length > 0) && (illustrationArray.length > 0)) {
             body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(desktopTOCSelect, body.getElementsByTagName("HEADER")[0].nextSibling);
             body.getElementsByTagName("HEADER")[0].parentNode.insertBefore(mobileTOCDiv, body.getElementsByTagName("HEADER")[0].nextSibling);
             if (textMetadata.small !== "small") {
@@ -1109,8 +1112,6 @@ function runGam() {
 
     if ((body.querySelectorAll("#supportSection") !== undefined) &&
         (typeof body.querySelectorAll("#supportSection") !== "object")) {
-        console.log(true);
-        console.log(typeof body.querySelectorAll("#supportSection"));
         addToEndOfTOCs("#supportSection", body.querySelectorAll("#supportSection")[0].children[0].innerText);
     }
 
