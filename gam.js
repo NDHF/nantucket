@@ -753,6 +753,12 @@ function runGam() {
                 poetryParagraph.classList.add("lyricalP");
                 poetryParagraph.innerHTML = item.slice(1).replace(/\\"/g, "\"");
                 body.appendChild(poetryParagraph);
+            } else if (item.slice(0, 5) === "@@DED") {
+                let dedication = newEl("P");
+                dedication.classList.add("dedication");
+                let dedicationText = ctn(item.slice(5));
+                dedication.appendChild(dedicationText);
+                body.appendChild(dedication);
             } else {
                 if (htmlGrabberRunning === false) {
                     let paragraph = newEl("P");
