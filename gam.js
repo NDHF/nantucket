@@ -756,9 +756,27 @@ function runGam() {
             } else {
                 if (htmlGrabberRunning === false) {
                     let paragraph = newEl("P");
-                    paragraph.innerHTML = item.replace(/\\"/g, "\"");
-                    body.appendChild(paragraph);
+                    let pText = "";
+                    if (item.slice(0, 5) === ":left") {
+                        paragraph.classList.add("alignLeft");
+                        pText = item.slice(5);
+                        pText = pText.replace(/\\"/g, "\"");
+                        paragraph.innerHTML = pText;
+                    } else if (item.slice(0, 7) === ":center") {
+                        paragraph.classList.add("alignCenter");
+                        pText = item.slice(7);
+                        pText = pText.replace(/\\"/g, "\"");
+                        paragraph.innerHTML = pText;
+                    } else if (item.slice(0, 6) === ":right") {
+                        paragraph.classList.add("alignRight");
+                        pText = item.slice(6);
+                        pText = pText.replace(/\\"/g, "\"");
+                        paragraph.innerHTML = pText;
+                    } else {
+                        paragraph.innerHTML = item.replace(/\\"/g, "\"");
+                    }
                 }
+                body.appendChild(paragraph);
             }
         }
         inputArray.forEach(appendInputArrayToBody);
