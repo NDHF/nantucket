@@ -47,6 +47,18 @@
             padding-left: 5px;
             padding-right: 5px;
         }
+        a.backToOriginalLink {
+            text-decoration: none;
+        }
+        a.backToOriginalLink:visited {
+            color: blue;
+        }
+        section#tableOfContents a:visited {
+            color: blue;
+        }
+        section h1 {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -64,86 +76,124 @@
 
     <main>
 
+        <section id="overview">
+            <h1>OVERVIEW</h1>
+        </section>
+
         <section id="tableOfContents">
             <h1>TABLE OF CONTENTS</h1>
             <ul>
-                <li><a href="#basics"><h2>BASICS</h2></a>
+                <li><a id="overviewLink" href="#overview"><h2>OVERVIEW</h2></a></li>
+                <li><a id="basicsLink" href="#basics"><h2>BASICS</h2></a>
                     <ul>
-                        <li>ADDING A TITLE AND AUTHOR</li>
-                        <li>ADDING CHAPTERS</li>
-                        <li>EXTRAS
+                        <li><a id="addingATitleAndAuthorLink" href="#addingATitleAndAuthor">ADDING A TITLE AND AUTHOR</a></li>
+                        <li><a id="addingChaptersLink" href="#addingChapters">ADDING CHAPTERS</a></li>
+                        <li><a id="extrasLink" href="#extras">EXTRAS</a>
                             <ul>
-                                <li>TEXT-ALIGN</li>
-                                <li>SUB-TITLES</li>
-                                <li>SPECIAL CREDITS</li>
-                                <li>DATES AND LOCATIONS</li>
-                                <li>QUOTES AND EPIGRAPHS</li>
-                                <li>FOOTNOTES</li>
+                                <li><a id="text-alignLink" href="#text-align">TEXT-ALIGN</a></li>
+                                <li><a id="sub-titlesLink" href="#sub-titles">SUB-TITLES</a></li>
+                                <li><a id="specialCreditsLink" href="#specialCredits">SPECIAL CREDITS</a></li>
+                                <li><a id="datesAndLocationsLink" href="#datesAndLocations">DATES AND LOCATIONS</a></li>
+                                <li><a id="dedicationsLink" href="#dedications">DEDICATIONS</a></li>
+                                <li><a id="quotesAndEpigraphsLink" href="#quotesAndEpigraphs">QUOTES AND EPIGRAPHS</a></li>
+                                <li><a id="footnotesLink" href="#footnotes">FOOTNOTES</a></li>
                             </ul>
                         </li>
-                        <li>LYRICS AND POETRY</li>
+                        <li><a id="lyricsAndPoetryLink" href="#lyricsAndPoetry">LYRICS AND POETRY</a></li>
                     </ul>
                 </li>
-                <li><a href="#addingArtToYourE-Book"><h2>ADDING ART TO YOUR E-BOOK</h2></a>
+                <li><a id="addingArtToYourE-BookLink" href="#addingArtToYourE-Book"><h2>ADDING ART TO YOUR E-BOOK</h2></a>
                     <ul>
-                        <li>ADDING A COVER IMAGE</li>
-                        <li>ADDING ILLUSTRATIONS</li>
+                        <li><a id="addingACoverImageLink" href="#addingACoverImage">ADDING A COVER IMAGE</a></li>
+                        <li><a id="addingIllustrationsLink" href="#addingIllustrations">ADDING ILLUSTRATIONS</a></li>
                     </ul>
                 </li>
-                <li><a href="#addingAnAudiobook"><h2>ADDING AN AUDIOBOOK</h2></a>
+                <li><a id="addingAnAudiobookLink" href="#addingAnAudiobook"><h2>ADDING AN AUDIOBOOK</h2></a>
                     <ul>
-                        <li>PREPARING THE AUDIO SECTION</li>
-                        <li>ADDING AUDIO FILES</li>
+                        <li><a id="preparingTheAudioSectionLink" href="#preparingTheAudioSection">PREPARING THE AUDIO SECTION</a></li>
+                        <li><a id="addingAudioFilesLink" href="#addingAudioFiles">ADDING AUDIO FILES</a></li>
                     </ul>
                 </li>
-                <li><a href="#metadataAndSearchEngineOptimization"><h2>METADATA AND SEARCH ENGINE OPTIMIZATION</h2></a>
+                <li><a id="metadataAndSearchEngineOptimizationLink" href="#metadataAndSearchEngineOptimization"><h2>METADATA AND SEARCH ENGINE OPTIMIZATION</h2></a>
                     <ul>
-                        <li>COPYRIGHT INFORMATION</li>
-                        <li>SEARCH KEYWORDS</li>
-                        <li>PAGE DESCRIPTIONS</li>
-                        <li>PAGE LANGUAGE</li>
+                        <li><a id="copyrightInformationLink" href="#copyrightInformation">COPYRIGHT INFORMATION</a></li>
+                        <li><a id="searchKeywordsLink" href="#searchKeywords">SEARCH KEYWORDS</a></li>
+                        <li><a id="pageDescriptionsLink" href="#pageDescriptions">PAGE DESCRIPTIONS</a></li>
+                        <li><a id="pageLanguageLink" href="#pageLanguage">PAGE LANGUAGE</a></li>
                     </ul>
                 </li>
-                <li><a href="#monetizingYourE-Book"><h2>MONETIZING YOUR E-BOOK</h2></a></li>
-                <li><a href="#customization"><h2>CUSTOMIZATION</h2></a>
+                <li><a id="monetizingYourE-BookLink" href="#monetizingYourE-Book"><h2>MONETIZING YOUR E-BOOK</h2></a></li>
+                <li><a id="customizationLink" href="#customization"><h2>CUSTOMIZATION</h2></a>
                     <ul>
-                        <li>REMOVING TABLE OF CONTENTS FOR SMALL E-BOOKS</li>
-                        <li>LINKING TO AN E-BOOK MENU</li>
-                        <li>ADDING CUSTOM HTML TO YOUR E-BOOK</li>
-                        <li>ADDING ADDITIONAL STYLESHEETS</li>
-                        <li>ADDING CUSTOM FAVICONS</li>
+                        <li><a id="removingTableOfContentsForSmallE-BooksLink" href="#removingTableOfContentsForSmallE-Books">REMOVING TABLE OF CONTENTS FOR SMALL E-BOOKS</a></li>
+                        <li><a id="linkingToAnE-BookMenuLink" href="#linkingToAnE-BookMenu">LINKING TO AN E-BOOK MENU</a></li>
+                        <li><a id="addingCustomHTMLToYourE-BookLink" href="#addingCustomHTMLToYourE-Book">ADDING CUSTOM HTML TO YOUR E-BOOK</a></li>
+                        <li><a id="addingAdditionalStylesheetsLink" href="#addingAdditionalStylesheets">ADDING ADDITIONAL STYLESHEETS</a></li>
+                        <li><a id="addingCustomFaviconsLink" href="#addingCustomFavicons">ADDING CUSTOM FAVICONS</a></li>
                     </ul>
                 </li>
-                <li><a href="#favorites"><h2>ADVANCED: FAVORITES</h2></a></li>
+                <li><a id="favoritesLink" href="#favorites"><h2>ADVANCED: FAVORITES</h2></a></li>
             </ul>
+            <hr />
         </section>
 
         <section id="basics">
-            <h1>BASICS</h1>
+            <h1>BASICS<a class="backToOriginalLink" href="#basicsLink"><sup>&uarr;</sup></a></h1>
+            <h2 id="addingATitleAndAuthor">ADDING A TITLE AND AUTHOR<a class="backToOriginalLink" href="#addingATitleAndAuthorLink"><sup>&uarr;</sup></a></h2>
+            <h2 id="addingChapters">ADDING CHAPTERS<a class="backToOriginalLink" href="#addingChaptersLink"><sup>&uarr;</sup></a></h2>
+            <h2 id="extras">EXTRAS<a class="backToOriginalLink" href="#extrasLink"><sup>&uarr;</sup></a></h2>
+            <h3 id="text-align">TEXT-ALIGN<a class="backToOriginalLink" href="#text-alignLink"><sup>&uarr;</sup></a></h3>
+            <h3 id="sub-titles">SUB-TITLES<a class="backToOriginalLink" href="#sub-titlesLink"><sup>&uarr;</sup></a></h3>
+            <h3 id="specialCredits">SPECIAL CREDITS<a class="backToOriginalLink" href="#specialCreditsLink"><sup>&uarr;</sup></a></h3>
+            <h3 id="datesAndLocations">DATES AND LOCATIONS<a class="backToOriginalLink" href="#datesAndLocationsLink"><sup>&uarr;</sup></a></h3>
+            <h3 id="dedications">DEDICATIONS<a class="backToOriginalLink" href="#dedicationsLink"><sup>&uarr;</sup></a></h3>
+            <h3 id="quotesAndEpigraphs">QUOTES AND PARAGRAPHS<a class="backToOriginalLink" href="#quotesAndEpigraphsLink"><sup>&uarr;</sup></a></h3>
+            <h3 id="footnotes">FOOTNOTES<a class="backToOriginalLink" href="#footnotesLink"><sup>&uarr;</sup></a></h3>
+            <h2 id="lyricsAndPoetry">LYRICS AND POETRY<a class="backToOriginalLink" href="#lyricsAndPoetryLink"><sup>&uarr;</sup></a></h2>
+            <hr />
         </section>
 
         <section id="addingArtToYourE-Book">
-            <h1>ADDING ART TO YOUR E-BOOK</h1>
+            <h1>ADDING ART TO YOUR E-BOOK<a class="backToOriginalLink" href="#addingArtToYourE-BookLink"><sup>&uarr;</sup></a></h1>
+            <h2 id="addingACoverImage">ADDING A COVER IMAGE<a class="backToOriginalLink" href="#addingACoverImageLink"><sup>&uarr;</sup></a></h2>
+            <h2 id="addingIllustrations">ADDING ILLUSTRATIONS<a class="backToOriginalLink" href="#addingIllustrationsLink"><sup>&uarr;</sup></a></h2>
+            <hr />
         </section>
 
         <section id="addingAnAudiobook">
-            <h1>ADDING AN AUDIOBOOK</h1>
+            <h1>ADDING AN AUDIOBOOK<a class="backToOriginalLink" href="#addingAnAudiobookLink"><sup>&uarr;</sup></a></h1>
+            <h2 id="preparingTheAudioSection">PREPARING THE AUDIO SECTION<a class="backToOriginalLink" href="#preparingTheAudioSectionLink"><sup>&uarr;</sup></a></h2>
+            <h2 id="addingAudioFiles">ADDING AUDIO FILES<a class="backToOriginalLink" href="#addingAudioFilesLink"><sup>&uarr;</sup></a></h2>
+            <hr />
         </section>
 
         <section id="metadataAndSearchEngineOptimization">
-            <h1>METADATA AND SEARCH ENGINE OPTIMIZATION</h1>
+            <h1>METADATA AND SEARCH ENGINE OPTIMIZATION<a class="backToOriginalLink" href="#metadataAndSearchEngineOptimizationLink"><sup>&uarr;</sup></a></h1>
+            <h2 id="copyrightInformation">COPYRIGHT INFORMATION<a class="backToOriginalLink" href="#copyrightInformationLink"><sup>&uarr;</sup></a></h2>
+            <h2 id="searchKeywords">SEARCH KEYWORDS<a class="backToOriginalLink" href="#searchKeywordsLink"><sup>&uarr;</sup></a></h2>
+            <h2 id="pageDescriptions">PAGE DESCRIPTIONS<a class="backToOriginalLink" href="#pageDescriptionsLink"><sup>&uarr;</sup></a></h2>
+            <h2 id="pageLanguage">PAGE LANGUAGE<a class="backToOriginalLink" href="#pageLanguageLink"><sup>&uarr;</sup></a></h2>
+            <hr />
         </section>
 
         <section id="monetizingYourE-Book">
-            <h1>MONETIZING YOUR E-BOOK</h1>
+            <h1>MONETIZING YOUR E-BOOK<a class="backToOriginalLink" href="#monetizingYourE-BookLink"><sup>&uarr;</sup></a></h1>
+            <hr />
         </section>
 
         <section id="customization">
-            <h1>CUSTOMIZATION</h1>
+            <h1>CUSTOMIZATION<a class="backToOriginalLink" href="#customizationLink"><sup>&uarr;</sup></a></h1>
+            <h2 id="removingTableOfContentsForSmallE-Books">REMOVING TABLE OF CONTENTS FOR SMALL E-BOOKS<a class="backToOriginalLink" href="#removingTableOfContentsForSmallE-BooksLink"><sup>&uarr;</sup></a></h2>
+            <h2 id="linkingToAnE-BookMenu">LINKING TO AN E-BOOK MENU<a class="backToOriginalLink" href="#linkingToAnE-BookMenuLink"><sup>&uarr;</sup></a></h2>
+            <h2 id="addingCustomHTMLToYourE-Book">ADDING CUSTOM HTML TO YOUR E-BOOK<a class="backToOriginalLink" href="#addingCustomerHTMLToYourE-BookLink"><sup>&uarr;</sup></a></h2>
+            <h2 id="addingAdditionalStylesheets">ADDING ADDITIONAL STYLESHEETS<a class="backToOriginalLink" href="#addingAdditionalStylesheetsLink"><sup>&uarr;</sup></a></h2>
+            <h2 id="addingCustomFavicons">ADDING CUSTOM FAVICONS<a class="backToOriginalLink" href="#addingCustomFaviconsLink"><sup>&uarr;</sup></a></h2>
+            <hr />
         </section>
 
         <section id="favorites">
-            <h1>FAVORITES</h1>
+            <h1>FAVORITES<a class="backToOriginalLink" href="#favoritesLink"><sup>&uarr;</sup></a></h1>
+            <hr />
         </section>
 
         <p><strong>SHANTY</strong> is a syntax to make writing e-books easier.
