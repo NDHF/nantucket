@@ -415,10 +415,19 @@ function runGam() {
         hAuthor.appendChild(hAuthorText);
         audioInfoHgroup.appendChild(hAuthor);
         let hAudioCopyright = newEl("H2");
-        hAudioCopyrightText = "Audio Recording &COPY; " +
-            audioDivObject.copyright;
-        hAudioCopyright.innerHTML = hAudioCopyrightText;
-        audioInfoHgroup.appendChild(hAudioCopyright);
+        if (audioDivObject.copyright !== "") {
+            let hAudioCopyrightText = "";
+            if (audioDivObject.copyright.slice(0, 6).toLowerCase() ===
+            "public") {
+                hAudioCopyrightText = "Audio Recording <s>&COPY</s> " +
+                audioDivObject.copyright;
+            } else {
+                hAudioCopyrightText = "Audio Recording &COPY; " +
+                audioDivObject.copyright;
+            }
+            hAudioCopyright.innerHTML = hAudioCopyrightText;
+            audioInfoHgroup.appendChild(hAudioCopyright);
+        }
         let hAudioCredits = newEl("H3");
         let hAudioCreditsLink = newEl("A");
         hAudioCreditsLink.id = "audioCreditsLink";
@@ -596,7 +605,6 @@ function runGam() {
                             illoMetadataObject.desc = illoMetadataArray[index +
                                 1];
                         } else if (item === ":illustrator") {
-                            console.log(true);
                             let indexForIllustrator = (index + 1);
                             let nameOfIllustrator = "";
                             for (indexForIllustrator; indexForIllustrator <
