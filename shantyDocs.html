@@ -74,8 +74,13 @@
         section kbd {
             font-size: 150%;
         }
+
         li.inputExample {
             list-style-type: none;
+        }
+
+        td:nth-child(2) {
+            text-align: right;
         }
     </style>
 </head>
@@ -134,6 +139,9 @@
                         <li><a id="addingChaptersLink" href="#addingChapters">ADDING CHAPTERS</a></li>
                         <li><a id="extrasLink" href="#extras">EXTRAS</a>
                             <ul>
+                                <li><a id="breakLink" href="#breaks">BREAKS</a></li>
+                                <li><a id="boldAndItalicizedTextLink" href="#boldAndItalicizedText">BOLD AND ITALICIZED
+                                        TEXT</a></li>
                                 <li><a id="text-alignLink" href="#text-align">TEXT-ALIGN</a></li>
                                 <li><a id="sub-titlesLink" href="#sub-titles">SUB-TITLES</a></li>
                                 <li><a id="specialCreditsLink" href="#specialCredits">SPECIAL CREDITS</a></li>
@@ -228,6 +236,18 @@
             </p>
             <p><strong>Make sure every chapter title is unique!</strong></p>
             <h2 id="extras">EXTRAS<a class="backToOriginalLink" href="#extrasLink"><sup>&uarr;</sup></a></h2>
+            <h3 id="breaks">BREAKS<a class="backToOriginalLink" href="#breakLink"><sup>&uarr;</sup></a></h3>
+            <p>To add a line break, just add four asterisks, <kbd>****</kbd>, on a new line.</p>
+            <h3 id="boldAndItalicizedText">BOLD AND ITALICIZED TEXT<a class="backToOriginalLink"
+                    href="#boldAndItalicizedTextLink"><sup>&uarr;</sup></a></h3>
+            <p>To add <b>bold text</b> to your e-book, put <b>two</b> asterisks (<kbd>**</kbd>) on either side of the word(s).</p>
+            <ul>
+                <li class="inputExample"><kbd>**[bold text here]**</kbd></li>
+            </ul>
+            <p>To add <i>italicized text</i> to your e-book, put <i>one</i> asterisk (<kbd>*</kbd>) on either side the word(s).</p>
+            <ul>
+                <li class="inputExample"><kbd>*[italicized text here]*</kbd></li>
+            </ul>
             <h3 id="text-align">TEXT-ALIGN<a class="backToOriginalLink" href="#text-alignLink"><sup>&uarr;</sup></a>
             </h3>
             <p>Nantucket will default to justified paragraphs: each line has the same width.</p>
@@ -334,38 +354,38 @@
                 To add an illustration, include the following line in your text:
             </p>
             <ul>
-                <li class="inputExample"><kbd>@@ILLO :source [link or filepath 
-                    to illustration] :orientation [either "landscape" OR "portrait"]
-                    :illustrator [name of illustrator] :desc [a brief description for 
-                    the image's title and alt tags] :buy [link to site where illustration 
-                    can be purchased] :caption [Text to accompany illustration when it's clicked or tapped]
-                </kbd></li>
+                <li class="inputExample"><kbd>@@ILLO :source [link or filepath
+                        to illustration] :orientation [either "landscape" OR "portrait"]
+                        :illustrator [name of illustrator] :desc [a brief description for
+                        the image's title and alt tags] :buy [link to site where illustration
+                        can be purchased] :caption [Text to accompany illustration when it's clicked or tapped]
+                    </kbd></li>
             </ul>
-            <p><strong>Only the :source attribute is required, and if :caption is used, 
-                it must come last.
-            </strong></p>
+            <p><strong>Only the :source attribute is required, and if :caption is used,
+                    it must come last.
+                </strong></p>
             <hr />
         </section>
 
         <section id="addingAnAudiobook">
             <h1>ADDING AN AUDIOBOOK<a class="backToOriginalLink" href="#addingAnAudiobookLink"><sup>&uarr;</sup></a>
             </h1>
-            <p>One of the most powerful features of the Nantucket E-Book format is 
+            <p>One of the most powerful features of the Nantucket E-Book format is
                 the ability to have a book's text, and an audio version, together.
-                Adding audiobooks to your e-book is much the same as adding 
+                Adding audiobooks to your e-book is much the same as adding
                 an illustration.
             </p>
             <h2 id="preparingTheAudioSection">PREPARING THE AUDIO SECTION<a class="backToOriginalLink"
                     href="#preparingTheAudioSectionLink"><sup>&uarr;</sup></a></h2>
-            <p>Before adding audio files to your e-book, start by adding an 
+            <p>Before adding audio files to your e-book, start by adding an
                 <kbd>!!AUDIO</kbd> tag at the beginning of your text:
             </p>
             <ul>
-                <li class="inputExample"><kbd>!!AUDIO :background [link or file path to a background image] 
-                    :copyright [Copyright information for audiobook]
-                </kbd></li>
+                <li class="inputExample"><kbd>!!AUDIO :background [link or file path to a background image]
+                        :copyright [Copyright information for audiobook]
+                    </kbd></li>
             </ul>
-            <p>If a background image is specified, it will be blurred and brightened to separate 
+            <p>If a background image is specified, it will be blurred and brightened to separate
                 it from the foreground elements.
                 If no background is specified, the program will default to a plain seashell background,
                 like the rest of the e-book.
@@ -373,14 +393,14 @@
             <h2 id="addingAudioFiles">ADDING AUDIO FILES<a class="backToOriginalLink"
                     href="#addingAudioFilesLink"><sup>&uarr;</sup></a></h2>
             <p>Any number of audio files can be included. The program will accept MP3s.</p>
-            <p>Longer works, such as novels, should break the audiobook into several short 
+            <p>Longer works, such as novels, should break the audiobook into several short
                 audio files.
             </p>
             <p>Add the following line to your text to include an audio file:</p>
             <ul>
-                <li class="inputExample"><kbd>@@AUDIO :source [link or file path to audio file] 
-                    :title [name for audio file]
-                </kbd></li>
+                <li class="inputExample"><kbd>@@AUDIO :source [link or file path to audio file]
+                        :title [name for audio file]
+                    </kbd></li>
             </ul>
             <hr />
         </section>
@@ -409,10 +429,84 @@
             <p>This will put a strikethrough on the copyright symbol.</p>
             <h2 id="searchKeywords">SEARCH KEYWORDS<a class="backToOriginalLink"
                     href="#searchKeywordsLink"><sup>&uarr;</sup></a></h2>
+            <p>Search engines will look for keywords associated with
+                a web page. For example, if your work is about baseball,
+                you'd better include the keyword 'baseball.'
+            </p>
+            <p>To include keywords for your e-book, include <kbd>!!KEYWORDS</kbd>
+                at the beginning of your text, followed by all the necessary keywords</p>
+            <p>Try to think of words people might search for, where your e-book would
+                be a good result.
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>!!KEYWORDS [keywords, separated by commas, no spaces]</kbd></li>
+            </ul>
             <h2 id="pageDescriptions">PAGE DESCRIPTIONS<a class="backToOriginalLink"
                     href="#pageDescriptionsLink"><sup>&uarr;</sup></a></h2>
+            <p>Search engines will also look for descriptions of web pages.
+                Use this part to include a brief summary of your e-book that
+                search engines will see.
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>!!DESC [Description of e-book]</kbd></li>
+            </ul>
             <h2 id="pageLanguage">PAGE LANGUAGE<a class="backToOriginalLink"
                     href="#pageLanguageLink"><sup>&uarr;</sup></a></h2>
+            <p>Lastly, search engines will try to figure out which language
+                your e-book is in. While the search engine can make an educated
+                guess, make it easy, and just tell it what the language is.
+            </p>
+            <ul>
+                <li class="inputExample">!!LANG [two-letter language code]</li>
+            </ul>
+            <p><strong>If you don't include this line, the program
+                    will automatically default to English, "EN."
+                </strong></p>
+            <p>Here are the language codes for the top ten most-spoken languages,
+                according to Wikipedia:
+            </p>
+            <table id="languageTable">
+                <tr>
+                    <td>Chinese</td>
+                    <td>ZH</td>
+                </tr>
+                <tr>
+                    <td>Spanish</td>
+                    <td>ES</td>
+                </tr>
+                <tr>
+                    <td>English</td>
+                    <td>EN</td>
+                </tr>
+                <tr>
+                    <td>Hindi</td>
+                    <td>HI</td>
+                </tr>
+                <tr>
+                    <td>Bengali</td>
+                    <td>BN</td>
+                </tr>
+                <tr>
+                    <td>Portuguese</td>
+                    <td>PT</td>
+                </tr>
+                <tr>
+                    <td>Russian</td>
+                    <td>RU</td>
+                </tr>
+                <tr>
+                    <td>Japanese</td>
+                    <td>JP</td>
+                </tr>
+                <tr>
+                    <td>Punjabi</td>
+                    <td>PA</td>
+                </tr>
+                <tr>
+                    <td>Marathi</td>
+                    <td>MR</td>
+                </tr>
+            </table>
             <hr />
         </section>
 
