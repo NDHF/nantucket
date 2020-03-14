@@ -272,28 +272,28 @@
                 </ul>
                 <h3 id="quotesAndEpigraphs">QUOTES AND EPIGRAPHS<a class="backToOriginalLink"
                         href="#quotesAndEpigraphsLink"><sup>&uarr;</sup></a></h3>
-                    <p>An epigraph is a quote at the beginning of your book 
-                        that sets the tone, or provides the context, for the rest of the work.
-                    </p>
-                    <p>To add an epigraph, or any other special quote, use the following lines:</p>
-                    <ul>
-                        <li class="inputExample"><kbd>@@BLOCKQ [quote]</kbd></li>
-                        <li class="inputExample"><kbd>@@QUOTEATTR [quote attribution]</kbd></li>
-                    </ul>
+                <p>An epigraph is a quote at the beginning of your book
+                    that sets the tone, or provides the context, for the rest of the work.
+                </p>
+                <p>To add an epigraph, or any other special quote, use the following lines:</p>
+                <ul>
+                    <li class="inputExample"><kbd>@@BLOCKQ [quote]</kbd></li>
+                    <li class="inputExample"><kbd>@@QUOTEATTR [quote attribution]</kbd></li>
+                </ul>
                 <h3 id="footnotes">FOOTNOTES<a class="backToOriginalLink" href="#footnotesLink"><sup>&uarr;</sup></a>
                 </h3>
                 <h2 id="lyricsAndPoetry">LYRICS AND POETRY<a class="backToOriginalLink"
                         href="#lyricsAndPoetryLink"><sup>&uarr;</sup></a></h2>
-                <p>If you need to add a few lines of a song or poetry to your e-book, 
+                <p>If you need to add a few lines of a song or poetry to your e-book,
                     preface each line with the <kbd>`</kbd> character, like this:
                 </p>
                 <ul>
-                    <li><kbd>` [poetry line here]</kbd></li>
-                    <li><kbd>` [poetry line here]</kbd></li>
+                    <li class="inputExample"><kbd>` [poetry line here]</kbd></li>
+                    <li clas="inputExample"><kbd>` [poetry line here]</kbd></li>
                 </ul>
                 <p><strong>Since much of a poem's meaning comes from its presentation,
-                    I understand that this may be insufficient. If a poem has to be
-                    presented a certain way, check out the later sections on customization.</strong>
+                        I understand that this may be insufficient. If a poem has to be
+                        presented a certain way, check out the later sections on customization.</strong>
                 </p>
                 <hr />
         </section>
@@ -301,10 +301,46 @@
         <section id="addingArtToYourE-Book">
             <h1>ADDING ART TO YOUR E-BOOK<a class="backToOriginalLink"
                     href="#addingArtToYourE-BookLink"><sup>&uarr;</sup></a></h1>
+            <p>Since our media environment is almost entirely visual,
+                it is recommended that you include images in your e-books.
+            </p>
+            <p><strong>For all images, remember to choose an image resolution
+                    and compression that minimizes file size, and maximizes quality.
+                    A bit of experimenting is a great help.
+                </strong></p>
             <h2 id="addingACoverImage">ADDING A COVER IMAGE<a class="backToOriginalLink"
                     href="#addingACoverImageLink"><sup>&uarr;</sup></a></h2>
+            <p>Can you say <i>pizzaz</i>? If you want to add a cover image
+                to your e-book, add the following line:</p>
+            <ul>
+                <li class="inputExample"><kbd>@@COVERIMG [link or filepath to
+                        to cover image]
+                    </kbd></li>
+            </ul>
+            <p><strong>The cover image will always come first in the e-book.</strong></p>
+            <p>If you want to include a description of the cover image, and the artist's name,
+                include the following lines at the beginning of your document:
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>!!COVERART [name of artist]</kbd></li>
+                <li class="inputExample"><kbd>!!COVERDESC [description of cover art]</kbd></li>
+            </ul>
             <h2 id="addingIllustrations">ADDING ILLUSTRATIONS<a class="backToOriginalLink"
                     href="#addingIllustrationsLink"><sup>&uarr;</sup></a></h2>
+            <p>You can add an indefinite number of illustrations to your e-book.
+                To add an illustration, include the following line in your text:
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>@@ILLO :source [link or filepath 
+                    to illustration] :orientation [either "landscape" OR "portrait"]
+                    :illustrator [name of illustrator] :desc [a brief description for 
+                    the image's title and alt tags] :buy [link to site where illustration 
+                    can be purchased] :caption [Text to accompany illustration when it's clicked or tapped]
+                </kbd></li>
+            </ul>
+            <p><strong>Only the :source attribute is required, and if :caption is used, 
+                it must come last.
+            </strong></p>
             <hr />
         </section>
 
@@ -321,25 +357,25 @@
         <section id="metadataAndSearchEngineOptimization">
             <h1>METADATA AND SEARCH ENGINE OPTIMIZATION<a class="backToOriginalLink"
                     href="#metadataAndSearchEngineOptimizationLink"><sup>&uarr;</sup></a></h1>
-                <p>This section covers things that will make your website look more 
-                    appealing to search engines, plus copyright info.
-                </p>
+            <p>This section covers things that will make your website look more
+                appealing to search engines, plus copyright info.
+            </p>
             <h2 id="copyrightInformation">COPYRIGHT INFORMATION<a class="backToOriginalLink"
                     href="#copyrightInformationLink"><sup>&uarr;</sup></a></h2>
-                <p>It's a very, very good idea to include the copyright info for 
-                    your e-book, even if it's 100% public domain. This furthers 
-                    the legal protection for your e-book, and lets the reader know 
-                    how they can share it. 
-                </p>
-                <p>To add copyright info, add the following line to the beginning of your document:</p>
-                <ul>
-                    <li class="inputExample"><kbd>!!COPYRIGHT [YYYY]</kbd></li>
-                </ul>
-                <p>If your work is public domain, use:</p>
-                <ul>
-                    <li class="inputExample"><kbd>!!COPYRIGHT PUBLIC DOMAIN</kbd></li>
-                </ul>
-                <p>This will put a strikethrough on the copyright symbol.</p>
+            <p>It's a very, very good idea to include the copyright info for
+                your e-book, even if it's 100% public domain. This furthers
+                the legal protection for your e-book, and lets the reader know
+                how they can share it.
+            </p>
+            <p>To add copyright info, add the following line to the beginning of your document:</p>
+            <ul>
+                <li class="inputExample"><kbd>!!COPYRIGHT [YYYY]</kbd></li>
+            </ul>
+            <p>If your work is public domain, use:</p>
+            <ul>
+                <li class="inputExample"><kbd>!!COPYRIGHT PUBLIC DOMAIN</kbd></li>
+            </ul>
+            <p>This will put a strikethrough on the copyright symbol.</p>
             <h2 id="searchKeywords">SEARCH KEYWORDS<a class="backToOriginalLink"
                     href="#searchKeywordsLink"><sup>&uarr;</sup></a></h2>
             <h2 id="pageDescriptions">PAGE DESCRIPTIONS<a class="backToOriginalLink"

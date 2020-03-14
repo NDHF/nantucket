@@ -314,7 +314,7 @@ function runGam() {
         let buttonArray = [
             "<div id='menuIconDiv' class='buttons' onclick=''>" +
             "<img id='menuIconImg' " +
-            "src='../../assets/images/menuicon_black.svg' />" +
+            "src='http://www.ndhfilms.com/assets/images/menuicon_black.svg' />" +
             "</div>",
             "<div id='tocIconDiv' class='buttons' onclick=''>" +
             "<object id='tocIconObject'" +
