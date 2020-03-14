@@ -74,6 +74,9 @@
         section kbd {
             font-size: 150%;
         }
+        li.inputExample {
+            list-style-type: none;
+        }
     </style>
 </head>
 
@@ -347,10 +350,32 @@
         <section id="addingAnAudiobook">
             <h1>ADDING AN AUDIOBOOK<a class="backToOriginalLink" href="#addingAnAudiobookLink"><sup>&uarr;</sup></a>
             </h1>
+            <p>One of the most powerful features of the Nantucket E-Book format is 
+                the ability to have a book's text, and an audio version, together.
+                Adding audiobooks to your e-book is much the same as adding 
+                an illustration.
+            </p>
             <h2 id="preparingTheAudioSection">PREPARING THE AUDIO SECTION<a class="backToOriginalLink"
                     href="#preparingTheAudioSectionLink"><sup>&uarr;</sup></a></h2>
+            <p>Before adding audio files to your e-book, start by adding an 
+                <kbd>!!AUDIO</kbd> tag at the beginning of your text:
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>!!AUDIO :background [link or file path to a background image] 
+                    :copyright [Copyright information for audiobook]
+                </kbd></li>
+            </ul>
+            <p>If a background image is specified, it will be blurred and brightened to separate 
+                it from the foreground elements.
+                If no background is specified, the program will default to a plain seashell background,
+                like the rest of the e-book.
+            </p>
             <h2 id="addingAudioFiles">ADDING AUDIO FILES<a class="backToOriginalLink"
                     href="#addingAudioFilesLink"><sup>&uarr;</sup></a></h2>
+            <p>Any number of audio files can be included. The program will accept MP3s.</p>
+            <p>Longer works, such as novels, should break the audiobook into several short 
+                audio files.
+            </p>
             <hr />
         </section>
 

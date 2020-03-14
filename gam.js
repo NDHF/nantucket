@@ -260,6 +260,12 @@ function runGam() {
     }
     createHead();
 
+    // CREATE KEYWORD
+
+    let keyword = newEl("P");
+    keyword.id = "keyword";
+    body.appendChild(keyword);
+
     function addHeader() {
         let header = newEl("HEADER");
         // header.id = "header";
@@ -318,20 +324,20 @@ function runGam() {
             "</div>",
             "<div id='tocIconDiv' class='buttons' onclick=''>" +
             "<object id='tocIconObject'" +
-            "type='image/svg+xml' data='../../assets/images/tocicon.svg'>" +
+            "type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/tocicon.svg'>" +
             "Your browser does not support SVG</object></div>",
             "<div id='lightbulbDiv' class=' buttons' onclick=''>" +
             "<object ID='lightbulbObject'" +
-            "type='image/svg+xml' data='../../assets/images/lightbulb.svg'>" +
+            "type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/lightbulb.svg'>" +
             "Your browser does not support SVG</object></div>",
             "<div id='bookmarkDiv'" +
             "class='buttons'>" +
             "<object id='bookmarkObject' type='image/svg+xml'" +
-            "data='../../assets/images/bookmark.svg'>" +
+            "data='http://www.ndhfilms.com/assets/images/bookmark.svg'>" +
             "Your browser does not support SVG</object></div>",
             "<div id='cassetteDiv' class='buttons'>" +
             "<object id='cassetteObject' type='image/svg+xml'" +
-            "data='../../assets/images/cassette.svg'>" +
+            "data='http://www.ndhfilms.com/assets/images/cassette.svg'>" +
             "Your browser does not support SVG</object></div>"
         ];
         if (monetizationObject !== "") {
@@ -567,17 +573,13 @@ function runGam() {
 
                 function getImageMetadata() {
                     illoMetadataArray = item.split(" ");
-                    if ((illoMetadataArray.includes(":small") === false) ||
-                        (illoMetadataArray.includes(":large")) === false) {
+                    if ((illoMetadataArray.includes(":source") === false))  {
                         alert("required illustration data missing.");
                     }
 
                     function addIlloMetadataToObject(item, index) {
-                        if (item === ":small") {
-                            illoMetadataObject.small = illoMetadataArray[index +
-                                1];
-                        } else if (item === ":large") {
-                            illoMetadataObject.large = illoMetadataArray[index +
+                        if (item === ":source") {
+                            illoMetadataObject.source = illoMetadataArray[index +
                                 1];
                         } else if (item === ":buy") {
                             illoMetadataObject.buy = illoMetadataArray[index +
@@ -637,7 +639,7 @@ function runGam() {
                         }
                     }
                     imgThumbnail.classList.add("illustrationTarget");
-                    imgThumbnail.src = illoMetadataObject.small;
+                    imgThumbnail.src = illoMetadataObject.source;
                     body.appendChild(imgThumbnail);
                 }
                 createIllustrationThumbnail();
@@ -678,7 +680,7 @@ function runGam() {
                         " by " + textMetadata.illustrator;
                     fullImage.title = "Illustration by " +
                         textMetadata.illustrator;
-                    fullImage.src = illoMetadataObject.large;
+                    fullImage.src = illoMetadataObject.source;
                     flexbox1.appendChild(fullImage);
                     container.appendChild(flexbox1);
 
