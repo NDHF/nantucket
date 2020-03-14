@@ -474,9 +474,9 @@ function runGam() {
                     coverImage.alt = "Cover of " + textMetadata.title;
                     if (textMetadata.coverart !== "") {
                         coverImage.title = coverImage.title.concat(" by " +
-                        textMetadata.coverart);
+                            textMetadata.coverart);
                         coverImage.alt = coverImage.alt.concat(" by " +
-                        textMetadata.coverart);
+                            textMetadata.coverart);
                     }
                 }
                 coverImage.src = textMetadata.coverlink;
@@ -573,7 +573,7 @@ function runGam() {
 
                 function getImageMetadata() {
                     illoMetadataArray = item.split(" ");
-                    if ((illoMetadataArray.includes(":source") === false))  {
+                    if ((illoMetadataArray.includes(":source") === false)) {
                         alert("required illustration data missing.");
                     }
 
@@ -596,7 +596,20 @@ function runGam() {
                             illoMetadataObject.desc = illoMetadataArray[index +
                                 1];
                         } else if (item === ":illustrator") {
-                            illoMetadataObject.illustrator = illoMetadataArray[index + 1];
+                            console.log(true);
+                            let indexForIllustrator = (index + 1);
+                            let nameOfIllustrator = "";
+                            for (indexForIllustrator; indexForIllustrator <
+                                illoMetadataArray.length; indexForIllustrator +=
+                                1) {
+                                    if (illoMetadataArray[indexForIllustrator].charAt(0) !== ":") {
+                                        nameOfIllustrator = nameOfIllustrator.concat(" " +
+                                        illoMetadataArray[indexForIllustrator]);
+                                    } else if (illoMetadataArray[indexForIllustrator].charAt(0) === ":") {
+                                        break;
+                                    }
+                            }
+                            illoMetadataObject.illustrator = nameOfIllustrator;
                         }
                     }
                     illoMetadataArray.forEach(addIlloMetadataToObject);
@@ -677,9 +690,9 @@ function runGam() {
                     fullImage.classList.add(illoMetadataObject.orientation +
                         "Illustration");
                     fullImage.alt = "Illustration for " + textMetadata.title +
-                        " by " + textMetadata.illustrator;
+                        " by " + illoMetadataObject.illustrator;
                     fullImage.title = "Illustration by " +
-                        textMetadata.illustrator;
+                        illoMetadataObject.illustrator;
                     fullImage.src = illoMetadataObject.source;
                     flexbox1.appendChild(fullImage);
                     container.appendChild(flexbox1);
@@ -695,7 +708,7 @@ function runGam() {
                     flexbox2Hgroup.appendChild(caption);
                     let illustratorInfo = newEl("H3");
                     illustratorInfoText = ctn("Illustration by " +
-                        textMetadata.illustrator);
+                        illoMetadataObject.illustrator);
                     illustratorInfo.appendChild(illustratorInfoText);
                     flexbox2Hgroup.appendChild(illustratorInfo);
                     flexbox2.appendChild(flexbox2Hgroup);
@@ -776,7 +789,7 @@ function runGam() {
                 backToOriginalLink.id = "footnote" + footnoteNumber;
                 backToOriginalLink.href = "#footnoteLink" + footnoteNumber;
                 backToOriginalLink.innerHTML = "<sup>" + footnoteNumber +
-                "</sup>";
+                    "</sup>";
                 footnote.appendChild(backToOriginalLink);
                 footnote.appendChild(footnoteContents);
                 footnoteSection.appendChild(footnote);
@@ -949,21 +962,21 @@ function runGam() {
         if ((chapterArray.length > 0) && (illustrationArray.length > 0)) {
             body.getElementsByTagName(
                 "HEADER"
-                )[0].parentNode.insertBefore(desktopTOCSelect, body.getElementsByTagName(
-                    "HEADER"
-                    )[0].nextSibling);
+            )[0].parentNode.insertBefore(desktopTOCSelect, body.getElementsByTagName(
+                "HEADER"
+            )[0].nextSibling);
             body.getElementsByTagName(
                 "HEADER"
-                )[0].parentNode.insertBefore(mobileTOCDiv, body.getElementsByTagName(
-                    "HEADER"
-                    )[0].nextSibling);
+            )[0].parentNode.insertBefore(mobileTOCDiv, body.getElementsByTagName(
+                "HEADER"
+            )[0].nextSibling);
             if (textMetadata.small !==
                 "small") {
                 body.getElementsByTagName(
                     "HEADER"
-                    )[0].parentNode.insertBefore(desktopTOCSection, body.getElementsByTagName(
-                        "HEADER"
-                        )[0].nextSibling);
+                )[0].parentNode.insertBefore(desktopTOCSection, body.getElementsByTagName(
+                    "HEADER"
+                )[0].nextSibling);
             }
         }
     }
@@ -1060,17 +1073,17 @@ function runGam() {
                 timeElement = "";
                 copyrightHolder = "";
             }
-    
+
             copyright.innerHTML = copyrightSymbolCode + timeElement +
                 copyrightDate + " " + copyrightHolder;
         } else {
             copyright.innerHTML = "No copyright information available " +
-            "at this time";
+                "at this time";
         }
         if (body.querySelectorAll("#supportSection") !== null) {
             body.insertBefore(copyright, body.querySelectorAll(
                 "#supportSection"
-                )[0]);
+            )[0]);
         } else {
             body.appendChild(copyright);
         }
@@ -1140,7 +1153,7 @@ function runGam() {
         footnoteSection.insertBefore(footnotesSectionHeader, footnoteSection.children[0]);
         body.insertBefore(footnoteSection, body.querySelectorAll(
             "#eReaderNotice"
-            )[0]);
+        )[0]);
     }
 
     // FINISH UP THE TABLES OF CONTENTS
