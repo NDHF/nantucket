@@ -4,7 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHANTY: SYNTAX</title>
+    <meta name="description"
+        content="A user manual for the Shanty e-book syntax, designed to make writing e-books easier." />
+    <meta name="keywords" content="syntax, e-book, writing, e-reader" />
+    <meta name="author" content="Nicholas Bernhard" />
+    <title>SHANTY: AN E-BOOK SYNTAX</title>
     <style>
         body {
             background-color: #fffff2;
@@ -240,11 +244,13 @@
             <p>To add a line break, just add four asterisks, <kbd>****</kbd>, on a new line.</p>
             <h3 id="boldAndItalicizedText">BOLD AND ITALICIZED TEXT<a class="backToOriginalLink"
                     href="#boldAndItalicizedTextLink"><sup>&uarr;</sup></a></h3>
-            <p>To add <b>bold text</b> to your e-book, put <b>two</b> asterisks (<kbd>**</kbd>) on either side of the word(s).</p>
+            <p>To add <b>bold text</b> to your e-book, put <b>two</b> asterisks (<kbd>**</kbd>) on either side of the
+                word(s).</p>
             <ul>
                 <li class="inputExample"><kbd>**[bold text here]**</kbd></li>
             </ul>
-            <p>To add <i>italicized text</i> to your e-book, put <i>one</i> asterisk (<kbd>*</kbd>) on either side the word(s).</p>
+            <p>To add <i>italicized text</i> to your e-book, put <i>one</i> asterisk (<kbd>*</kbd>) on either side the
+                word(s).</p>
             <ul>
                 <li class="inputExample"><kbd>*[italicized text here]*</kbd></li>
             </ul>
@@ -312,7 +318,7 @@
                 </p>
                 <ul>
                     <li class="inputExample"><kbd>` [poetry line here]</kbd></li>
-                    <li clas="inputExample"><kbd>` [poetry line here]</kbd></li>
+                    <li class="inputExample"><kbd>` [poetry line here]</kbd></li>
                 </ul>
                 <p><strong>Since much of a poem's meaning comes from its presentation,
                         I understand that this may be insufficient. If a poem has to be
@@ -513,6 +519,27 @@
         <section id="monetizingYourE-Book">
             <h1>MONETIZING YOUR E-BOOK<a class="backToOriginalLink"
                     href="#monetizingYourE-BookLink"><sup>&uarr;</sup></a></h1>
+            <p>You may want to include some way for people to financially support
+                your work.
+            </p>
+            <p><strong>If you have a web page where people can support your work,
+                </strong>
+                such as Patreon or PayPal, the program can add a link to that web
+                page in the menu.
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>!!MONETIZELINK [link to web page]</kbd></li>
+                <li class="inputExample"><kbd>!!MONETIZEICON [link to SVG icon for monetization site]</kbd></li>
+            </ul>
+            <p>Second, you may want to include a call-to-action at the end of your page.
+                To do so, include the following line:
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>@@SUPPORT :title [title of call-to-action] :text [necessary text]</kbd>
+                </li>
+            </ul>
+            <p><strong>The text section supports HTML, so if you would like to add a link there, you may do so.</strong>
+            </p>
             <hr />
         </section>
 
@@ -521,12 +548,61 @@
             <h2 id="removingTableOfContentsForSmallE-Books">REMOVING TABLE OF CONTENTS FOR SMALL E-BOOKS<a
                     class="backToOriginalLink" href="#removingTableOfContentsForSmallE-BooksLink"><sup>&uarr;</sup></a>
             </h2>
+            <p>The Nantucket E-Book format includes three tables of contents:</p>
+            <p>The first one is within the document itself. This one is ideal for accessibility,
+                since it can be easily accessed with the <kbd>TAB</kbd> key on your keyboard.
+                It also gives first-time readers a sense of the structure of your e-book, and
+                its contents, just like a table of contents should.
+            </p>
+            <p>The second one is intended for mobile users, and is a full-screen window
+                which is accessed from the menu.
+            </p>
+            <p>The last one is intended for desktop users. It is a drop-down list that can be accessed from the
+                menu.
+            </p>
+            <p>If your e-book is small, like a short story, for example, it may not make sense
+                to include the first one. To remove it, just add the following line to the beginning
+                of your text:
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>!!SMALL</kbd></li>
+            </ul>
+            <p>To remove the internal table-of-contents,</p>
             <h2 id="linkingToAnE-BookMenu">LINKING TO AN E-BOOK MENU<a class="backToOriginalLink"
                     href="#linkingToAnE-BookMenuLink"><sup>&uarr;</sup></a></h2>
+            <p>If you have more than one e-book, you may have a web page where your
+                readers can see all of them.</p>
+            <p>You may want to include a link to that page in your tables of contents. To do so,
+                include the following line at the beginning of your text:
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>!!MENU [link to your e-book menu]</kbd></li>
+            </ul>
             <h2 id="addingCustomHTMLToYourE-Book">ADDING CUSTOM HTML TO YOUR E-BOOK<a class="backToOriginalLink"
                     href="#addingCustomerHTMLToYourE-BookLink"><sup>&uarr;</sup></a></h2>
+            <p>To add custom HTML to your e-book, use the following:</p>
+            <ul>
+                <li class="inputExample"><kbd>@@HTMLSTART</kbd></li>
+                <li class="inputExample"><kbd>[html goes here]</li>
+                <li class="inputExample"><kbd>@@HTMLEND</kbd></li>
+            </ul>
+            <p><strong>If you don't include the <kbd>@@HTMLEND</kbd>, the earth will
+                    crash into the sun.</strong></p>
+            <p>Custom HTML would be useful if there your text requires some extra-special formatting.
+                You may use the HTML <code>PRE</code> tag to preserve
+                line spacing for a stylized poem.
+            </p>
+            <p>In the example below, I have used custom HTML, and the <code>PRE</code> tag
+                to maintain the original formatting of the Mouse's poem, from
+                <i>Alice's Adventures in Wonderland</i>.</p>
             <h2 id="addingAdditionalStylesheets">ADDING ADDITIONAL STYLESHEETS<a class="backToOriginalLink"
                     href="#addingAdditionalStylesheetsLink"><sup>&uarr;</sup></a></h2>
+            <p>With custom HTML comes custom CSS. If you would like to link a custom stylesheet
+                to your e-book, include the following line at the beginning of your text:
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>!!STYLESHEET [link or file path to custom stylesheet]</kbd></li>
+            </ul>
             <h2 id="addingCustomFavicons">ADDING CUSTOM FAVICONS<a class="backToOriginalLink"
                     href="#addingCustomFaviconsLink"><sup>&uarr;</sup></a></h2>
             <hr />
