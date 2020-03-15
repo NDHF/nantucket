@@ -27,11 +27,6 @@
             display: block;
             margin-left: auto;
             margin-right: auto;
-            width: 33%;
-        }
-
-        figure#headerFigure img {
-            width: 100%;
         }
 
         figure#headerFigure figcaption {
@@ -85,6 +80,38 @@
 
         td:nth-child(2) {
             text-align: right;
+        }
+
+        @media screen and (orientation: portrait) {
+            figure img {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 90%;
+            }
+
+            figure img {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
+            }
+        }
+
+        @media screen and (orientation: landscape) {
+            figure {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 40%;
+            }
+
+            figure img {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -393,7 +420,8 @@
             </ul>
             <p>If a background image is specified, it will be blurred and brightened to separate
                 it from the foreground elements.
-                If no background is specified, the program will default to a plain seashell background,
+                If no background is specified, the program will default to a plain <span title="fff5ee / 100,96,93"
+                    class="seashellExample">seashell</span> background,
                 like the rest of the e-book.
             </p>
             <h2 id="addingAudioFiles">ADDING AUDIO FILES<a class="backToOriginalLink"
@@ -605,136 +633,49 @@
             </ul>
             <h2 id="addingCustomFavicons">ADDING CUSTOM FAVICONS<a class="backToOriginalLink"
                     href="#addingCustomFaviconsLink"><sup>&uarr;</sup></a></h2>
+            <p>A favicon is a very small image that represents a web page. Is is usually
+                displayed on the tab of a desktop browser, or on the new window of a mobile browser:
+            </p>
+            <p>The program will automatically use my Bernhard Ltd. favicon:</p>
+            <p>If you would like to replace it with your own favicon, include the following line
+                at the beginning of your text:
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>!!ICON [link or file path to your own favicon]</kbd></li>
+            </ul>
             <hr />
         </section>
 
         <section id="favorites">
             <h1>FAVORITES<a class="backToOriginalLink" href="#favoritesLink"><sup>&uarr;</sup></a></h1>
+            <p>This is a more technical feature that you may include with your e-book.</p>
+            <p>It is possible to include a "FAVORITES" button in the menu.
+                This button allows the reader to save a list of their favorite e-books into
+                the local storage of their device's browser.
+            </p>
+            <p>If you have a web page listing all your e-books, it is possible have this page
+                highlight all of a user's favorited books.
+            </p>
+            <p>Because this feature uses local storage, the information is more secure than if it
+                were stored on a server.
+            </p>
+            <p><strong>First,</strong> you must create a <strong>unique keyword for your e-book</strong>.</p>
+            <ul>
+                <li class="inputExample"><kbd>!!KYWD [keyword for your e-book]</kbd></li>
+            </ul>
+            <p><strong>Second,</strong> you must create a name for your list of favorite e-books.
+                If someone hits the favorite button for your e-book, this specifies where it should be saved.</p>
+            <p>If you have a page for all your e-books, you can then write a simple JavaScript program to access
+                this list, and have the user's favorite e-books listed or highlighted.
+            </p>
+            <p>This part of the program is still under development.</p>
             <hr />
         </section>
+        <section id="contact">
+            <h1>CONTACT<a class="backToOriginalLink" href="contactLink"><sup>&uarr;</sup></a></h1>
 
-        <h2>SYNTAX RULES</h2>
-
-        <h3>METADATA</h3>
-
-        <p>At the beginning of your document,
-            you should include all of the necessary metadata.</p>
-
-        <ul>
-            <li>!!TITLE [Put title here]</li>
-            <li>!!SUBTITLE</li>
-            <li>!!CREDIT </li>
-            <li>!!AUTHOR</li>
-            <li>!!ILLUSTRATOR</li>
-            <li>!!COVERART</li>
-            <li>!!AUDIO</li>
-        </ul>
-
-        <p>If you would like to include audio files with your e-book,
-            include the !!AUDIO notice in your metadata.
-        </p>
-
-        <p>Users will access the audio from the e-reader menu,
-            by clicking on the cassette icon:
-        </p>
-
-        <p>This will take users to the audio section.</p>
-
-        <p><strong>!!AUDIO :background [source of background image]
-                :copyright [recording copyright information]
-            </strong></p>
-
-        <ul>
-            <li>The <strong>:background</strong> notice specifies the image
-                you'd like for the background of the audio section. The image
-                is stylistically altered to emphasize the foreground.
-                <ul>
-                    <li>If no background is specified, the e-reader
-                        will default to the
-                        <span title="fff5ee / 100,96,93" class="seashellExample">seashell color.</span>
-                    </li>
-                </ul>
-            </li>
-            <li>The <strong>:copyright</strong> notice
-                allows you to specify the copyright status for the audio file.</li>
-            <li><strong>:copyright MUST come after :background</strong></li>
-        </ul>
-
-        <p>Strictly speaking, none of this metadata is
-            required for the NDH E-Reader format.</p>
-
-        <p>At the end of your document, you may want to include information
-            on where and when your content was written.
-        </p>
-
-        <ul>
-            <li>!!LOCATION [Whatever you want]</li>
-            <li>!!DATE [YYYY-MM-DD]</li>
-        </ul>
-
-        <!-- TODO 2020-03-03NJB Add example. -->
-
-        <figure>
-            <img src="" />
-            <figcaption>Nice. Just like Stephen King!</figcaption>
-        </figure>
-
-        <p>Some people prefer MM-DD-YYYY formats&hellip;
-            I for one care less for them.</p>
-
-        <h3>CHAPTERS</h3>
-
-        <p>"#" is used for chapter titles, and "##'' is used for chapter subtitles.</p>
-
-        <ul>
-            <li>#Chapter One</li>
-            <li>##The Morning Shift</li>
-        </ul>
-
-        <!-- TODO 2020-03-03NJB Add example. -->
-
-        <p>VVSTE's text-parsing program will look for these codes,
-            and use them to build your e-book's Table of Contents.
-        </p>
-
-        <p>The NDH E-Reader uses three tables of contents: a drop-down list
-            accessed from the menu for desktop users, a full page
-            for mobile users, and one displayed within the page layout
-            for accessibility.
-        </p>
-
-        <h3>ADDING CONTENT</h3>
-
-        <p>"@@" is used for adding special content to your document.</p>
-
-        <h4>COVER ART</h4>
-
-        <ul>
-            <li>@@COVERIMG [file path]</li>
-        </ul>
-
-        <h4>ILLUSTRATIONS</h4>
-
-        <p>The NDH E-Reader can support an indefinite number of illustrations.</p>
-
-        <p><strong>@@ILLO :small [illustration thumbnail filepath]
-                :large [illustration filepath] :buy [link to web page where
-                illustration can be purchased]
-                :orientation [landscape or portrait]
-                :caption [text]</strong>
-        </p>
-
-        <p><strong>:caption MUST come last.</strong></p>
-
-        <h4>AUDIO FILES</h4>
-
-        <p>The NDH E-Reader supports an indefinite number of audio files.</p>
-
-        <p><strong>@@AUDIO :source [audio filepath]
-                :title [name for audio file]</strong></p>
-
-        <p><strong>:title MUST come last.</strong></p>
-
+            <p>Questions? Comments? Suggestions? You may e-mail me at Nicholas[at]NDHFilms[the Warner sister][com]</p>
+        </section>
     </main>
 
 </body>

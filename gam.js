@@ -381,12 +381,6 @@ function runGam() {
             }
         }
         arrayOfAudioDivData.forEach(loopThroughAudioDivArray);
-        let audioCloseButton = newEl("IMG");
-        audioCloseButton.id = "audioCloseButton";
-        audioCloseButton.classList.add("closeButton");
-        audioCloseButton.src = "http://www.ndhfilms.com/assets/images/" +
-            "closeButton.svg";
-        audioDiv.appendChild(audioCloseButton);
         let audioBackground = newEl("DIV");
         audioBackground.id = "audioBackground";
         if (audioDivObject.background !== undefined) {
@@ -418,12 +412,12 @@ function runGam() {
         if (audioDivObject.copyright !== "") {
             let hAudioCopyrightText = "";
             if (audioDivObject.copyright.slice(0, 6).toLowerCase() ===
-            "public") {
+                "public") {
                 hAudioCopyrightText = "Audio Recording <s>&COPY</s> " +
-                audioDivObject.copyright;
+                    audioDivObject.copyright;
             } else {
                 hAudioCopyrightText = "Audio Recording &COPY; " +
-                audioDivObject.copyright;
+                    audioDivObject.copyright;
             }
             hAudioCopyright.innerHTML = hAudioCopyrightText;
             audioInfoHgroup.appendChild(hAudioCopyright);
@@ -457,6 +451,13 @@ function runGam() {
         audioCassetteDiv.appendChild(audioElement);
         container.appendChild(audioCassetteDiv);
         audioDiv.appendChild(container);
+        let audioCloseButton = newEl("IMG");
+        audioCloseButton.id = "audioCloseButton";
+        audioCloseButton.onclick = true;
+        audioCloseButton.classList.add("closeButton");
+        audioCloseButton.src = "../../assets/images/" +
+            "closeButton.svg";
+        audioDiv.appendChild(audioCloseButton);
         body.appendChild(audioDiv);
     }
     addAudioDiv();
@@ -610,12 +611,12 @@ function runGam() {
                             for (indexForIllustrator; indexForIllustrator <
                                 illoMetadataArray.length; indexForIllustrator +=
                                 1) {
-                                    if (illoMetadataArray[indexForIllustrator].charAt(0) !== ":") {
-                                        nameOfIllustrator = nameOfIllustrator.concat(" " +
+                                if (illoMetadataArray[indexForIllustrator].charAt(0) !== ":") {
+                                    nameOfIllustrator = nameOfIllustrator.concat(" " +
                                         illoMetadataArray[indexForIllustrator]);
-                                    } else if (illoMetadataArray[indexForIllustrator].charAt(0) === ":") {
-                                        break;
-                                    }
+                                } else if (illoMetadataArray[indexForIllustrator].charAt(0) === ":") {
+                                    break;
+                                }
                             }
                             illoMetadataObject.illustrator = nameOfIllustrator;
                         }
@@ -993,7 +994,9 @@ function runGam() {
     function createAudioSourceMenu() {
         if (audioSourceArray.length === 0) {
             body.querySelector("#cassetteDiv").remove();
-            body.querySelector("#audioDiv").remove();
+            if (body.querySelector("#audioDiv") !== null) {
+                body.querySelector("#audioDiv").remove();
+            }
         } else {
             let audioSourceSelect = newEl("SELECT");
             audioSourceSelect.id = "audioSourceSelect";
@@ -1081,9 +1084,8 @@ function runGam() {
                 timeElement = "";
                 copyrightHolder = "";
             }
-
             copyright.innerHTML = copyrightSymbolCode + timeElement +
-                copyrightDate + " " + copyrightHolder;
+                " " + copyrightHolder;
         } else {
             copyright.innerHTML = "No copyright information available " +
                 "at this time";
