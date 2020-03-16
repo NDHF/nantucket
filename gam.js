@@ -634,11 +634,16 @@ function runGam() {
                     }
                     let imgThumbnail = newEl("IMG");
                     imgThumbnail.id = "illustration" + illustrationNumber;
-
-                    illustrationArray.push({
-                        link: "#" + imgThumbnail.id,
-                        text: illoMetadataObject.caption
-                    });
+                    let illustrationObjectToPush = {
+                        link: "#" + imgThumbnail.id
+                    }
+                    if (illoMetadataObject.caption === undefined) {
+                        illustrationObjectToPush.text = "Image No. " +
+                        (illustrationArray.length + 1);
+                    } else {
+                        illustrationObjectToPush.text = illoMetadataObject.caption;
+                    }
+                    illustrationArray.push(illustrationObjectToPush);
                     if ((illoMetadataObject.desc !== undefined) &&
                         (illoMetadataObject.desc !== "")) {
                         imgThumbnail.title = illoMetadataObject.desc;
@@ -712,14 +717,20 @@ function runGam() {
                     let flexbox2Hgroup = newEl("HGROUP");
                     flexbox2Hgroup.classList.add("illustrationCaption");
                     let caption = newEl("H2");
-                    captionText = ctn(illoMetadataObject.caption);
+                    let captionText = ctn("Image #" +
+                    (illustrationArray.length) + " for this E-Book.");
+                    if (illoMetadataObject.caption !== undefined) {
+                        captionText = ctn(illoMetadataObject.caption);
+                    }
                     caption.appendChild(captionText);
                     flexbox2Hgroup.appendChild(caption);
-                    let illustratorInfo = newEl("H3");
-                    illustratorInfoText = ctn("Illustration by " +
-                        illoMetadataObject.illustrator);
-                    illustratorInfo.appendChild(illustratorInfoText);
-                    flexbox2Hgroup.appendChild(illustratorInfo);
+                    if (illoMetadataObject.illustrator !== undefined) {
+                        let illustratorInfo = newEl("H3");
+                        illustratorInfoText = ctn("Illustration by " +
+                            illoMetadataObject.illustrator);
+                        illustratorInfo.appendChild(illustratorInfoText);
+                        flexbox2Hgroup.appendChild(illustratorInfo);
+                    }
                     flexbox2.appendChild(flexbox2Hgroup);
                     container.appendChild(flexbox2);
                     illustrationDiv.appendChild(container);
