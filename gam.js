@@ -849,6 +849,9 @@ function runGam() {
         let placeholder = newEl("OPTION");
         placeholder.id = "firstOption";
         placeholder.value = "placeholder";
+        let placeholderText = ctn("TABLE OF CONTENTS");
+        placeholder.appendChild(placeholderText);
+        desktopTOCSelect.appendChild(placeholder);
         // TOC DIV FOR MOBILE
         let mobileTOCDiv = newEl("DIV");
         mobileTOCDiv.id = "tableOfContents";
