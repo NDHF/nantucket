@@ -975,7 +975,7 @@ function runGam() {
         // CREATE AND APPEND CLOSE BUTTON
 
         let tocCloseButton = newEl("IMG");
-        tocCloseButton.id = "audioCloseButton";
+        tocCloseButton.id = "tocCloseButton";
         tocCloseButton.classList.add("closeButton");
         tocCloseButton.src = "http://www.ndhfilms.com/assets/images/" +
             "closeButton.svg";
