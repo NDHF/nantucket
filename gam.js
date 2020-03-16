@@ -758,10 +758,10 @@ function runGam() {
                         }
                         if (inputArray[index + 1] !== undefined) {
                             if (inputArray[index + 1].slice(0, 2) === "##") {
-                                sh = inputArray[index + 1].slice(2);
+                                sh = ": " + inputArray[index + 1].slice(2);
                             }
                         }
-                        chapterObject.text = chapterHeadingText + ": " + sh;
+                        chapterObject.text = chapterHeadingText + sh;
                         chapterArray.push(chapterObject);
                     } else if (headingType === "subheading") {
                         chapterHeading = newEl("H2");
