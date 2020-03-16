@@ -1088,18 +1088,16 @@ function runGam() {
         if (textMetadata.copyright !== "") {
             let copyrightArray = textMetadata.copyright.split(" ");
             let copyrightDate = copyrightArray[0];
-            let copyrightSymbolCode = "&COPY; ";
+            let copyrightSymbolCode = "TEXT &COPY; ";
             let timeElement = "<time datetime='" + copyrightDate + "'>" +
                 copyrightDate + "</time>";
             let copyrightHolder = copyrightArray.slice(1).join(" ");
             if (copyrightDate === "PUBLIC") {
-                copyrightDate = textMetadata.copyright;
-                copyrightSymbolCode = "<s>&COPY;</s> ";
-                timeElement = "";
-                copyrightHolder = "";
-            }
-            copyright.innerHTML = copyrightSymbolCode + timeElement +
+                copyright.innerHTML = "TEXT <s>&COPY;</s> PUBLIC DOMAIN";
+            } else {
+                copyright.innerHTML = copyrightSymbolCode + timeElement +
                 " " + copyrightHolder;
+            }
         } else {
             copyright.innerHTML = "No copyright information available " +
                 "at this time";
