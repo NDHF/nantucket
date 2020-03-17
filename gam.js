@@ -170,7 +170,7 @@ function runGam() {
         // Add viewport meta tag
         // let viewportTag = newEl("META");
         // viewportTag.name = "viewport";
-        // viewportTag.content = "width=device-width, initial-scale=0";
+        // viewportTag.content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no";
         // head.appendChild(viewportTag);
         // Add author meta tag
         if (textMetadata.author !== "") {
@@ -319,7 +319,7 @@ function runGam() {
         buttonContainerDiv.id = "buttonContainer";
         let buttonArray = [
             "<div id='menuIconDiv' class='buttons' onclick=''>" +
-            "<img id='menuIconImg' " +
+            "<img id='menuIconImg' alt='Click or tap to toggle menu'" +
             "src='http://www.ndhfilms.com/assets/images/menuicon_black.svg' />" +
             "</div>",
             "<div id='tocIconDiv' class='buttons' onclick=''>" +
@@ -854,6 +854,10 @@ function runGam() {
     function createTableOfContents() {
         // PREPARE TABLES OF CONTENTS
         // TOC SELECT FOR DESKTOP
+        let desktopTOCSelectLabel = newEl("LABEL");
+        desktopTOCSelectLabel.setAttribute("for", "tocSelect");
+        let labelText = ctn("Some text here");
+        desktopTOCSelectLabel.appendChild(labelText);
         let desktopTOCSelect = newEl("SELECT");
         desktopTOCSelect.id = "tocSelect";
         desktopTOCSelect.classList.add("selectClosed");
@@ -976,6 +980,7 @@ function runGam() {
 
         let tocCloseButton = newEl("IMG");
         tocCloseButton.id = "tocCloseButton";
+        tocCloseButton.alt = "Click or tap to close table of contents";
         tocCloseButton.classList.add("closeButton");
         tocCloseButton.src = "http://www.ndhfilms.com/assets/images/" +
             "closeButton.svg";
@@ -983,6 +988,7 @@ function runGam() {
 
         desktopTOCSection.appendChild(tocSecList);
         if ((chapterArray.length > 0) && (illustrationArray.length > 0)) {
+            body.appendChild(desktopTOCSelectLabel);
             body.getElementsByTagName(
                 "HEADER"
             )[0].parentNode.insertBefore(desktopTOCSelect, body.getElementsByTagName(
@@ -1253,7 +1259,7 @@ function runGam() {
 
     function addJavascriptLink() {
         let script = newEl("SCRIPT");
-        script.src = "http://www.ndhfilms.com/assets/javascript/e-readerjs.js";
+        script.src = "http://www.ndhfilms.com/assets/javascript/e-readerjs-min.js";
         body.appendChild(script);
     }
     addJavascriptLink();
