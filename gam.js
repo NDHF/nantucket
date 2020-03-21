@@ -460,7 +460,9 @@ function runGam() {
         audioDiv.appendChild(audioCloseButton);
         body.appendChild(audioDiv);
     }
-    addAudioDiv();
+    if (textMetadata.audio !== "") {
+        addAudioDiv();
+    }
 
     function addText() {
         let illustrationCounter = 0;
@@ -505,6 +507,7 @@ function runGam() {
                 body.appendChild(blockquote);
             } else if (item.slice(0, 11) === "@@QUOTEATTR") {
                 let blockquoteAttrContent = " - " + item.slice(11);
+                blockquoteAttrContent = blockquoteAttrContent.replace(/\\"/g, '"');
                 let blockquoteAttr = newEl("P");
                 blockquoteAttr.classList.add("blockquoteAttr");
                 if (blockquoteAttrContent.includes("<i>")) {
@@ -987,7 +990,9 @@ function runGam() {
         mobileTOCDiv.appendChild(tocCloseButton);
 
         desktopTOCSection.appendChild(tocSecList);
-        if ((chapterArray.length > 0) && (illustrationArray.length > 0)) {
+        console.log(chapterArray);
+        if ((chapterArray.length > 0) || (illustrationArray.length > 0)) {
+            console.log(desktopTOCSelect);
             body.appendChild(desktopTOCSelectLabel);
             body.getElementsByTagName(
                 "HEADER"
@@ -1255,11 +1260,13 @@ function runGam() {
     function addCoverToAudioDiv() {
         body.querySelectorAll("#audioDivIllustration")[0].src = textMetadata.coverlink;
     }
-    addCoverToAudioDiv();
+    if (textMetadata.audio !== "") {
+        addCoverToAudioDiv();
+    }
 
     function addJavascriptLink() {
         let script = newEl("SCRIPT");
-        script.src = "http://www.ndhfilms.com/assets/javascript/e-readerjs-min.js";
+        script.src = "http://www.ndhfilms.com/assets/javascript/e-readerjs.js";
         body.appendChild(script);
     }
     addJavascriptLink();
