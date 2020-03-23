@@ -78,7 +78,7 @@ function runGam() {
                 } else {
                     i = 0;
                 }
-            } else if ((inputArray[i].slice(0, 2) === "!!")) {
+            } else if (inputArray[i].slice(0, 2) === "!!") {
                 let keyIndexArray = [
                     "TITLE", "SUBTITLE", "CREDIT", "AUTHOR",
                     "ILLUSTRATOR", "COVERART", "COVERARTDESC",
@@ -110,7 +110,7 @@ function runGam() {
     }
     removeThingsAndGatherMetadata();
 
-    // CHECK FOR MONETIZATION 
+    // CHECK FOR MONETIZATION
 
     if (((textMetadata.monetizelink !== "") &&
             (textMetadata.monetizeicon === "")) ||
@@ -208,7 +208,7 @@ function runGam() {
             "but no keyword for e-book");
         } else if ((textMetadata.kywd !== "") &&
             (textMetadata.favorites === "")) {
-            alert("WARNING: Designated a keyword for e-book," + 
+            alert("WARNING: Designated a keyword for e-book," +
             "but no favorites-array");
         } else if ((textMetadata.favorites !== "") &&
             (textMetadata.kywd !== "")) {
@@ -945,7 +945,7 @@ function runGam() {
                 mobileIllustrH3.appendChild(mobileIllustrH3Text);
                 mobileIllustrHeading.appendChild(mobileIllustrH3);
                 mobileTOCList.appendChild(mobileIllustrHeading);
-                // TOC SECTION FOR ACCESSIBILITY 
+                // TOC SECTION FOR ACCESSIBILITY
                 let tocSectionIllustrPlaceholder = newEl("LI");
                 tocSectionIllustrPlaceholder.classList.add("listHeading");
                 let tocSectionIllustrPlaceholderH3 = newEl("H3");
