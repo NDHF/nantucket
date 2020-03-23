@@ -1,8 +1,3 @@
-/*
-TODO 2020-0306NJB Finish up the table of contents, with the notices and
-credits at the end, and close button on the mobile div.
-*/
-
 function runGam() {
 
     // QUALITY-OF-LIFE FUNCTIONS START
@@ -124,12 +119,18 @@ function runGam() {
         alert("Missing information for monetization.");
     } else if ((textMetadata.monetizelink !== "") &&
         (textMetadata.monetizeicon !== "")) {
-        monetizationObject = "<div id='monetizationDiv' class='buttons'><a href='[monetizationLink]'><img id='monetizationIcon' src='../../assets/images/[monetizationIcon].svg' /></a></div>";
-        monetizationObject = monetizationObject.replace("[monetizationLink]", textMetadata.monetizelink);
-        monetizationObject = monetizationObject.replace("[monetizationIcon", textMetadata.monetizeicon);
+        monetizationObject = "<div id='monetizationDiv' class='buttons'>" +
+        "<a href='[monetizationLink]'><img id='monetizationIcon'" +
+        "src='../../assets/images/[monetizationIcon].svg' /></a></div>";
+        monetizationObject = monetizationObject.replace(
+            "[monetizationLink]", textMetadata.monetizelink
+            );
+        monetizationObject = monetizationObject.replace(
+            "[monetizationIcon", textMetadata.monetizeicon
+            );
     }
 
-    function replaceThings(item, index) {
+    function replaceAsterisks(item, index) {
         // Replace asterisks with hr tag
 
         if (item.length === 4) {
@@ -141,13 +142,15 @@ function runGam() {
 
         // TODO 2020-02-15NJB Replace @@L with lyrics formatting
     }
-    inputArray.forEach(replaceThings);
+    inputArray.forEach(replaceAsterisks);
 
     let doctypeHTML = "<!DOCTYPE html>";
     let html = newEl("HTML");
     let startHTMLTag = "<html lang='[lang]'>";
     if (textMetadata.lang !== "") {
-        startHTMLTag = startHTMLTag.replace("[lang]", textMetadata.lang.toLowerCase());
+        startHTMLTag = startHTMLTag.replace(
+            "[lang]", textMetadata.lang.toLowerCase()
+            );
     } else {
         startHTMLTag = startHTMLTag.replace("[lang]", "en");
     }
@@ -201,10 +204,12 @@ function runGam() {
         head.appendChild(themeColorMetaTag);
         // ADD FAVORITES INFORMATION
         if ((textMetadata.kywd === "") && (textMetadata.favorites !== "")) {
-            alert("WARNING: Designated a favorites-array, but no keyword for e-book");
+            alert("WARNING: Designated a favorites-array," +
+            "but no keyword for e-book");
         } else if ((textMetadata.kywd !== "") &&
             (textMetadata.favorites === "")) {
-            alert("WARNING: Designated a keyword for e-book, but no favorites-array");
+            alert("WARNING: Designated a keyword for e-book," + 
+            "but no favorites-array");
         } else if ((textMetadata.favorites !== "") &&
             (textMetadata.kywd !== "")) {
             // ADD FAVORITES ARRAY PROPERTY NAME
@@ -227,7 +232,8 @@ function runGam() {
             stylesheet.href = link;
             head.appendChild(stylesheet);
         }
-        buildStylesheetTag("http://www.ndhfilms.com/assets/style/e-readerstyle.css");
+        buildStylesheetTag("http://www.ndhfilms.com/assets/" +
+        "style/e-readerstyle.css");
         // CHECK FOR OTHER STYLESHEETS
         if (textMetadata.stylesheet.length > 0) {
             function loopThroughStylesheetArray(item) {
@@ -240,7 +246,8 @@ function runGam() {
         favicon.type = "image/gif";
         // If no alternate source for icon is specified,
         // default to my icon.
-        let iconSource = "http://www.ndhfilms.com/assets/images/walkingfavicon.gif";
+        let iconSource = "http://www.ndhfilms.com/assets/" +
+        "images/walkingfavicon.gif";
         if (textMetadata.icon !== "") {
             iconSource = textMetadata.icon;
         }
@@ -264,9 +271,9 @@ function runGam() {
     // CREATE KEYWORD
     // THIS IS STILL NEEDED FOR DARK MODE TO WORK
 
-    let keyword = newEl("P");
-    keyword.id = "keyword";
-    body.appendChild(keyword);
+    let darkModeStorage = newEl("P");
+    darkModeStorage.id = "darkModeStorage";
+    body.appendChild(darkModeStorage);
 
     function addHeader() {
         let header = newEl("HEADER");
@@ -322,15 +329,18 @@ function runGam() {
         let buttonArray = [
             "<div id='menuIconDiv' class='buttons' onclick=''>" +
             "<img id='menuIconImg' alt='Click or tap to toggle menu'" +
-            "src='http://www.ndhfilms.com/assets/images/menuicon_black.svg' />" +
+            "src='http://www.ndhfilms.com/assets/" +
+            "images/menuicon_black.svg' />" +
             "</div>",
             "<div id='tocIconDiv' class='buttons' onclick=''>" +
             "<object id='tocIconObject'" +
-            "type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/tocicon.svg'>" +
+            "type='image/svg+xml'" +
+            "data='http://www.ndhfilms.com/assets/images/tocicon.svg'>" +
             "Your browser does not support SVG</object></div>",
             "<div id='lightbulbDiv' class=' buttons' onclick=''>" +
             "<object ID='lightbulbObject'" +
-            "type='image/svg+xml' data='http://www.ndhfilms.com/assets/images/lightbulb.svg'>" +
+            "type='image/svg+xml'" +
+            "data='http://www.ndhfilms.com/assets/images/lightbulb.svg'>" +
             "Your browser does not support SVG</object></div>",
             "<div id='bookmarkDiv'" +
             "class='buttons'>" +
@@ -536,8 +546,10 @@ function runGam() {
                     let supportTextString = "";
                     let saI = 0;
                     if (saItem === ":title") {
-                        for (saI = saIndex + 1; saI < supportArray.indexOf(":text"); saI += 1) {
-                            supportTitleString = supportTitleString.concat(" " + supportArray[saI]);
+                        for (saI = saIndex + 1; saI < supportArray.indexOf(
+                            ":text"); saI += 1) {
+                            supportTitleString = supportTitleString.concat(" " +
+                            supportArray[saI]);
                         }
                         saI = 0;
                         supportObject.title = supportTitleString;
@@ -567,7 +579,8 @@ function runGam() {
             } else if (item.slice(0, 11) === "@@HTMLSTART") {
                 htmlGrabberRunning = true;
                 let htmlStartI = index + 1;
-                for (htmlStartI; htmlStartI < inputArray.length; htmlStartI += 1) {
+                for (htmlStartI; htmlStartI <
+                    inputArray.length; htmlStartI += 1) {
                     if (inputArray[htmlStartI] === "@@HTMLEND") {
                         break;
                     } else {
@@ -940,8 +953,12 @@ function runGam() {
 
                     sectionText
                 );
-                tocSectionIllustrPlaceholderH3.appendChild(tocSectionIllustrPlaceholderH3Text);
-                tocSectionIllustrPlaceholder.appendChild(tocSectionIllustrPlaceholderH3);
+                tocSectionIllustrPlaceholderH3.appendChild(
+                    tocSectionIllustrPlaceholderH3Text
+                    );
+                tocSectionIllustrPlaceholder.appendChild(
+                    tocSectionIllustrPlaceholderH3
+                    );
                 tocSecList.appendChild(tocSectionIllustrPlaceholder);
 
                 // LOOP THROUGH ILLUSTRATION ARRAY
@@ -953,8 +970,12 @@ function runGam() {
                     let tocSelectIllustrOptionText = ctn(
                         item.text
                     );
-                    tocSelectIllustrOption.appendChild(tocSelectIllustrOptionText);
-                    desktopTOCSelect.appendChild(tocSelectIllustrOption);
+                    tocSelectIllustrOption.appendChild(
+                        tocSelectIllustrOptionText
+                        );
+                    desktopTOCSelect.appendChild(
+                        tocSelectIllustrOption
+                        );
                     // TOC DIV FOR MOBILE
                     let mobileTOCDivIllustrLI = newEl("LI");
                     if ((mode === "illustrations") && (item.text !== "Cover")) {
@@ -981,7 +1002,9 @@ function runGam() {
                     tocSectionIllustrLinkText = ctn(
                         item.text
                     );
-                    tocSectionIllustrLink.appendChild(tocSectionIllustrLinkText);
+                    tocSectionIllustrLink.appendChild(
+                        tocSectionIllustrLinkText
+                        );
                     tocSectionIllustrLI.appendChild(tocSectionIllustrLink);
                     tocSecList.appendChild(tocSectionIllustrLI);
                 }
@@ -1007,19 +1030,22 @@ function runGam() {
             body.appendChild(desktopTOCSelectLabel);
             body.getElementsByTagName(
                 "HEADER"
-            )[0].parentNode.insertBefore(desktopTOCSelect, body.getElementsByTagName(
+            )[0].parentNode.insertBefore(
+                desktopTOCSelect, body.getElementsByTagName(
                 "HEADER"
             )[0].nextSibling);
             body.getElementsByTagName(
                 "HEADER"
-            )[0].parentNode.insertBefore(mobileTOCDiv, body.getElementsByTagName(
+            )[0].parentNode.insertBefore(
+                mobileTOCDiv, body.getElementsByTagName(
                 "HEADER"
             )[0].nextSibling);
             if (textMetadata.small !==
                 "small") {
                 body.getElementsByTagName(
                     "HEADER"
-                )[0].parentNode.insertBefore(desktopTOCSection, body.getElementsByTagName(
+                )[0].parentNode.insertBefore(
+                    desktopTOCSection, body.getElementsByTagName(
                     "HEADER"
                 )[0].nextSibling);
             }
@@ -1248,7 +1274,9 @@ function runGam() {
 
     if ((body.querySelectorAll("#supportSection") !== undefined) &&
         (typeof body.querySelectorAll("#supportSection") !== "object")) {
-        addToEndOfTOCs("#supportSection", body.querySelectorAll("#supportSection")[0].children[0].innerText);
+        addToEndOfTOCs("#supportSection", body.querySelectorAll(
+            "#supportSection"
+            )[0].children[0].innerText);
     }
 
     if ((body.querySelectorAll("#creditsSection") !== null) &&
@@ -1269,7 +1297,9 @@ function runGam() {
     }
 
     function addCoverToAudioDiv() {
-        body.querySelectorAll("#audioDivIllustration")[0].src = textMetadata.coverlink;
+        body.querySelectorAll(
+            "#audioDivIllustration"
+            )[0].src = textMetadata.coverlink;
     }
     if (textMetadata.audio !== "") {
         addCoverToAudioDiv();
@@ -1291,7 +1321,9 @@ function runGam() {
         let nothingHereP = newEl("P");
         nothingHerePText = ctn("It sure is boring around here.");
         nothingHereP.appendChild(nothingHerePText);
-        body.insertBefore(nothingHereP, body.querySelectorAll("#eReaderNotice")[0]);
+        body.insertBefore(nothingHereP, body.querySelectorAll(
+            "#eReaderNotice"
+            )[0]);
     }
     html.appendChild(body);
     console.log(html);
