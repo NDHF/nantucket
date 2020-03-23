@@ -70,6 +70,7 @@ function runGam() {
     let footnoteCounter = 0;
     let footnoteSection = newEl("SECTION");
     footnoteSection.id = "footnoteSection";
+    let firstProperParagraph = true;
 
     function removeThingsAndGatherMetadata() {
         let i = 0;
@@ -261,6 +262,7 @@ function runGam() {
     createHead();
 
     // CREATE KEYWORD
+    // THIS IS STILL NEEDED FOR DARK MODE TO WORK
 
     let keyword = newEl("P");
     keyword.id = "keyword";
@@ -804,7 +806,6 @@ function runGam() {
                 dedication.appendChild(dedicationText);
                 body.appendChild(dedication);
             } else if (item.slice(0, 4) === "@@FN") {
-                console.log(true);
                 let footnote = document.createElement("P");
                 let footnoteContents = ctn(item.slice(4));
                 let backToOriginalLink = newEl("A");
@@ -824,20 +825,32 @@ function runGam() {
                         paragraph.classList.add("alignLeft");
                         pText = item.slice(5);
                         pText = pText.replace(/\\"/g, "\"");
-                        paragraph.innerHTML = pText;
+                        // paragraph.innerHTML = pText;
                     } else if (item.slice(0, 7) === ":center") {
                         paragraph.classList.add("alignCenter");
                         pText = item.slice(7);
                         pText = pText.replace(/\\"/g, "\"");
-                        paragraph.innerHTML = pText;
+                        // paragraph.innerHTML = pText;
                     } else if (item.slice(0, 6) === ":right") {
                         paragraph.classList.add("alignRight");
                         pText = item.slice(6);
                         pText = pText.replace(/\\"/g, "\"");
-                        paragraph.innerHTML = pText;
+                        // paragraph.innerHTML = pText;
                     } else {
-                        paragraph.innerHTML = item.replace(/\\"/g, "\"");
+                        pText = item.replace(/\\"/g, "\"");
+                        // paragraph.innerHTML = item.replace(/\\"/g, "\"");
                     }
+                    if (firstProperParagraph) {
+                        let dropcap = newEl("SPAN");
+                        dropcap.classList.add("dropcap");
+                        let dropcapText = ctn(pText.slice(0, 1));
+                        dropcap.appendChild(dropcapText);
+                        paragraph.appendChild(dropcap);
+                        pText = pText.slice(1);
+                        firstProperParagraph = false;
+                    }
+                    let pTextNode = ctn(pText);
+                    paragraph.appendChild(pTextNode);
                     if (paragraph.innerHTML.includes("<fn>")) {
                         footnoteCounter += 1;
                         paragraph.innerHTML = paragraph.innerHTML.replace(
@@ -990,9 +1003,7 @@ function runGam() {
         mobileTOCDiv.appendChild(tocCloseButton);
 
         desktopTOCSection.appendChild(tocSecList);
-        console.log(chapterArray);
         if ((chapterArray.length > 0) || (illustrationArray.length > 0)) {
-            console.log(desktopTOCSelect);
             body.appendChild(desktopTOCSelectLabel);
             body.getElementsByTagName(
                 "HEADER"
