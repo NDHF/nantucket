@@ -611,7 +611,7 @@ function runGam() {
 
                 function getImageMetadata() {
                     illoMetadataArray = item.split(" ");
-                    if ((illoMetadataArray.includes(":source") === false)) {
+                    if (illoMetadataArray.includes(":source") === false) {
                         alert("required illustration data missing.");
                     }
 
@@ -624,8 +624,8 @@ function runGam() {
                             illoMetadataObject.buy = illoMetadataArray[index +
                                 1];
                         } else if (item === ":caption") {
-                            let illoCaption = illoMetadataArray.slice((index +
-                                1));
+                            let illoCaption = illoMetadataArray.slice(index +
+                                1);
                             illoCaption = illoCaption.join(" ");
                             illoCaption = illoCaption.replace(/\\"/g, "");
                             illoMetadataObject.caption = illoCaption;
