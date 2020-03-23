@@ -68,7 +68,7 @@ function runGam() {
     let firstProperParagraph = true;
 
     function removeThingsAndGatherMetadata() {
-        
+
         let i = 0;
 
         function loopKeyIndexArray(kiaItem) {
@@ -181,7 +181,8 @@ function runGam() {
         // Add viewport meta tag
         // let viewportTag = newEl("META");
         // viewportTag.name = "viewport";
-        // viewportTag.content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no";
+        // viewportTag.content = "width=device-width," +
+        // " initial-scale=1.0, maximum-scale=1.0, user-scalable=no";
         // head.appendChild(viewportTag);
         // Add author meta tag
         if (textMetadata.author !== "") {
@@ -474,7 +475,7 @@ function runGam() {
         audioCloseButton.id = "audioCloseButton";
         audioCloseButton.onclick = true;
         audioCloseButton.classList.add("closeButton");
-        audioCloseButton.src = "../../assets/images/" +
+        audioCloseButton.src = "http://www.ndhfilms.com/assets/images/" +
             "closeButton.svg";
         audioDiv.appendChild(audioCloseButton);
         body.appendChild(audioDiv);
@@ -519,14 +520,16 @@ function runGam() {
                 });
             } else if (item.slice(0, 8) === "@@BLOCKQ") {
                 let blockquoteContents = item.slice(8);
-                blockquoteContents = blockquoteContents.replace(/\\"/g, '"');
+                blockquoteContents = blockquoteContents.replace(/\\"/g, "\"");
                 let blockquote = newEl("BLOCKQUOTE");
                 let blockquoteText = ctn(blockquoteContents);
                 blockquote.appendChild(blockquoteText);
                 body.appendChild(blockquote);
             } else if (item.slice(0, 11) === "@@QUOTEATTR") {
                 let blockquoteAttrContent = " - " + item.slice(11);
-                blockquoteAttrContent = blockquoteAttrContent.replace(/\\"/g, '"');
+                blockquoteAttrContent = blockquoteAttrContent.replace(
+                    /\\"/g, "\""
+                    );
                 let blockquoteAttr = newEl("P");
                 blockquoteAttr.classList.add("blockquoteAttr");
                 if (blockquoteAttrContent.includes("<i>")) {
@@ -614,8 +617,9 @@ function runGam() {
 
                     function addIlloMetadataToObject(item, index) {
                         if (item === ":source") {
-                            illoMetadataObject.source = illoMetadataArray[index +
-                                1];
+                            illoMetadataObject.source = illoMetadataArray[
+                                index + 1
+                            ];
                         } else if (item === ":buy") {
                             illoMetadataObject.buy = illoMetadataArray[index +
                                 1];
@@ -626,24 +630,33 @@ function runGam() {
                             illoCaption = illoCaption.replace(/\\"/g, "");
                             illoMetadataObject.caption = illoCaption;
                         } else if (item === ":orientation") {
-                            illoMetadataObject.orientation = illoMetadataArray[index + 1];
+                            illoMetadataObject.orientation = illoMetadataArray[
+                                index + 1
+                            ];
                         } else if (item === ":desc") {
                             illoMetadataObject.desc = illoMetadataArray[index +
                                 1];
                         } else if (item === ":illustrator") {
                             let indexForIllustrator = (index + 1);
-                            let nameOfIllustrator = "";
+                            // nameOfIll = nameOfIllustrator
+                            let nameOfIll = "";
                             for (indexForIllustrator; indexForIllustrator <
                                 illoMetadataArray.length; indexForIllustrator +=
                                 1) {
-                                if (illoMetadataArray[indexForIllustrator].charAt(0) !== ":") {
-                                    nameOfIllustrator = nameOfIllustrator.concat(" " +
-                                        illoMetadataArray[indexForIllustrator]);
-                                } else if (illoMetadataArray[indexForIllustrator].charAt(0) === ":") {
+                                if (illoMetadataArray[
+                                    indexForIllustrator
+                                ].charAt(0) !== ":") {
+                                    nameOfIll = nameOfIll.concat(" " +
+                                        illoMetadataArray[
+                                            indexForIllustrator
+                                        ]);
+                                } else if (illoMetadataArray[
+                                    indexForIllustrator
+                                ].charAt(0) === ":") {
                                     break;
                                 }
                             }
-                            illoMetadataObject.illustrator = nameOfIllustrator;
+                            illoMetadataObject.illustrator = nameOfIll;
                         }
                     }
                     illoMetadataArray.forEach(addIlloMetadataToObject);
@@ -666,7 +679,8 @@ function runGam() {
                         illustrationObjectToPush.text = "Image No. " +
                             (illustrationArray.length + 1);
                     } else {
-                        illustrationObjectToPush.text = illoMetadataObject.caption;
+                        let illMetObjCap = illoMetadataObject.caption;
+                        illustrationObjectToPush.text = illMetObjCap;
                     }
                     illustrationArray.push(illustrationObjectToPush);
                     if ((illoMetadataObject.desc !== undefined) &&
@@ -1227,7 +1241,9 @@ function runGam() {
         footnotesSectionHeader.classList.add("sectionHeader");
         let footnotesSectionHeaderText = ctn("FOOTNOTES");
         footnotesSectionHeader.appendChild(footnotesSectionHeaderText);
-        footnoteSection.insertBefore(footnotesSectionHeader, footnoteSection.children[0]);
+        footnoteSection.insertBefore(
+            footnotesSectionHeader, footnoteSection.children[0]
+            );
         body.insertBefore(footnoteSection, body.querySelectorAll(
             "#eReaderNotice"
         )[0]);
