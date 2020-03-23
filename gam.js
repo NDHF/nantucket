@@ -69,7 +69,7 @@ function runGam() {
 
     function removeThingsAndGatherMetadata() {
 
-        let i = 0;
+        let i;
 
         function loopKeyIndexArray(kiaItem) {
             if (inputArray[i].slice(0, (kiaItem.length + 2)) ===
@@ -79,15 +79,15 @@ function runGam() {
                 } else if (kiaItem === "STYLESHEET") {
                     textMetadata.stylesheet.push(
                         inputArray[i].slice(0, 12).replace(" ", "_")
-                        );
+                    );
                 } else {
                     textMetadata[kiaItem.toLowerCase()] = inputArray[i].slice(
                         kiaItem.length + 3
-                        );
+                    );
                 }
             }
         }
-        for (i; i < inputArray.length; i += 1) {
+        for (i = 0; i < inputArray.length; i += 1) {
             if ((inputArray[i].slice(0, 2) === "//") ||
                 (inputArray[i] === "")) {
                 inputArray.splice(i, 1);
@@ -176,6 +176,9 @@ function runGam() {
         if (textMetadata.credit === "") {
             headTitleText = textMetadata.title + " by " + textMetadata.author;
         }
+        if (inputArray.length === 0) {
+            headTitleText = "Empty E-Book";
+        }
         headTitle.text = headTitleText;
         head.appendChild(headTitle);
         // Add viewport meta tag
@@ -243,10 +246,10 @@ function runGam() {
         buildStylesheetTag("http://www.ndhfilms.com/assets/" +
             "style/e-readerstyle.css");
         // CHECK FOR OTHER STYLESHEETS
+        function loopThroughStylesheetArray(item) {
+            buildStylesheetTag(item);
+        }
         if (textMetadata.stylesheet.length > 0) {
-            function loopThroughStylesheetArray(item) {
-                buildStylesheetTag(item);
-            }
             textMetadata.stylesheet.forEach(loopThroughStylesheetArray);
         }
         let favicon = newEl("LINK");
@@ -529,7 +532,7 @@ function runGam() {
                 let blockquoteAttrContent = " - " + item.slice(11);
                 blockquoteAttrContent = blockquoteAttrContent.replace(
                     /\\"/g, "\""
-                    );
+                );
                 let blockquoteAttr = newEl("P");
                 blockquoteAttr.classList.add("blockquoteAttr");
                 if (blockquoteAttrContent.includes("<i>")) {
@@ -588,13 +591,16 @@ function runGam() {
                 body.appendChild(supportSection);
             } else if (item.slice(0, 11) === "@@HTMLSTART") {
                 htmlGrabberRunning = true;
-                let htmlStartI = index + 1;
-                for (htmlStartI; htmlStartI <
+                let htmlStartI;
+                for (htmlStartI = (index + 1); htmlStartI <
                     inputArray.length; htmlStartI += 1) {
-                    if (inputArray[htmlStartI] === "@@HTMLEND") {
-                        break;
+                    if (inputArray[htmlStartI] !== "@@HTMLEND") {
+                        let rawHTMLContent = inputArray[htmlStartI].replace(
+                            /\\"/g, "\""
+                        );
+                        rawHTMLStorage.push(rawHTMLContent);
                     } else {
-                        rawHTMLStorage.push(inputArray[htmlStartI]);
+                        break;
                     }
                 }
             } else if (item.slice(0, 9) === "@@HTMLEND") {
@@ -609,173 +615,168 @@ function runGam() {
                 illustrationCounter += 1;
                 let illoMetadataObject = {};
 
-                function getImageMetadata() {
-                    let illoMetadataArray = item.split(" ");
-                    if (illoMetadataArray.includes(":source") === false) {
-                        alert("required illustration data missing.");
-                    }
+                // GET IMAGE METADATA
+                let illoMetadataArray = item.split(" ");
+                if (illoMetadataArray.includes(":source") === false) {
+                    alert("required illustration data missing.");
+                }
 
-                    function addIlloMetadataToObject(item, index) {
-                        if (item === ":source") {
-                            illoMetadataObject.source = illoMetadataArray[
+                function addIlloMetadataToObject(item, index) {
+                    if (item === ":source") {
+                        illoMetadataObject.source = illoMetadataArray[
+                            index + 1
+                        ];
+                    } else if (item === ":buy") {
+                        illoMetadataObject.buy = illoMetadataArray[index +
+                            1];
+                    } else if (item === ":caption") {
+                        let illoCaption = illoMetadataArray.slice(index +
+                            1);
+                        illoCaption = illoCaption.join(" ");
+                        illoCaption = illoCaption.replace(/\\"/g, "");
+                        illoMetadataObject.caption = illoCaption;
+                    } else if (item === ":orientation") {
+                        illoMetadataObject.orientation = illoMetadataArray[
+                            index + 1
+                        ];
+                    } else if (item === ":desc") {
+                        illoMetadataObject.desc = illoMetadataArray[index +
+                            1];
+                    } else if (item === ":illustrator") {
+                        let indexForIllustrator;
+                        // nameOfIll = nameOfIllustrator
+                        let nameOfIll = "";
+                        for (indexForIllustrator = (
                                 index + 1
-                            ];
-                        } else if (item === ":buy") {
-                            illoMetadataObject.buy = illoMetadataArray[index +
-                                1];
-                        } else if (item === ":caption") {
-                            let illoCaption = illoMetadataArray.slice(index +
-                                1);
-                            illoCaption = illoCaption.join(" ");
-                            illoCaption = illoCaption.replace(/\\"/g, "");
-                            illoMetadataObject.caption = illoCaption;
-                        } else if (item === ":orientation") {
-                            illoMetadataObject.orientation = illoMetadataArray[
-                                index + 1
-                            ];
-                        } else if (item === ":desc") {
-                            illoMetadataObject.desc = illoMetadataArray[index +
-                                1];
-                        } else if (item === ":illustrator") {
-                            let indexForIllustrator = (index + 1);
-                            // nameOfIll = nameOfIllustrator
-                            let nameOfIll = "";
-                            for (indexForIllustrator; indexForIllustrator <
-                                illoMetadataArray.length; indexForIllustrator +=
-                                1) {
-                                if (illoMetadataArray[
+                            ); indexForIllustrator <
+                            illoMetadataArray.length; indexForIllustrator +=
+                            1) {
+                            if (illoMetadataArray[
                                     indexForIllustrator
                                 ].charAt(0) !== ":") {
-                                    nameOfIll = nameOfIll.concat(" " +
-                                        illoMetadataArray[
-                                            indexForIllustrator
-                                        ]);
-                                } else if (illoMetadataArray[
+                                nameOfIll = nameOfIll.concat(" " +
+                                    illoMetadataArray[
+                                        indexForIllustrator
+                                    ]);
+                            } else if (illoMetadataArray[
                                     indexForIllustrator
                                 ].charAt(0) === ":") {
-                                    break;
-                                }
+                                break;
                             }
-                            illoMetadataObject.illustrator = nameOfIll;
                         }
+                        illoMetadataObject.illustrator = nameOfIll;
                     }
-                    illoMetadataArray.forEach(addIlloMetadataToObject);
                 }
-                getImageMetadata();
+                illoMetadataArray.forEach(addIlloMetadataToObject);
 
-                function createIllustrationThumbnail() {
-                    let illustrationNumber = "";
-                    if (illustrationCounter < 10) {
-                        illustrationNumber = "0" + illustrationCounter;
-                    } else {
-                        illustrationNumber = illustrationCounter;
-                    }
-                    let imgThumbnail = newEl("IMG");
-                    imgThumbnail.id = "illustration" + illustrationNumber;
-                    let illustrationObjectToPush = {
-                        link: "#" + imgThumbnail.id
-                    };
-                    if (illoMetadataObject.caption === undefined) {
-                        illustrationObjectToPush.text = "Image No. " +
-                            (illustrationArray.length + 1);
-                    } else {
-                        let illMetObjCap = illoMetadataObject.caption;
-                        illustrationObjectToPush.text = illMetObjCap;
-                    }
-                    illustrationArray.push(illustrationObjectToPush);
-                    if ((illoMetadataObject.desc !== undefined) &&
-                        (illoMetadataObject.desc !== "")) {
-                        imgThumbnail.title = illoMetadataObject.desc;
-                        imgThumbnail.alt = illoMetadataObject.desc;
-                    } else {
-                        let imgThumbnailMeta = "Illustration for " +
-                            textMetadata.title;
-                        imgThumbnail.title = imgThumbnailMeta;
-                        imgThumbnail.alt = imgThumbnailMeta;
-                        if ((illoMetadataObject.illustrator !== undefined) &&
-                            (illoMetadataObject.illustrator !== "")) {
-                            let textToConcat = " , illustration by " +
-                                illoMetadataObject.illustrator;
-                            imgThumbnail.title = imgThumbnail.title.concat(
-                                textToConcat
-                            );
-                            imgThumbnail.alt = imgThumbnail.alt.concat(
-                                textToConcat
-                            );
-                        }
-                    }
-                    imgThumbnail.classList.add("illustrationTarget");
-                    imgThumbnail.src = illoMetadataObject.source;
-                    body.appendChild(imgThumbnail);
+                // CREATE ILLUSTRATION THUMBNAIL
+
+                let illustrationNumber = "";
+                if (illustrationCounter < 10) {
+                    illustrationNumber = "0" + illustrationCounter;
+                } else {
+                    illustrationNumber = illustrationCounter;
                 }
-                createIllustrationThumbnail();
-
-                function createEnlargeIcon() {
-                    let enlargeIcon = newEl("IMG");
-                    enlargeIcon.classList.add("enlargeIcon");
-                    enlargeIcon.alt = "Click or tap to enlarge illustration";
-                    enlargeIcon.src = "http://www.ndhfilms.com/assets/images/" +
-                        "enlargeicon_black.svg";
-                    body.appendChild(enlargeIcon);
+                let imgThumbnail = newEl("IMG");
+                imgThumbnail.id = "illustration" + illustrationNumber;
+                let illustrationObjectToPush = {
+                    link: "#" + imgThumbnail.id
+                };
+                if (illoMetadataObject.caption === undefined) {
+                    illustrationObjectToPush.text = "Image No. " +
+                        (illustrationArray.length + 1);
+                } else {
+                    let illMetObjCap = illoMetadataObject.caption;
+                    illustrationObjectToPush.text = illMetObjCap;
                 }
-                createEnlargeIcon();
-
-                function createIllustrationDiv() {
-                    let illustrationDiv = newEl("DIV");
-                    illustrationDiv.classList.add("illustrationDiv");
-                    illustrationDiv.classList.add("standby");
-
-                    let closeButton = newEl("IMG");
-                    closeButton.alt = "Click or tap to close";
-                    closeButton.classList.add("closeButton");
-                    closeButton.src = "http://www.ndhfilms.com/assets/images/" +
-                        "closeButton.svg";
-                    illustrationDiv.appendChild(closeButton);
-
-                    let container = newEl("DIV");
-                    container.classList.add("container");
-
-                    let flexbox1 = newEl("DIV");
-                    flexbox1.classList.add("flexbox1");
-
-                    let fullImage = newEl("IMG");
-                    fullImage.classList.add("illustration");
-                    fullImage.classList.add(illoMetadataObject.orientation +
-                        "Illustration");
-                    fullImage.alt = "Illustration for " + textMetadata.title +
-                        " by " + illoMetadataObject.illustrator;
-                    fullImage.title = "Illustration by " +
-                        illoMetadataObject.illustrator;
-                    fullImage.src = illoMetadataObject.source;
-                    flexbox1.appendChild(fullImage);
-                    container.appendChild(flexbox1);
-
-                    let flexbox2 = newEl("DIV");
-                    flexbox2.classList.add("illustrationCaptionDiv");
-                    flexbox2.classList.add("flexbox2");
-                    let flexbox2Hgroup = newEl("HGROUP");
-                    flexbox2Hgroup.classList.add("illustrationCaption");
-                    let caption = newEl("H2");
-                    let captionText = ctn("Image #" +
-                        (illustrationArray.length) + " for this E-Book.");
-                    if (illoMetadataObject.caption !== undefined) {
-                        captionText = ctn(illoMetadataObject.caption);
+                illustrationArray.push(illustrationObjectToPush);
+                if ((illoMetadataObject.desc !== undefined) &&
+                    (illoMetadataObject.desc !== "")) {
+                    imgThumbnail.title = illoMetadataObject.desc;
+                    imgThumbnail.alt = illoMetadataObject.desc;
+                } else {
+                    let imgThumbnailMeta = "Illustration for " +
+                        textMetadata.title;
+                    imgThumbnail.title = imgThumbnailMeta;
+                    imgThumbnail.alt = imgThumbnailMeta;
+                    if ((illoMetadataObject.illustrator !== undefined) &&
+                        (illoMetadataObject.illustrator !== "")) {
+                        let textToConcat = " , illustration by " +
+                            illoMetadataObject.illustrator;
+                        imgThumbnail.title = imgThumbnail.title.concat(
+                            textToConcat
+                        );
+                        imgThumbnail.alt = imgThumbnail.alt.concat(
+                            textToConcat
+                        );
                     }
-                    caption.appendChild(captionText);
-                    flexbox2Hgroup.appendChild(caption);
-                    if (illoMetadataObject.illustrator !== undefined) {
-                        let illustratorInfo = newEl("H3");
-                        let illustratorInfoText = ctn("Illustration by " +
-                            illoMetadataObject.illustrator);
-                        illustratorInfo.appendChild(illustratorInfoText);
-                        flexbox2Hgroup.appendChild(illustratorInfo);
-                    }
-                    flexbox2.appendChild(flexbox2Hgroup);
-                    container.appendChild(flexbox2);
-                    illustrationDiv.appendChild(container);
-                    body.appendChild(illustrationDiv);
                 }
-                createIllustrationDiv();
+                imgThumbnail.classList.add("illustrationTarget");
+                imgThumbnail.src = illoMetadataObject.source;
+                body.appendChild(imgThumbnail);
+
+                // CREATE ENLARGE ICON
+                let enlargeIcon = newEl("IMG");
+                enlargeIcon.classList.add("enlargeIcon");
+                enlargeIcon.alt = "Click or tap to enlarge illustration";
+                enlargeIcon.src = "http://www.ndhfilms.com/assets/images/" +
+                    "enlargeicon_black.svg";
+                body.appendChild(enlargeIcon);
+
+                // CREATE ILLUSTRATION DIV
+                let illustrationDiv = newEl("DIV");
+                illustrationDiv.classList.add("illustrationDiv");
+                illustrationDiv.classList.add("standby");
+
+                let closeButton = newEl("IMG");
+                closeButton.alt = "Click or tap to close";
+                closeButton.classList.add("closeButton");
+                closeButton.src = "http://www.ndhfilms.com/assets/images/" +
+                    "closeButton.svg";
+                illustrationDiv.appendChild(closeButton);
+
+                let container = newEl("DIV");
+                container.classList.add("container");
+
+                let flexbox1 = newEl("DIV");
+                flexbox1.classList.add("flexbox1");
+
+                let fullImage = newEl("IMG");
+                fullImage.classList.add("illustration");
+                fullImage.classList.add(illoMetadataObject.orientation +
+                    "Illustration");
+                fullImage.alt = "Illustration for " + textMetadata.title +
+                    " by " + illoMetadataObject.illustrator;
+                fullImage.title = "Illustration by " +
+                    illoMetadataObject.illustrator;
+                fullImage.src = illoMetadataObject.source;
+                flexbox1.appendChild(fullImage);
+                container.appendChild(flexbox1);
+
+                let flexbox2 = newEl("DIV");
+                flexbox2.classList.add("illustrationCaptionDiv");
+                flexbox2.classList.add("flexbox2");
+                let flexbox2Hgroup = newEl("HGROUP");
+                flexbox2Hgroup.classList.add("illustrationCaption");
+                let caption = newEl("H2");
+                let captionText = ctn("Image #" +
+                    (illustrationArray.length) + " for this E-Book.");
+                if (illoMetadataObject.caption !== undefined) {
+                    captionText = ctn(illoMetadataObject.caption);
+                }
+                caption.appendChild(captionText);
+                flexbox2Hgroup.appendChild(caption);
+                if (illoMetadataObject.illustrator !== undefined) {
+                    let illustratorInfo = newEl("H3");
+                    let illustratorInfoText = ctn("Illustration by " +
+                        illoMetadataObject.illustrator);
+                    illustratorInfo.appendChild(illustratorInfoText);
+                    flexbox2Hgroup.appendChild(illustratorInfo);
+                }
+                flexbox2.appendChild(flexbox2Hgroup);
+                container.appendChild(flexbox2);
+                illustrationDiv.appendChild(container);
+                body.appendChild(illustrationDiv);
             } else if (item.slice(0, 7) === "@@AUDIO") {
                 let audioSourceObject = {};
                 let audioSourceInfo = item.slice(7).split(" ");
@@ -792,42 +793,35 @@ function runGam() {
                 audioSourceInfo.forEach(loopThroughAudioSourceInfo);
                 audioSourceArray.push(audioSourceObject);
             } else if (item.slice(0, 1) === "#") {
-                function createChapterHeading(headingType) {
-                    let chapterHeading = "";
-                    let chapterHeadingText = "";
-                    // sh is the chapter subheading
-                    let sh = "";
-                    if (headingType === "heading") {
-                        chapterHeading = newEl("H1");
-                        chapterHeadingText = item.slice(1);
-                        let chapterHeadingID = chapterHeadingText.replace(
-                            " ", "_");
-                        chapterHeading.id = chapterHeadingID;
-                        let chapterObject = {
-                            link: "#" + chapterHeadingID
-                        };
-                        if (inputArray[index + 1] !== undefined) {
-                            if (inputArray[index + 1].slice(0, 2) === "##") {
-                                sh = ": " + inputArray[index + 1].slice(2);
-                            }
-                        }
-                        chapterObject.text = chapterHeadingText + sh;
-                        chapterArray.push(chapterObject);
-                    } else if (headingType === "subheading") {
-                        chapterHeading = newEl("H2");
-                        chapterHeadingText = item.slice(2);
-                    }
-                    chapterHeading.classList = "chapterHeading";
-                    let chapterHeadingNode = ctn(chapterHeadingText);
-                    chapterHeading.appendChild(chapterHeadingNode);
-                    body.appendChild(chapterHeading);
-                }
+                let chapterHeading = "";
+                let chapterHeadingText = "";
+                // sh is the chapter subheading
+                let sh = "";
                 if ((item.charAt(0) === "#") && (item.charAt(1) !== "#")) {
-                    createChapterHeading("heading");
+                    chapterHeading = newEl("H1");
+                    chapterHeadingText = item.slice(1);
+                    let chapterHeadingID = chapterHeadingText.replace(
+                        " ", "_");
+                    chapterHeading.id = chapterHeadingID;
+                    let chapterObject = {
+                        link: "#" + chapterHeadingID
+                    };
+                    if (inputArray[index + 1] !== undefined) {
+                        if (inputArray[index + 1].slice(0, 2) === "##") {
+                            sh = ": " + inputArray[index + 1].slice(2);
+                        }
+                    }
+                    chapterObject.text = chapterHeadingText + sh;
+                    chapterArray.push(chapterObject);
                 } else if ((item.charAt(0) === "#") &&
                     (item.charAt(1) === "#")) {
-                    createChapterHeading("subheading");
+                    chapterHeading = newEl("H2");
+                    chapterHeadingText = item.slice(2);
                 }
+                chapterHeading.classList = "chapterHeading";
+                let chapterHeadingNode = ctn(chapterHeadingText);
+                chapterHeading.appendChild(chapterHeadingNode);
+                body.appendChild(chapterHeading);
             } else if (item.slice(0, 1) === "`") {
                 let poetryParagraph = newEl("P");
                 poetryParagraph.classList.add("lyricalP");
@@ -1074,35 +1068,34 @@ function runGam() {
     }
     createTableOfContents();
 
-    function createAudioSourceMenu() {
-        if (audioSourceArray.length === 0) {
-            body.querySelector("#cassetteDiv").remove();
-            if (body.querySelector("#audioDiv") !== null) {
-                body.querySelector("#audioDiv").remove();
-            }
-        } else {
-            let audioSourceSelect = newEl("SELECT");
-            audioSourceSelect.id = "audioSourceSelect";
+    // CREATE AUDIO SOURCE MENU
 
-            function loopThroughAudioSourceArray(item, index) {
-                let audioSourceOption = newEl("OPTION");
-                audioSourceOption.value = item.source;
-                let audioSourceOptionText = ctn(item.title);
-                audioSourceOption.appendChild(audioSourceOptionText);
-                audioSourceSelect.appendChild(audioSourceOption);
-            }
-            audioSourceArray.forEach(loopThroughAudioSourceArray);
-            if (audioSourceArray.length === 1) {
-                audioSourceSelect.disabled = true;
-            }
-            body.querySelector(
-                "#audioCassetteDiv"
-            ).insertBefore(audioSourceSelect, body.querySelector(
-                "#audioCassetteDiv"
-            ).childNodes[0]);
-        }
+    let audioSourceSelect = newEl("SELECT");
+    audioSourceSelect.id = "audioSourceSelect";
+
+    function loopThroughAudioSourceArray(item, index) {
+        let audioSourceOption = newEl("OPTION");
+        audioSourceOption.value = item.source;
+        let audioSourceOptionText = ctn(item.title);
+        audioSourceOption.appendChild(audioSourceOptionText);
+        audioSourceSelect.appendChild(audioSourceOption);
     }
-    createAudioSourceMenu();
+    if (audioSourceArray.length === 0) {
+        body.querySelector("#cassetteDiv").remove();
+        if (body.querySelector("#audioDiv") !== null) {
+            body.querySelector("#audioDiv").remove();
+        }
+    } else {
+        audioSourceArray.forEach(loopThroughAudioSourceArray);
+        if (audioSourceArray.length === 1) {
+            audioSourceSelect.disabled = true;
+        }
+        body.querySelector(
+            "#audioCassetteDiv"
+        ).insertBefore(audioSourceSelect, body.querySelector(
+            "#audioCassetteDiv"
+        ).childNodes[0]);
+    }
 
     function addCompletionLocationAndDate() {
         let ul = newEl("UL");
@@ -1243,7 +1236,7 @@ function runGam() {
         footnotesSectionHeader.appendChild(footnotesSectionHeaderText);
         footnoteSection.insertBefore(
             footnotesSectionHeader, footnoteSection.children[0]
-            );
+        );
         body.insertBefore(footnoteSection, body.querySelectorAll(
             "#eReaderNotice"
         )[0]);
@@ -1388,4 +1381,4 @@ function runGam() {
 
     createDownloadableFile(localStorage.getItem("lastFileOpened"), doctypeHTML +
         startHTMLTag + html.innerHTML + endHTMLTag);
-};
+}
