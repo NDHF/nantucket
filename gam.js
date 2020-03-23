@@ -353,7 +353,7 @@ function runGam() {
             "Your browser does not support SVG</object></div>"
         ];
         if (monetizationObject !== "") {
-            buttonArray.push(monetizationObject)
+            buttonArray.push(monetizationObject);
         }
         if (textMetadata.favorites !== "") {
             buttonArray.push(
@@ -379,7 +379,7 @@ function runGam() {
         audioDiv.id = "audioDiv";
         audioDiv.classList.add("standby");
 
-        let audioDivObject = {}
+        let audioDivObject = {};
 
         let arrayOfAudioDivData = textMetadata.audio.split(" ");
 
@@ -539,7 +539,7 @@ function runGam() {
                 let supportObject = {
                     title: "",
                     text: ""
-                }
+                };
 
                 function loopThroughSupportArray(saItem, saIndex) {
                     let supportTitleString = "";
@@ -654,7 +654,7 @@ function runGam() {
                     imgThumbnail.id = "illustration" + illustrationNumber;
                     let illustrationObjectToPush = {
                         link: "#" + imgThumbnail.id
-                    }
+                    };
                     if (illoMetadataObject.caption === undefined) {
                         illustrationObjectToPush.text = "Image No. " +
                         (illustrationArray.length + 1);
@@ -784,7 +784,7 @@ function runGam() {
                         chapterHeading.id = chapterHeadingID;
                         let chapterObject = {
                             link: "#" + chapterHeadingID
-                        }
+                        };
                         if (inputArray[index + 1] !== undefined) {
                             if (inputArray[index + 1].slice(0, 2) === "##") {
                                 sh = ": " + inputArray[index + 1].slice(2);
@@ -930,7 +930,7 @@ function runGam() {
                 illustrPlaceholder.value = "placeholder";
                 let sectionText = "ILLUSTRATIONS";
                 if (mode === "chapters") {
-                    sectionText = "SECTIONS"
+                    sectionText = "SECTIONS";
                 }
                 let illustrPlaceholderText = ctn(
                     "-- " + sectionText + " --"
@@ -1289,7 +1289,7 @@ function runGam() {
     }
 
     if (footnoteSection.children.length > 0) {
-        addToEndOfTOCs("#footnoteSection", "Footnotes")
+        addToEndOfTOCs("#footnoteSection", "Footnotes");
     }
 
     if (textMetadata.menu !== "") {
