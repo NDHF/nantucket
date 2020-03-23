@@ -447,7 +447,7 @@ function runGam() {
         hAudioCreditsLink.id = "audioCreditsLink";
         hAudioCreditsLink.href = "#creditsSection";
         hAudioCreditsLink.onclick = true;
-        hAudioCreditsText = ctn("CREDITS");
+        let hAudioCreditsText = ctn("CREDITS");
         hAudioCreditsLink.appendChild(hAudioCreditsText);
         hAudioCredits.appendChild(hAudioCreditsLink);
         audioInfoHgroup.appendChild(hAudioCredits);
@@ -610,7 +610,7 @@ function runGam() {
                 let illoMetadataObject = {};
 
                 function getImageMetadata() {
-                    illoMetadataArray = item.split(" ");
+                    let illoMetadataArray = item.split(" ");
                     if (illoMetadataArray.includes(":source") === false) {
                         alert("required illustration data missing.");
                     }
@@ -688,7 +688,7 @@ function runGam() {
                         imgThumbnail.title = illoMetadataObject.desc;
                         imgThumbnail.alt = illoMetadataObject.desc;
                     } else {
-                        imgThumbnailMeta = "Illustration for " +
+                        let imgThumbnailMeta = "Illustration for " +
                             textMetadata.title;
                         imgThumbnail.title = imgThumbnailMeta;
                         imgThumbnail.alt = imgThumbnailMeta;
@@ -765,7 +765,7 @@ function runGam() {
                     flexbox2Hgroup.appendChild(caption);
                     if (illoMetadataObject.illustrator !== undefined) {
                         let illustratorInfo = newEl("H3");
-                        illustratorInfoText = ctn("Illustration by " +
+                        let illustratorInfoText = ctn("Illustration by " +
                             illoMetadataObject.illustrator);
                         illustratorInfo.appendChild(illustratorInfoText);
                         flexbox2Hgroup.appendChild(illustratorInfo);
@@ -1005,7 +1005,7 @@ function runGam() {
                     let mobileTOCDivIllustrLink = newEl("A");
                     mobileTOCDivIllustrLink.classList.add("tocLink");
                     mobileTOCDivIllustrLink.href = item.link;
-                    mobileTOCDivIllustrLinkText = ctn(
+                    let mobileTOCDivIllustrLinkText = ctn(
                         item.text
                     );
                     mobileTOCDivIllustrLink.appendChild(
@@ -1018,9 +1018,9 @@ function runGam() {
                     if ((mode === "illustrations") && (item.text !== "Cover")) {
                         tocSectionIllustrLI.classList.add("listItalic");
                     }
-                    tocSectionIllustrLink = newEl("A");
+                    let tocSectionIllustrLink = newEl("A");
                     tocSectionIllustrLink.href = item.link;
-                    tocSectionIllustrLinkText = ctn(
+                    let tocSectionIllustrLinkText = ctn(
                         item.text
                     );
                     tocSectionIllustrLink.appendChild(
@@ -1189,7 +1189,7 @@ function runGam() {
         creditsSection.id = "creditsSection";
         let creditsSectionHeader = newEl("H3");
         creditsSectionHeader.classList.add("sectionHeader");
-        creditsSectionHeaderText = ctn("CREDITS");
+        let creditsSectionHeaderText = ctn("CREDITS");
         creditsSectionHeader.appendChild(creditsSectionHeaderText);
         creditsSection.appendChild(creditsSectionHeader);
         let creditsUL = newEl("UL");
@@ -1255,7 +1255,7 @@ function runGam() {
         // TOC SELECT FOR DESKTOP
         let supportSectionOption = newEl("OPTION");
         supportSectionOption.value = elementToLinkTo;
-        supportSectionOptionText = ctn(textToGrab);
+        let supportSectionOptionText = ctn(textToGrab);
         supportSectionOption.appendChild(supportSectionOptionText);
         if (body.querySelectorAll("#tocSelect")[0] !== undefined) {
             body.querySelectorAll(
@@ -1266,7 +1266,7 @@ function runGam() {
         let mobileTOCLI = newEl("LI");
         let mobileTOCLink = newEl("A");
         mobileTOCLink.href = elementToLinkTo;
-        mobileTOCLinkText = ctn(textToGrab);
+        let mobileTOCLinkText = ctn(textToGrab);
         mobileTOCLink.appendChild(mobileTOCLinkText);
         mobileTOCLI.appendChild(mobileTOCLink);
         if (body.querySelectorAll("#tocList")[0] !== undefined) {
@@ -1342,7 +1342,7 @@ function runGam() {
         geeH1.appendChild(geeH1Text);
         body.insertBefore(geeH1, body.querySelectorAll("#eReaderNotice")[0]);
         let nothingHereP = newEl("P");
-        nothingHerePText = ctn("It sure is boring around here.");
+        let nothingHerePText = ctn("It sure is boring around here.");
         nothingHereP.appendChild(nothingHerePText);
         body.insertBefore(nothingHereP, body.querySelectorAll(
             "#eReaderNotice"
