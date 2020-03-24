@@ -42,7 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
         getById("fileNameContainer").appendChild(lastFileOpenedHeader);
         let lastFileOpenedUL = document.createElement("UL");
         let lastFileOpenedLI = document.createElement("LI");
-        lfoText = gfs("lastFileOpened");
+        let lfoText = gfs("lastFileOpened");
+        if (lfoText === null) {
+           lfoText = "Nothing has been opened yet";
+        }
         if (lastFileFailedToOpen === true) {
             lfoText = lfoText.concat(" (Not found)");
         }
