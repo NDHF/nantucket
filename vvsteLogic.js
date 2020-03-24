@@ -20,20 +20,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return localStorage.removeItem(key);
     }
 
-    function setUpFileNameArray() {
-        let fileNameArrayInStorage = gfs("fileNameArray");
-        let noFileNameArrayInStorage = (fileNameArrayInStorage === null);
-        if (noFileNameArrayInStorage) {
-            let fileNameArray = [];
-            let fileNameToString = JSON.stringify(fileNameArray);
-            sts("fileNameArray", fileNameToString);
-        } else {
-            printFileNameArray();
-        }
-    }
-
-    setUpFileNameArray();
-
     function printFileNameArray(lastFileFailedToOpen) {
         getById("fileNameContainer").innerHTML = "";
         let lastFileOpenedHeader = document.createElement("H3");
@@ -70,27 +56,19 @@ document.addEventListener("DOMContentLoaded", function () {
         getById("fileNameContainer").appendChild(fileNameUL);
     }
 
-    function loadLastFile() {
-        let lastFileOpened = gfs("lastFileOpened");
-        if ((lastFileOpened !== null) && (lastFileOpened !== "null")) {
-            masterStorageAccess("open", lastFileOpened);
+    function setUpFileNameArray() {
+        let fileNameArrayInStorage = gfs("fileNameArray");
+        let noFileNameArrayInStorage = (fileNameArrayInStorage === null);
+        if (noFileNameArrayInStorage) {
+            let fileNameArray = [];
+            let fileNameToString = JSON.stringify(fileNameArray);
+            sts("fileNameArray", fileNameToString);
+        } else {
+            printFileNameArray();
         }
     }
-    loadLastFile();
 
-    function tryOpening(content) {
-        let specs = 'location=no,scrollbars=no,menubar=no,toolbar=no';
-        let w = window.open('', '', specs);
-        w.document.open();
-        w.document.write('<html><body onload="print()">')
-        w.document.write(content);
-        w.document.write('</body></html>');
-        w.document.close();
-    }
-
-    function printTextArea() {
-        tryOpening(getById("textarea").value);
-    }
+    setUpFileNameArray();
 
     function masterStorageAccess(mode, lastFile) {
         let lastFileFailedToOpen = false;
@@ -102,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (mode === "delete") {
             promptMessage = "Name of file to delete?";
         } else if (mode === "new") {
-            promptMessage = "Name of new file:"
+            promptMessage = "Name of new file:";
         } else {
             console.error("invalid input");
         }
@@ -179,6 +157,28 @@ document.addEventListener("DOMContentLoaded", function () {
         printFileNameArray(lastFileFailedToOpen);
     }
 
+    function loadLastFile() {
+        let lastFileOpened = gfs("lastFileOpened");
+        if ((lastFileOpened !== null) && (lastFileOpened !== "null")) {
+            masterStorageAccess("open", lastFileOpened);
+        }
+    }
+    loadLastFile();
+
+    function tryOpening(content) {
+        let specs = "location=no,scrollbars=no,menubar=no,toolbar=no";
+        let w = window.open("", "", specs);
+        w.document.open();
+        w.document.write("<html><body onload='print()'>");
+        w.document.write(content);
+        w.document.write("</body></html>");
+        w.document.close();
+    }
+
+    function printTextArea() {
+        tryOpening(getById("textarea").value);
+    }
+
     function saveText() {
         let lastFileOpened = gfs("lastFileOpened");
         if ((lastFileOpened !== null) && (lastFileOpened !== "null")) {
@@ -216,8 +216,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let totalNumberOfCharacters = 0;
 
         function getTotalFileSizeInStorage(fnaItem) {
-            fnaItemStr = JSON.stringify(gfs(fnaItem));
-            fnaItemLength = fnaItemStr.length;
+            let fnaItemStr = JSON.stringify(gfs(fnaItem));
+            let fnaItemLength = fnaItemStr.length;
             totalNumberOfCharacters = totalNumberOfCharacters + (fnaItemLength);
         }
         if (Array.isArray(fnaParsed)) {
@@ -225,7 +225,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         let totalSizeOfLocalStorage = 5242880;
         let spaceUsedSoFar = totalNumberOfCharacters / totalSizeOfLocalStorage;
-        let spaceUsedAsPercent = ((spaceUsedSoFar * 100)).toFixed(3);
+        let spaceUsedTimes100 = spaceUsedSoFar * 100;
+        let spaceUsedAsPercent = spaceUsedTimes100.toFixed(3);
         let storageMessage = spaceUsedAsPercent + "% of storage used.";
         getById("storageSpaceReadout").innerHTML = storageMessage;
     }
@@ -252,39 +253,6 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(storageCapacityCheck, 10000);
 
     let keylogArray = [];
-
-    function masterKeyboardListener(event) {
-        let currentKey = event.key;
-        let alt = (keylogArray[0] === "Alt");
-        if ((alt) && (currentKey === "a")) {
-            saveAs();
-        } else if ((alt) && (currentKey === "p")) {
-            printTextArea();
-        } else if ((alt) && (currentKey === "s")) {
-            saveText();
-        } else if ((alt) && (currentKey === "o")) {
-            openFile();
-        } else if ((alt) && (currentKey === "d")) {
-            deleteFile();
-        } else if ((alt) && (currentKey === "n")) {
-            newFile();
-        } else if ((alt) && (currentKey === "x")) {
-            createDownloadableFile(gfs("lastFileOpened"), getById("textarea").value);
-        } else if ((alt) && (currentKey === "g")) {
-            runGam();
-        } else if ((alt) && (currentKey === "w")) {
-            wordCount();
-        } else if ((alt) && (currentKey === "c")) {
-            toggleCommands();
-        } else if ((alt) && (currentKey === "m")) {
-            generateEmail();
-        }
-        if (keylogArray.length === 1) {
-            keylogArray.shift();
-        }
-        keylogArray.push(event.key);
-    }
-    document.addEventListener("keydown", masterKeyboardListener);
 
     function createDownloadableFile(filename, fileContent) {
         let typeText = "text/plain;charset=UTF-8";
@@ -321,6 +289,20 @@ document.addEventListener("DOMContentLoaded", function () {
         getById("inputOutputContainer").innerHTML = "";
     }
 
+    function toggleCommands() {
+        if (getById("commandContainer").classList.contains("commandStandby")) {
+            getById("commandContainer").classList.remove("commandStandby");
+            getById("commandContainer").classList.add("commandActive");
+        } else if (
+            getById("commandContainer").classList.contains("commandActive")
+            ) {
+            getById("commandContainer").classList.remove("commandActive");
+            getById("commandContainer").classList.add("commandStandby");
+        } else {
+            alert("Something has gone wrong with toggleCommands");
+        }
+    }
+
     function generateEmail() {
         let content = JSON.stringify(getById("textarea").value);
         if (content.includes("@#@") === false) {
@@ -334,15 +316,15 @@ document.addEventListener("DOMContentLoaded", function () {
             content = content.slice(0, content.length - 1);
         }
         let contentSplit = content.split("\\n");
-        let i = 0;
+        let i;
         let emailInfo = {
             to: "",
             cc: "",
             bcc: "",
             subject: "",
             startPoint: 0
-        }
-        for (i; i < contentSplit.length; i++) {
+        };
+        for (i = 0; i < contentSplit.length; i += 1) {
             if (contentSplit[i].slice(0, 3) === "TO:") {
                 emailInfo.to = contentSplit[i].slice(3);
             } else if (contentSplit[i].slice(0, 3) === "CC:") {
@@ -353,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 emailInfo.subject = contentSplit[i].slice(8);
             } else if (contentSplit[i].slice(0, 3) === "@#@") {
                 emailInfo.startPoint = i + 1;
-            } 
+            }
         }
         let emailContents = "mailto:";
         emailContents = emailContents.concat(emailInfo.to, "?");
@@ -387,15 +369,38 @@ document.addEventListener("DOMContentLoaded", function () {
         emailLink.click();
     }
 
-    function toggleCommands() {
-        if (getById("commandContainer").classList.contains("commandStandby")) {
-            getById("commandContainer").classList.remove("commandStandby");
-            getById("commandContainer").classList.add("commandActive");
-        } else if (getById("commandContainer").classList.contains("commandActive")) {
-            getById("commandContainer").classList.remove("commandActive");
-            getById("commandContainer").classList.add("commandStandby");
-        } else {
-            alert("Something has gone wrong with toggleCommands");
+    function masterKeyboardListener(event) {
+        let currentKey = event.key;
+        let alt = (keylogArray[0] === "Alt");
+        if ((alt) && (currentKey === "a")) {
+            saveAs();
+        } else if ((alt) && (currentKey === "p")) {
+            printTextArea();
+        } else if ((alt) && (currentKey === "s")) {
+            saveText();
+        } else if ((alt) && (currentKey === "o")) {
+            openFile();
+        } else if ((alt) && (currentKey === "d")) {
+            deleteFile();
+        } else if ((alt) && (currentKey === "n")) {
+            newFile();
+        } else if ((alt) && (currentKey === "x")) {
+            createDownloadableFile(
+                gfs("lastFileOpened"), getById("textarea").value
+                );
+        } else if ((alt) && (currentKey === "g")) {
+            runGam();
+        } else if ((alt) && (currentKey === "w")) {
+            wordCount();
+        } else if ((alt) && (currentKey === "c")) {
+            toggleCommands();
+        } else if ((alt) && (currentKey === "m")) {
+            generateEmail();
         }
+        if (keylogArray.length === 1) {
+            keylogArray.shift();
+        }
+        keylogArray.push(event.key);
     }
+    document.addEventListener("keydown", masterKeyboardListener);
 });
