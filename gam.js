@@ -1253,7 +1253,6 @@ function runGam() {
     function addToEndOfTOCs(elementToLinkTo, textToGrab) {
         // TOC SELECT FOR DESKTOP
         let supportSectionOption = newEl("OPTION");
-        supportSectionOption.classList.add("tocLink");
         supportSectionOption.value = elementToLinkTo;
         let supportSectionOptionText = ctn(textToGrab);
         supportSectionOption.appendChild(supportSectionOptionText);
@@ -1265,6 +1264,7 @@ function runGam() {
         // TOC MOBILE DIV
         let mobileTOCLI = newEl("LI");
         let mobileTOCLink = newEl("A");
+        mobileTOCLink.classList.add("tocLink");
         mobileTOCLink.href = elementToLinkTo;
         let mobileTOCLinkText = ctn(textToGrab);
         mobileTOCLink.appendChild(mobileTOCLinkText);
