@@ -143,8 +143,12 @@ function runGam() {
         if (item.length === 4) {
             inputArray[index] = item.replace("****", "[break]");
         } else {
-            inputArray[index] = item.replace(/\*\*(.*?)\*\*/gm, "<b>$1</b>");
-            inputArray[index] = item.replace(/\*(.*?)\*/gm, "<i>$1</i>");
+            if (item.includes("**")) {
+                inputArray[index] = item.replace(/\*\*(.*?)\*\*/gm, "<b>$1</b>");
+            }
+            if (item.includes("*")) {
+                inputArray[index] = inputArray[index].replace(/\*(.*?)\*/gm, "<i>$1</i>");
+            }
         }
 
         // TODO 2020-02-15NJB Replace @@L with lyrics formatting
@@ -876,9 +880,11 @@ function runGam() {
                         paragraph.appendChild(dropcap);
                         pText = pText.slice(1);
                         firstProperParagraph = false;
+                        let pTextNode = ctn(pText);
+                        paragraph.appendChild(pTextNode);
+                    } else {
+                        paragraph.innerHTML = pText;
                     }
-                    let pTextNode = ctn(pText);
-                    paragraph.appendChild(pTextNode);
                     if (paragraph.innerHTML.includes("<fn>")) {
                         footnoteCounter += 1;
                         paragraph.innerHTML = paragraph.innerHTML.replace(
@@ -1247,6 +1253,7 @@ function runGam() {
     function addToEndOfTOCs(elementToLinkTo, textToGrab) {
         // TOC SELECT FOR DESKTOP
         let supportSectionOption = newEl("OPTION");
+        supportSectionOption.classList.add("tocLink");
         supportSectionOption.value = elementToLinkTo;
         let supportSectionOptionText = ctn(textToGrab);
         supportSectionOption.appendChild(supportSectionOptionText);
