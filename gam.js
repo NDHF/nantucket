@@ -128,12 +128,12 @@ function runGam() {
         (textMetadata.monetizeicon !== "")) {
         monetizationObject = "<div id='monetizationDiv' class='buttons'>" +
             "<a href='[monetizationLink]'><img id='monetizationIcon'" +
-            "src='../../assets/images/[monetizationIcon].svg' /></a></div>";
+            "src='[monetizationIcon]' /></a></div>";
         monetizationObject = monetizationObject.replace(
             "[monetizationLink]", textMetadata.monetizelink
         );
         monetizationObject = monetizationObject.replace(
-            "[monetizationIcon", textMetadata.monetizeicon
+            "[monetizationIcon]", textMetadata.monetizeicon
         );
     }
 
@@ -149,6 +149,69 @@ function runGam() {
             if (item.includes("*")) {
                 inputArray[index] = inputArray[index].replace(/\*(.*?)\*/gm, "<i>$1</i>");
             }
+
+            function checkForLinks(whatToLookFor) {
+                if (inputArray[index].includes(whatToLookFor)) {
+                    let itemI;
+                    let pLinkStart = inputArray[index].indexOf(
+                        whatToLookFor
+                    ) + 2;
+                    let pLinkEnd = "";
+                    if (whatToLookFor === "{{") {
+                        pLinkEnd = inputArray[index].indexOf("}}");
+                    } else if (whatToLookFor === "[[") {
+                        pLinkEnd = inputArray[index].indexOf("]]");
+                    }
+                    let pLinkString = "";
+                    for (itemI = pLinkStart; itemI < pLinkEnd; itemI += 1) {
+                        pLinkString = pLinkString.concat(
+                            inputArray[index][itemI]
+                        );
+                    }
+                    let pLinkSplit = pLinkString.split("||");
+                    let pLinkProper = "";
+                    if (whatToLookFor === "{{") {
+                        let pLinkHref = pLinkSplit[0];
+                        let pLinkText = pLinkSplit[1];
+                        let pLinkID = "";
+                        if (pLinkSplit[2] !== undefined) {
+                            pLinkID = pLinkSplit[2].replace(" ", "_");
+                        }
+                        let pLinkDownload = "";
+                        if (pLinkSplit[4] !== undefined) {
+                            pLinkDownload = "download";
+                        }
+                        pLinkProper = "<a target='_blank' [download] id='" +
+                            pLinkID + "' href='" + pLinkHref + "'>" +
+                            pLinkText + "</a>";
+                        if (pLinkID === "") {
+                            pLinkProper = pLinkProper.replace("id=''", "");
+                        }
+                        pLinkProper = pLinkProper.replace(
+                            "[download]", pLinkDownload
+                        );
+                        if ((pLinkDownload !== "") ||
+                        (pLinkHref.charAt(0) === "#")) {
+                            pLinkProper = pLinkProper.replace(
+                                "target='_blank'", ""
+                            );
+                        }
+                    } else if (whatToLookFor === "[[") {
+                        let spanText = pLinkSplit[0];
+                        let spanID = pLinkSplit[1].replace(" ", "_");
+                        pLinkProper = "<span id='" + spanID + "'>" + spanText +
+                        "</span>";
+                    }
+                    if (whatToLookFor === "{{") {
+                        inputArray[index] = inputArray[index].replace(/\{\{([^}]+)\}\}/, pLinkProper);
+                    } else if (whatToLookFor === "[[") {
+                        inputArray[index] = inputArray[index].replace(/\[\[([^}]+)\]\]/, pLinkProper);
+                    }
+                    checkForLinks(whatToLookFor);
+                }
+            }
+            checkForLinks("{{");
+            checkForLinks("[[");
         }
 
         // TODO 2020-02-15NJB Replace @@L with lyrics formatting
@@ -873,15 +936,19 @@ function runGam() {
                         // paragraph.innerHTML = item.replace(/\\"/g, "\"");
                     }
                     if (firstProperParagraph) {
-                        let dropcap = newEl("SPAN");
-                        dropcap.classList.add("dropcap");
-                        let dropcapText = ctn(pText.slice(0, 1));
-                        dropcap.appendChild(dropcapText);
-                        paragraph.appendChild(dropcap);
-                        pText = pText.slice(1);
+                        // let dropcap = newEl("SPAN");
+                        // dropcap.classList.add("dropcap");
+                        // let dropcapText = ctn(pText.slice(0, 1));
+                        // dropcap.appendChild(dropcapText);
+                        // paragraph.appendChild(dropcap);
+                        // pText = pText.slice(1);
+                        // firstProperParagraph = false;
+                        // let pTextNode = ctn(pText);
+                        // paragraph.appendChild(pTextNode);
+                        pText = "<span class='dropcap'>" + pText.slice(0, 1) +
+                            "</span>" + pText.slice(1);
+                        paragraph.innerHTML = pText;
                         firstProperParagraph = false;
-                        let pTextNode = ctn(pText);
-                        paragraph.appendChild(pTextNode);
                     } else {
                         paragraph.innerHTML = pText;
                     }
