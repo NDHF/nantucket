@@ -8,6 +8,11 @@
         content="A user manual for the Shanty e-book syntax, designed to make writing e-books easier." />
     <meta name="keywords" content="syntax, e-book, writing, e-reader" />
     <meta name="author" content="Nicholas Bernhard" />
+    <meta name="theme-color" content="#fffff2">
+    <link rel="stylesheet" type="text/css" href="http://www.ndhfilms.com/assets/style/e-readerstyle.css">
+    <link rel="icon" type="image/gif" href="http://www.ndhfilms.com/assets/images/walkingfavicon.gif">
+    <link rel="apple-touch-icon" sizes="57x57" href="http://www.ndhfilms.com/assets/images/walkingfavicon.gif">
+    <link rel="apple-touch-icon" sizes="180x180" href="http://www.ndhfilms.com/assets/images/walkingfavicon.gif">
     <title>SHANTY: AN E-BOOK SYNTAX</title>
     <style>
         body {
@@ -358,12 +363,17 @@
                 <h2 id="lyricsAndPoetry">LYRICS AND POETRY<a class="backToOriginalLink"
                         href="#lyricsAndPoetryLink"><sup>&uarr;</sup></a></h2>
                 <p>If you need to add a few lines of a song or poetry to your e-book,
-                    preface each line with the <kbd>`</kbd> character, like this:
+                    preface each line with a grave accent (<kbd>`</kbd>), like this:
                 </p>
                 <ul>
                     <li class="inputExample"><kbd>` <span class="exampleText">poetry line here</span></kbd></li>
                     <li class="inputExample"><kbd>` <span class="exampleText">poetry line here</span></kbd></li>
                 </ul>
+                <p>To add a bit of space between verses, preface the last line of each verse with two 
+                    grave accents:
+                </p>
+                <li class="inputExample"><kbd>` <span class="exampleText">poetry line here</span></kbd></li>
+                <li class="inputExample"><kbd>`` <span class="exampleText">last poetry line here</span></kbd></li>
                 <p><strong>Since much of a poem's meaning comes from its presentation,
                         I understand that this may be insufficient. If a poem has to be
                         presented a certain way, check out the later sections on customization.</strong>

@@ -191,7 +191,7 @@ function runGam() {
                             "[download]", pLinkDownload
                         );
                         if ((pLinkDownload !== "") ||
-                        (pLinkHref.charAt(0) === "#")) {
+                            (pLinkHref.charAt(0) === "#")) {
                             pLinkProper = pLinkProper.replace(
                                 "target='_blank'", ""
                             );
@@ -200,7 +200,7 @@ function runGam() {
                         let spanText = pLinkSplit[0];
                         let spanID = pLinkSplit[1].replace(" ", "_");
                         pLinkProper = "<span id='" + spanID + "'>" + spanText +
-                        "</span>";
+                            "</span>";
                     }
                     if (whatToLookFor === "{{") {
                         inputArray[index] = inputArray[index].replace(/\{\{([^}]+)\}\}/, pLinkProper);
@@ -892,7 +892,14 @@ function runGam() {
             } else if (item.slice(0, 1) === "`") {
                 let poetryParagraph = newEl("P");
                 poetryParagraph.classList.add("lyricalP");
-                poetryParagraph.innerHTML = item.slice(1).replace(/\\"/g, "\"");
+                let lyricalPSliceIndex = 1;
+                if (item.slice(0, 2) === "``") {
+                    lyricalPSliceIndex = 2;
+                    poetryParagraph.classList.add("endOfVerse");
+                }
+                poetryParagraph.innerHTML = item.slice(
+                    lyricalPSliceIndex
+                ).replace(/\\"/g, "\"");
                 body.appendChild(poetryParagraph);
             } else if (item.slice(0, 5) === "@@DED") {
                 let dedication = newEl("P");
