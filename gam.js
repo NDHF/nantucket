@@ -535,10 +535,14 @@ function runGam() {
             "images/cassetteAnimated.svg";
         cassetteAnimatedDiv.appendChild(cassetteAnimatedObject);
         audioCassetteDiv.appendChild(cassetteAnimatedDiv);
-        let audioElement = newEl("AUDIO");
-        audioElement.id = "audioElement";
-        audioElement.controls = true;
-        audioCassetteDiv.appendChild(audioElement);
+        // let audioElement = newEl("AUDIO");
+        // audioElement.id = "audioElement";
+        // audioElement.controls = true;
+        let audioHoobaloo = newEl("DIV");
+        audioHoobaloo.innerHTML = "<object id='audioElement' type='image/svg+xml'" +
+        "data='http://www.ndhfilms.com/assets/images/audiointerface.svg'>" +
+        "Your browser does not support SVG</object></div>",
+        audioCassetteDiv.appendChild(audioHoobaloo);
         container.appendChild(audioCassetteDiv);
         audioDiv.appendChild(container);
         let audioCloseButton = newEl("IMG");
