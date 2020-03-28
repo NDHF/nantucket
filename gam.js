@@ -539,6 +539,7 @@ function runGam() {
         // audioElement.id = "audioElement";
         // audioElement.controls = true;
         let audioHoobaloo = newEl("DIV");
+        audioHoobaloo.id = "audioInterfaceWrapper";
         audioHoobaloo.innerHTML = "<object id='audioElement' type='image/svg+xml'" +
         "data='http://www.ndhfilms.com/assets/images/audiointerface.svg'>" +
         "Your browser does not support SVG</object></div>",
