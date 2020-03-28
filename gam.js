@@ -678,6 +678,28 @@ function runGam() {
                 rawHTMLDiv.innerHTML = rawHTML;
                 body.appendChild(rawHTMLDiv);
                 rawHTMLStorage = [];
+            } else if (item.slice(0, 5) === "@@IMG") {
+                let imageInfo = item.slice(5).split(" ");
+                let imageInfoObject = {};
+
+                function loopThroughImageInfo(imageInfoItem, imageInfoIndex) {
+                    if (imageInfoItem === ":source") {
+                        imageInfoObject.source = imageInfo[imageInfoIndex + 1];
+                    } else if (imageInfoItem === ":desc") {
+                        let imageDesc = imageInfo.slice(imageInfoIndex);
+                        imageInfoObject.desc = imageDesc.join(" ");
+                    }
+                }
+                imageInfo.forEach(loopThroughImageInfo);
+                let plainImage = newEl("IMG");
+                plainImage.classList.add("plainImage");
+                plainImage.src = imageInfoObject.source;
+                if (imageInfoObject.desc !== undefined) {
+                    plainImage.alt = imageInfoObject.desc;
+                } else {
+                    plainImage.alt = "An image for " + textMetadata.title;
+                }
+                body.appendChild(plainImage);
             } else if (item.slice(0, 6) === "@@ILLO") {
                 illustrationCounter += 1;
                 let illoMetadataObject = {};
@@ -779,6 +801,12 @@ function runGam() {
                     }
                 }
                 imgThumbnail.classList.add("illustrationTarget");
+                if (illoMetadataObject.orientation === "portrait") {
+                    imgThumbnail.classList.add("thumbnailPortrait");
+                } else if (illoMetadataObject.orientation ===
+                    "landscape") {
+                    imgThumbnail.classList.add("thumbnailLandscape");
+                }
                 imgThumbnail.src = illoMetadataObject.source;
                 body.appendChild(imgThumbnail);
 
@@ -908,16 +936,22 @@ function runGam() {
                 dedication.appendChild(dedicationText);
                 body.appendChild(dedication);
             } else if (item.slice(0, 4) === "@@FN") {
-                let footnote = document.createElement("P");
-                let footnoteContents = ctn(item.slice(4));
-                let backToOriginalLink = newEl("A");
+                let footnote = newEl("P");
+                let footnoteContents = item.slice(4);
+                // let backToOriginalLink = newEl("A");
                 let footnoteNumber = footnoteSection.children.length + 1;
-                backToOriginalLink.id = "footnote" + footnoteNumber;
-                backToOriginalLink.href = "#footnoteLink" + footnoteNumber;
-                backToOriginalLink.innerHTML = "<sup>" + footnoteNumber +
-                    "</sup>";
-                footnote.appendChild(backToOriginalLink);
-                footnote.appendChild(footnoteContents);
+                // backToOriginalLink.id = "footnote" + footnoteNumber;
+                // backToOriginalLink.href = "#footnoteLink" + footnoteNumber;
+                // backToOriginalLink.innerHTML = "<sup>" + footnoteNumber +
+                //     "</sup>";
+                let footnoteText = "<a id='" + "footnote" + footnoteNumber +
+                    "' href='#footnoteLink" + footnoteNumber + "'>" + "<sup>" +
+                    footnoteNumber + "</sup>" + "</a>" + footnoteContents;
+                console.log(footnoteText);
+                footnote.innerHTML = footnoteText;
+                console.log(footnote);
+                // footnote.appendChild(backToOriginalLink);
+                // footnote.appendChild(footnoteContents);
                 footnoteSection.appendChild(footnote);
             } else {
                 if (htmlGrabberRunning === false) {
@@ -1379,6 +1413,11 @@ function runGam() {
     if ((body.querySelectorAll("#creditsSection") !== null) &&
         (inputArray.length > 0)) {
         addToEndOfTOCs("#creditsSection", "CREDITS");
+    }
+
+    if ((body.querySelectorAll("#footnoteSection") !== null) &&
+        (inputArray.length > 0)) {
+            addToEndOfTOCs("#footnoteSection", "FOOTNOTES");
     }
 
     if (inputArray.length > 0) {
