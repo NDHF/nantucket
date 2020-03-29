@@ -535,9 +535,6 @@ function runGam() {
             "images/cassetteAnimated.svg";
         cassetteAnimatedDiv.appendChild(cassetteAnimatedObject);
         audioCassetteDiv.appendChild(cassetteAnimatedDiv);
-        // let audioElement = newEl("AUDIO");
-        // audioElement.id = "audioElement";
-        // audioElement.controls = true;
         let audioHoobaloo = newEl("DIV");
         audioHoobaloo.id = "audioInterfaceWrapper";
         audioHoobaloo.innerHTML = "<object id='audioElement' type='image/svg+xml'" +
@@ -943,20 +940,13 @@ function runGam() {
             } else if (item.slice(0, 4) === "@@FN") {
                 let footnote = newEl("P");
                 let footnoteContents = item.slice(4);
-                // let backToOriginalLink = newEl("A");
                 let footnoteNumber = footnoteSection.children.length + 1;
-                // backToOriginalLink.id = "footnote" + footnoteNumber;
-                // backToOriginalLink.href = "#footnoteLink" + footnoteNumber;
-                // backToOriginalLink.innerHTML = "<sup>" + footnoteNumber +
-                //     "</sup>";
                 let footnoteText = "<a id='" + "footnote" + footnoteNumber +
                     "' href='#footnoteLink" + footnoteNumber + "'>" + "<sup>" +
                     footnoteNumber + "</sup>" + "</a>" + footnoteContents;
                 console.log(footnoteText);
                 footnote.innerHTML = footnoteText;
                 console.log(footnote);
-                // footnote.appendChild(backToOriginalLink);
-                // footnote.appendChild(footnoteContents);
                 footnoteSection.appendChild(footnote);
             } else {
                 if (htmlGrabberRunning === false) {
@@ -982,15 +972,6 @@ function runGam() {
                         // paragraph.innerHTML = item.replace(/\\"/g, "\"");
                     }
                     if (firstProperParagraph) {
-                        // let dropcap = newEl("SPAN");
-                        // dropcap.classList.add("dropcap");
-                        // let dropcapText = ctn(pText.slice(0, 1));
-                        // dropcap.appendChild(dropcapText);
-                        // paragraph.appendChild(dropcap);
-                        // pText = pText.slice(1);
-                        // firstProperParagraph = false;
-                        // let pTextNode = ctn(pText);
-                        // paragraph.appendChild(pTextNode);
                         pText = "<span class='dropcap'>" + pText.slice(0, 1) +
                             "</span>" + pText.slice(1);
                         paragraph.innerHTML = pText;
@@ -1189,15 +1170,26 @@ function runGam() {
 
     // CREATE AUDIO SOURCE MENU
 
-    let audioSourceSelect = newEl("SELECT");
-    audioSourceSelect.id = "audioSourceSelect";
+    // let audioSourceSelect = newEl("SELECT");
+    // audioSourceSelect.id = "audioSourceSelect";
+
+    let audioSourceMenu = newEl("DIV");
+    audioSourceMenu.id = "audioSourceMenu";
+    audioSourceMenu.classList.add("audioSourceMenuStandby");
+    let audioSourceList = newEl("UL");
+    audioSourceList.id = "audioSourceList";
 
     function loopThroughAudioSourceArray(item, index) {
-        let audioSourceOption = newEl("OPTION");
-        audioSourceOption.value = item.source;
-        let audioSourceOptionText = ctn(item.title);
-        audioSourceOption.appendChild(audioSourceOptionText);
-        audioSourceSelect.appendChild(audioSourceOption);
+        let audioSourceLI = newEl("LI");
+        audioSourceLI.title = item.source;
+        let audioSourceLIText = ctn(item.title);
+        audioSourceLI.appendChild(audioSourceLIText);
+        audioSourceList.appendChild(audioSourceLI);
+        // let audioSourceOption = newEl("OPTION");
+        // audioSourceOption.value = item.source;
+        // let audioSourceOptionText = ctn(item.title);
+        // audioSourceOption.appendChild(audioSourceOptionText);
+        // audioSourceSelect.appendChild(audioSourceOption);
     }
     if (audioSourceArray.length === 0) {
         body.querySelector("#cassetteDiv").remove();
@@ -1206,12 +1198,22 @@ function runGam() {
         }
     } else {
         audioSourceArray.forEach(loopThroughAudioSourceArray);
-        if (audioSourceArray.length === 1) {
-            audioSourceSelect.disabled = true;
+        let currentAudio = newEl("P");
+        currentAudio.id = "currentAudio";
+        let initialAudioText = ctn(
+            audioSourceArray[0].title
+            );
+        currentAudio.appendChild(initialAudioText);
+        audioSourceMenu.appendChild(currentAudio);
+        // if (audioSourceArray.length === 1) {
+        //     audioSourceSelect.disabled = true;
+        // }
+        if (audioSourceArray.length > 1) {
+            audioSourceMenu.appendChild(audioSourceList);
         }
         body.querySelector(
             "#audioCassetteDiv"
-        ).insertBefore(audioSourceSelect, body.querySelector(
+        ).insertBefore(audioSourceMenu, body.querySelector(
             "#audioCassetteDiv"
         ).childNodes[0]);
     }
