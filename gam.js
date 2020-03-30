@@ -14,6 +14,18 @@ function runGam() {
         return document.createTextNode(text);
     }
 
+    function addACloseButton(nodeToAppendTo, idForCloseButton) {
+        let closeButton = newEl("IMG");
+        if (idForCloseButton !== undefined) {
+            closeButton.id = idForCloseButton;
+        }
+        closeButton.alt = "Click or tap to close";
+        closeButton.classList.add("closeButton");
+        closeButton.src = "http://www.ndhfilms.com/assets/images/" +
+            "closeButton.svg";
+        nodeToAppendTo.appendChild(closeButton);
+    }
+
     // QUALITY-OF-LIFE FUNCTIONS END
 
     let input = getById("textarea").value;
@@ -543,13 +555,7 @@ function runGam() {
         audioCassetteDiv.appendChild(audioHoobaloo);
         container.appendChild(audioCassetteDiv);
         audioDiv.appendChild(container);
-        let audioCloseButton = newEl("IMG");
-        audioCloseButton.id = "audioCloseButton";
-        audioCloseButton.onclick = true;
-        audioCloseButton.classList.add("closeButton");
-        audioCloseButton.src = "http://www.ndhfilms.com/assets/images/" +
-            "closeButton.svg";
-        audioDiv.appendChild(audioCloseButton);
+        addACloseButton(audioDiv, "audioCloseButton");
         body.appendChild(audioDiv);
     }
     if (textMetadata.audio !== "") {
@@ -825,12 +831,7 @@ function runGam() {
                 illustrationDiv.classList.add("illustrationDiv");
                 illustrationDiv.classList.add("standby");
 
-                let closeButton = newEl("IMG");
-                closeButton.alt = "Click or tap to close";
-                closeButton.classList.add("closeButton");
-                closeButton.src = "http://www.ndhfilms.com/assets/images/" +
-                    "closeButton.svg";
-                illustrationDiv.appendChild(closeButton);
+                addACloseButton(illustrationDiv);
 
                 let container = newEl("DIV");
                 container.classList.add("container");
@@ -1132,13 +1133,7 @@ function runGam() {
 
         // CREATE AND APPEND CLOSE BUTTON
 
-        let tocCloseButton = newEl("IMG");
-        tocCloseButton.id = "tocCloseButton";
-        tocCloseButton.alt = "Click or tap to close table of contents";
-        tocCloseButton.classList.add("closeButton");
-        tocCloseButton.src = "http://www.ndhfilms.com/assets/images/" +
-            "closeButton.svg";
-        mobileTOCDiv.appendChild(tocCloseButton);
+        addACloseButton(mobileTOCDiv, "tocCloseButton");
 
         desktopTOCSection.appendChild(tocSecList);
         if ((chapterArray.length > 0) || (illustrationArray.length > 0)) {
@@ -1170,26 +1165,51 @@ function runGam() {
 
     // CREATE AUDIO SOURCE MENU
 
-    // let audioSourceSelect = newEl("SELECT");
-    // audioSourceSelect.id = "audioSourceSelect";
-
     let audioSourceMenu = newEl("DIV");
     audioSourceMenu.id = "audioSourceMenu";
     audioSourceMenu.classList.add("audioSourceMenuStandby");
+    let audioSourceMenuHgroup = newEl("HGROUP");
+    if (textMetadata.title !== "") {
+        let audioSourceMenuTitle = newEl("H1");
+        audioSourceMenuTitleText = ctn(textMetadata.title);
+        audioSourceMenuTitle.appendChild(audioSourceMenuTitleText);
+        audioSourceMenuHgroup.appendChild(audioSourceMenuTitle);
+        if (textMetadata.subtitle !== "") {
+            let audioSourceMenuSubtitle = newEl("H2");
+            let audioSourceMenuSubtitleText = ctn(textMetadata.subtitle);
+            audioSourceMenuSubtitle.appendChild(audioSourceMenuSubtitleText);
+            audioSourceMenuHgroup.appendChild(audioSourceMenuSubtitle);
+        }
+        if (textMetadata.author !== "") {
+            let audioSourceMenuAuthor = newEl("H3");
+            let audioSourceMenuAuthorText = "";
+            if (textMetadata.credit !== "") {
+                audioSourceMenuAuthorText = ctn(textMetadata.credit + " " +
+                textMetadata.author);
+            } else {
+                audioSourceMenuAuthorText = ctn("by " + textMetadata.author);
+            }
+            audioSourceMenuAuthor.appendChild(audioSourceMenuAuthorText);
+            audioSourceMenuHgroup.appendChild(audioSourceMenuAuthor);
+        }
+    }
+    let audioSourceMenuHeader = newEl("H1");
+    audioSourceMenuHeader.id = "audioSourceMenuHeader";
+    let audioSourceMenuHeaderText = ctn("CHOOSE AN AUDIO FILE");
+    audioSourceMenuHeader.appendChild(audioSourceMenuHeaderText);
+    audioSourceMenuHgroup.appendChild(audioSourceMenuHeader);
+    audioSourceMenu.appendChild(audioSourceMenuHgroup);
+    let audioListDiv = newEl("DIV");
+    audioListDiv.id = "audioListDiv";
     let audioSourceList = newEl("UL");
     audioSourceList.id = "audioSourceList";
 
-    function loopThroughAudioSourceArray(item, index) {
+    function loopThroughAudioSourceArray(item) {
         let audioSourceLI = newEl("LI");
         audioSourceLI.title = item.source;
         let audioSourceLIText = ctn(item.title);
         audioSourceLI.appendChild(audioSourceLIText);
         audioSourceList.appendChild(audioSourceLI);
-        // let audioSourceOption = newEl("OPTION");
-        // audioSourceOption.value = item.source;
-        // let audioSourceOptionText = ctn(item.title);
-        // audioSourceOption.appendChild(audioSourceOptionText);
-        // audioSourceSelect.appendChild(audioSourceOption);
     }
     if (audioSourceArray.length === 0) {
         body.querySelector("#cassetteDiv").remove();
@@ -1200,22 +1220,21 @@ function runGam() {
         audioSourceArray.forEach(loopThroughAudioSourceArray);
         let currentAudio = newEl("P");
         currentAudio.id = "currentAudio";
-        let initialAudioText = ctn(
-            audioSourceArray[0].title
-            );
+        let initialAudioText = ctn("CHOOSE AN AUDIO FILE");
         currentAudio.appendChild(initialAudioText);
-        audioSourceMenu.appendChild(currentAudio);
-        // if (audioSourceArray.length === 1) {
-        //     audioSourceSelect.disabled = true;
-        // }
         if (audioSourceArray.length > 1) {
-            audioSourceMenu.appendChild(audioSourceList);
+            audioListDiv.appendChild(audioSourceList);
+            audioSourceMenu.appendChild(audioListDiv);
+            addACloseButton(audioSourceMenu);
         }
+        // Append currentAudio to the audio div
         body.querySelector(
             "#audioCassetteDiv"
-        ).insertBefore(audioSourceMenu, body.querySelector(
+        ).insertBefore(currentAudio, body.querySelector(
             "#audioCassetteDiv"
         ).childNodes[0]);
+        // Append menu to body
+        body.insertBefore(audioSourceMenu, body.querySelector("#audioDiv"));
     }
 
     function addCompletionLocationAndDate() {
