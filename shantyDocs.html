@@ -36,11 +36,13 @@
                 With minimal markup, anything from a short story to a novel
                 can be easily converted into my <b>Nantucket</b> e-book platform.</p>
 
-            <p><strong><a href="http://www.ndhfilms.com/nantucket">Nantucket</a></strong> is an e-book platform that is <b>mobile-friendly</b>,
+            <p><strong><a href="http://www.ndhfilms.com/nantucket">Nantucket</a></strong> is an e-book platform that is
+                <b>mobile-friendly</b>,
                 and will work in any modern browser. It includes interactive features like <strong>dark mode</strong>,
                 <strong>bookmarking</strong>, and <strong>audiobook integration</strong>.</p>
 
-            <p><a href="http://www.ndhfilms.com/writings/ereader/nantucket">Here's an example of a Nantucket e-book.</a></p>
+            <p><a href="http://www.ndhfilms.com/writings/ereader/nantucket">Here's an example of a Nantucket e-book.</a>
+            </p>
 
             <p>To publish a Nantucket e-book, simply format your text in the <b>Shanty</b> syntax.
                 You can use any text editor you wish: Notepad, Word, Google Docs, Pages, OpenOffice.org, you name it.
@@ -48,13 +50,14 @@
                 it's <b>lightweight</b> and <b>future-proof</b>.
             </p>
 
-            <p>To turn <b>Shanty</b>-formatted text into a <b>Nantucket</b> e-book, you can use <a href="vvste.html">VVSTE</a>, my
+            <p>To turn <b>Shanty</b>-formatted text into a <b>Nantucket</b> e-book, you can use <a
+                    href="vvste.html">VVSTE</a>, my
                 <u>V</u>ery <u>V</u>ery
                 <u>S</u>imple <u>T</u>ext <u>E</u>ditor. <b>VVSTE</b> has a built-in text parsing script called
                 <strong>Gam</strong>,
                 which formats your text into the <b>Nantucket</b> e-book platform.</p>
 
-            <p><em>If you're a writer</em>, <b>Shanty</b> makes it a snap to convert your text files into 
+            <p><em>If you're a writer</em>, <b>Shanty</b> makes it a snap to convert your text files into
                 a <b>Nantucket</b> e-book. Eliminate the tedious task of adding HMTL tags to a document,
                 and spend your opportunity costs on more writing!
             </p>
@@ -98,6 +101,7 @@
                     <ul>
                         <li><a id="addingACoverImageLink" href="#addingACoverImage">ADDING A COVER IMAGE</a></li>
                         <li><a id="addingIllustrationsLink" href="#addingIllustrations">ADDING ILLUSTRATIONS</a></li>
+                        <li><a id="addingAnImageLink" href="#addingAnImage">ADDING ILLUSTRATIONS</a></li>
                     </ul>
                 </li>
                 <li><a id="addingAnAudiobookLink" href="#addingAnAudiobook">
@@ -155,6 +159,10 @@
                 <li class="inputExample"><kbd>!!TITLE <span class="exampleText">title of e-book</span></kbd></li>
                 <li class="inputExample"><kbd>!!AUTHOR <span class="exampleText">author of e-book</span></kbd></li>
             </ul>
+            <div class="sideBySide">
+                <img src="images/titleAndSubtitle.png" />
+                <img src="images/titleAndSubtitleFinished.png" />
+            </div>
             <h2 id="addingChapters">ADDING CHAPTERS<a class="backToOriginalLink"
                     href="#addingChaptersLink"><sup>&uarr;</sup></a></h2>
             <p>Breaking down your e-book into chapters is easy. Place <kbd>#</kbd>
@@ -171,6 +179,10 @@
             <p>The program will look for these symbols, and use them
                 to build your table of contents.
             </p>
+            <div class="sideBySide">
+                <img src="images/chapters.png" />
+                <img src="images/chaptersFinished.png" />
+            </div>
             <p><strong>Make sure every chapter title is unique!</strong></p>
             <h2 id="addingLinks">ADDING LINKS<a class="backToOriginalLink" href="#addingLinksLink"><sup>&uarr;</sup></a>
             </h2>
@@ -196,6 +208,10 @@
             <h2 id="extras">EXTRAS<a class="backToOriginalLink" href="#extrasLink"><sup>&uarr;</sup></a></h2>
             <h3 id="breaks">BREAKS<a class="backToOriginalLink" href="#breakLink"><sup>&uarr;</sup></a></h3>
             <p>To add a line break, just add four asterisks, <kbd>****</kbd>, on a new line.</p>
+            <div class="sideBySide">
+                <img src="images/breaks.png" />
+                <img src="images/breaksFinished.png" />
+            </div>
             <h3 id="boldAndItalicizedText">BOLD AND ITALICIZED TEXT<a class="backToOriginalLink"
                     href="#boldAndItalicizedTextLink"><sup>&uarr;</sup></a></h3>
             <p>To add <b>bold text</b> to your e-book, put <b>two</b> asterisks (<kbd>**</kbd>) on either side of the
@@ -209,6 +225,10 @@
             <ul>
                 <li class="inputExample"><kbd>*<span class="exampleText">italicized text here</span>*</kbd></li>
             </ul>
+            <div class="sideBySide">
+                <img src="images/italics.png" />
+                <img src="images/italicsFinished.png" />
+            </div>
             <p>Want to make text bold <em>and</em> italicized? Use three asterisks!</p>
             <h3 id="text-align">TEXT-ALIGN<a class="backToOriginalLink" href="#text-alignLink"><sup>&uarr;</sup></a>
             </h3>
@@ -221,13 +241,20 @@
                 <li class="inputExample"><kbd>:center<span class="exampleText">center-aligned text</span></kbd></li>
                 <li class="inputExample"><kbd>:right<span class="exampleText">right-aligned text</span></kbd></li>
             </ul>
-
+            <div class="sideBySide">
+                <img src="images/textAlign.png" />
+                <img src="images/textAlignFinished.png" />
+            </div>
             <h3 id="sub-titles">SUB-TITLES<a class="backToOriginalLink" href="#sub-titlesLink"><sup>&uarr;</sup></a>
             </h3>
             <p>To add a sub-title to your book, just add a <kbd>!!SUBTITLE</kbd> line to the beginning of your text:</p>
             <ul>
                 <li class="inputExample"><kbd>!!SUBTITLE <span class="exampleText">subtitle text here</span></kbd></li>
             </ul>
+            <div class="sideBySide">
+                <img src="images/subtitle.png" />
+                <img src="images/subtitleFinished.png" />
+            </div>
             <h3 id="specialCredits">SPECIAL CREDITS<a class="backToOriginalLink"
                     href="#specialCreditsLink"><sup>&uarr;</sup></a></h3>
             <p>The program will automatically credit the e-book as "By <span class="exampleText">author's name</span>."
@@ -247,8 +274,12 @@
                                 want</span></kbd></li>
                     <li class="inputExample"><kbd>!!DATE <span class="exampleText">YYYY-MM-DD</span></kbd></li>
                 </ul>
+                <div class="sideBySide">
+                    <img src="images/locationDate.png" />
+                    <img src="images/locationDateFinished.png" />
+                </div>
                 <p>Nice. Just like Stephen King!</p>
-                <p>The location and date are both optional, use can use either, both, or neither.</p>
+                <p>The location and date are both optional, you can use either, neither, or both.</p>
                 <p><strong>These will always be placed towards the end of your document.</strong></p>
                 <h3 id="dedications">DEDICATIONS<a class="backToOriginalLink"
                         href="#dedicationsLink"><sup>&uarr;</sup></a>
@@ -270,14 +301,14 @@
                 </ul>
                 <h3 id="footnotes">FOOTNOTES<a class="backToOriginalLink" href="#footnotesLink"><sup>&uarr;</sup></a>
                 </h3>
-                <p>Please be advised that the footnotes feature is janky AF, Tom, and you might not want to use it.</p>
+                <p>Please be advised that the footnotes feature is janky AF, Tom.</p>
                 <p>If you absolutely must add a footnote, here's the steps:</p>
                 <p><b>1)</b> Include the notation <kbd>&lt;FN&gt;</kbd> for your footnote.</p>
                 <p><b>2)</b> <strong></strong>At the end of the paragraph containing the footnote,</strong>
                     include the following:
                 </p>
                 <ul>
-                    <li class="inputExample"><kbd>@@FN [footnote text]</kbd></li>
+                    <li class="inputExample"><kbd>@@FN <span class="exampleText">footnote text</span></kbd></li>
                 </ul>
                 <p>Footnotes will appear in the Footnotes section of the e-book. Each footnote includes
                     a link back to the original paragraph.
@@ -301,8 +332,14 @@
                 <p>To add a bit of space between verses, preface the last line of each verse with two
                     grave accents:
                 </p>
-                <li class="inputExample"><kbd>` <span class="exampleText">poetry line here</span></kbd></li>
-                <li class="inputExample"><kbd>`` <span class="exampleText">last poetry line here</span></kbd></li>
+                <ul>
+                    <li class="inputExample"><kbd>` <span class="exampleText">poetry line here</span></kbd></li>
+                    <li class="inputExample"><kbd>`` <span class="exampleText">last poetry line here</span></kbd></li>
+                </ul>
+                <div class="sideBySide">
+                    <img src="images/poetry.png" />
+                    <img src="images/poetryFinished.png" />
+                </div>
                 <p><strong>Since much of a poem's meaning comes from its presentation,
                         I understand that this may be insufficient. If a poem has to be
                         presented a certain way, check out the later sections on customization.</strong>
@@ -358,6 +395,13 @@
             <p><strong>Only the :source attribute is required, and if :caption is used,
                     it must come last.
                 </strong></p>
+            <h2 id="addingAnImage">ADDING AN IMAGE<a class="backToOriginalLink" href="#addingAnImageLink">&uarr;</a></h2>
+            <p>If you want to add a plain ol' image to your e-book, use the following syntax:</p>
+            <ul>
+                <li class="inputExample"><kbd>@@IMG :source <span class="exampleText">link or filepath to image</span> :title <span class="exampleText">description of image</span></kbd></li>
+            </ul>
+            <p>The <kbd>:title</kbd> attribute is optional, though it is always recommended to descriptions of images on web pages. If you do make use 
+            of the <kbd>:title</kbd> attribute, make sure it comes <strong>after</strong> <kbd>:source</kbd>.</p>
             <hr />
         </section>
 
@@ -562,7 +606,6 @@
             <ul>
                 <li class="inputExample"><kbd>!!SMALL</kbd></li>
             </ul>
-            <p>To remove the internal table-of-contents,</p>
             <h2 id="linkingToAnE-BookMenu">LINKING TO AN E-BOOK MENU<a class="backToOriginalLink"
                     href="#linkingToAnE-BookMenuLink"><sup>&uarr;</sup></a></h2>
             <p>If you have more than one e-book, you may have a web page where your
@@ -605,7 +648,7 @@
             <p>A favicon is a very small image that represents a web page. Is is usually
                 displayed on the tab of a desktop browser, or on the new window of a mobile browser:
             </p>
-            <p>The program will automatically use my Bernhard Ltd. favicon:</p>
+            <p>The program will automatically use my Bernhard Ltd. favicon, as seen on the top of this page.</p>
             <p>If you would like to replace it with your own favicon, include the following line
                 at the beginning of your text:
             </p>

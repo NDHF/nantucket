@@ -86,9 +86,9 @@ function runGam() {
         function loopKeyIndexArray(kiaItem) {
             if (inputArray[i].slice(0, (kiaItem.length + 2)) ===
                 ("!!" + kiaItem)) {
-                if (kiaItem === "SMALL") {
+                if (kiaItem.toLowerCase() === "small") {
                     textMetadata.small = "small";
-                } else if (kiaItem === "STYLESHEET") {
+                } else if (kiaItem.toLowerCase() === "stylesheet") {
                     textMetadata.stylesheet.push(
                         inputArray[i].slice(0, 12).replace(" ", "_")
                     );
@@ -563,10 +563,11 @@ function runGam() {
 
         function appendInputArrayToBody(item, index) {
             if (item === "[break]") {
+                console.log(true);
                 let hr = newEl("HR");
                 hr.classList.add("style-two");
                 body.appendChild(hr);
-            } else if (item.slice(0, 10) === "@@COVERIMG") {
+            } else if (item.slice(0, 10).toLowerCase() === "@@coverimg") {
                 let coverImageLink = newEl("A");
                 textMetadata.coverlink = item.slice(11);
                 coverImageLink.href = textMetadata.coverlink;
@@ -592,14 +593,14 @@ function runGam() {
                     link: "#coverImg",
                     text: "Cover"
                 });
-            } else if (item.slice(0, 8) === "@@BLOCKQ") {
+            } else if (item.slice(0, 8).toLowerCase() === "@@blockq") {
                 let blockquoteContents = item.slice(8);
                 blockquoteContents = blockquoteContents.replace(/\\"/g, "\"");
                 let blockquote = newEl("BLOCKQUOTE");
                 let blockquoteText = ctn(blockquoteContents);
                 blockquote.appendChild(blockquoteText);
                 body.appendChild(blockquote);
-            } else if (item.slice(0, 11) === "@@QUOTEATTR") {
+            } else if (item.slice(0, 11).toLowerCase() === "@@quoteattr") {
                 let blockquoteAttrContent = " - " + item.slice(11);
                 blockquoteAttrContent = blockquoteAttrContent.replace(
                     /\\"/g, "\""
@@ -613,7 +614,7 @@ function runGam() {
                     blockquoteAttr.appendChild(blockquoteAttrText);
                 }
                 body.appendChild(blockquoteAttr);
-            } else if (item.slice(0, 9) === "@@SUPPORT") {
+            } else if (item.slice(0, 9).toLowerCase() === "@@support") {
                 let supportArray = item.slice(9).split(" ");
                 if ((supportArray.includes(":title") === false) ||
                     (supportArray.includes(":text") === false)) {
@@ -660,12 +661,12 @@ function runGam() {
                 supportSectionTextDiv.innerHTML = supportObject.text;
                 supportSection.appendChild(supportSectionTextDiv);
                 body.appendChild(supportSection);
-            } else if (item.slice(0, 11) === "@@HTMLSTART") {
+            } else if (item.slice(0, 11).toLowerCase() === "@@htmlstart") {
                 htmlGrabberRunning = true;
                 let htmlStartI;
                 for (htmlStartI = (index + 1); htmlStartI <
                     inputArray.length; htmlStartI += 1) {
-                    if (inputArray[htmlStartI] !== "@@HTMLEND") {
+                    if (inputArray[htmlStartI].toLowerCase() !== "@@htmlend") {
                         let rawHTMLContent = inputArray[htmlStartI].replace(
                             /\\"/g, "\""
                         );
@@ -674,7 +675,7 @@ function runGam() {
                         break;
                     }
                 }
-            } else if (item.slice(0, 9) === "@@HTMLEND") {
+            } else if (item.slice(0, 9).toLowerCase() === "@@htmlend") {
                 htmlGrabberRunning = false;
                 let rawHTMLDiv = newEl("DIV");
                 rawHTMLDiv.classList.add("rawHTMLDiv");
@@ -682,7 +683,7 @@ function runGam() {
                 rawHTMLDiv.innerHTML = rawHTML;
                 body.appendChild(rawHTMLDiv);
                 rawHTMLStorage = [];
-            } else if (item.slice(0, 5) === "@@IMG") {
+            } else if (item.slice(0, 5).toLowerCase() === "@@img") {
                 let imageInfo = item.slice(5).split(" ");
                 let imageInfoObject = {};
 
@@ -704,7 +705,7 @@ function runGam() {
                     plainImage.alt = "An image for " + textMetadata.title;
                 }
                 body.appendChild(plainImage);
-            } else if (item.slice(0, 6) === "@@ILLO") {
+            } else if (item.slice(0, 6).toLowerCase() === "@@illo") {
                 illustrationCounter += 1;
                 let illoMetadataObject = {};
 
@@ -871,7 +872,7 @@ function runGam() {
                 container.appendChild(flexbox2);
                 illustrationDiv.appendChild(container);
                 body.appendChild(illustrationDiv);
-            } else if (item.slice(0, 7) === "@@AUDIO") {
+            } else if (item.slice(0, 7).toLowerCase() === "@@audio") {
                 let audioSourceObject = {};
                 let audioSourceInfo = item.slice(7).split(" ");
 
@@ -928,13 +929,13 @@ function runGam() {
                     lyricalPSliceIndex
                 ).replace(/\\"/g, "\"");
                 body.appendChild(poetryParagraph);
-            } else if (item.slice(0, 5) === "@@DED") {
+            } else if (item.slice(0, 5).toLowerCase() === "@@ded") {
                 let dedication = newEl("P");
                 dedication.classList.add("dedication");
                 let dedicationText = ctn(item.slice(5));
                 dedication.appendChild(dedicationText);
                 body.appendChild(dedication);
-            } else if (item.slice(0, 4) === "@@FN") {
+            } else if (item.slice(0, 4).toLowerCase() === "@@fn") {
                 let footnote = newEl("P");
                 let footnoteContents = item.slice(4);
                 let footnoteNumber = footnoteSection.children.length + 1;
@@ -970,7 +971,7 @@ function runGam() {
                     } else {
                         paragraph.innerHTML = pText;
                     }
-                    if (paragraph.innerHTML.includes("<fn>")) {
+                    if (paragraph.innerHTML.toLowerCase().includes("<fn>")) {
                         footnoteCounter += 1;
                         paragraph.innerHTML = paragraph.innerHTML.replace(
                             "<fn>", "<a id='footnoteLink" + footnoteCounter +
@@ -1478,7 +1479,7 @@ function runGam() {
         )[0]);
     }
     html.appendChild(body);
-    // console.log(html);
+    console.log(html);
 
     function createDownloadableFile(filename, fileContent) {
         let typeText = "text/html;charset=UTF-8";
