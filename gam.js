@@ -156,10 +156,12 @@ function runGam() {
             inputArray[index] = item.replace("****", "[break]");
         } else {
             if (item.includes("**")) {
-                inputArray[index] = item.replace(/\*\*(.*?)\*\*/gm, "<b>$1</b>");
+                inputArray[index] = item.replace(/\*\*(.*?)\*\*/gm, "" +
+                "<b>$1</b>");
             }
             if (item.includes("*")) {
-                inputArray[index] = inputArray[index].replace(/\*(.*?)\*/gm, "<i>$1</i>");
+                inputArray[index] = inputArray[index].replace(/\*(.*?)\*/gm, ""+
+                "<i>$1</i>");
             }
 
             function checkForLinks(whatToLookFor) {
@@ -215,9 +217,13 @@ function runGam() {
                             "</span>";
                     }
                     if (whatToLookFor === "{{") {
-                        inputArray[index] = inputArray[index].replace(/\{\{([^}]+)\}\}/, pLinkProper);
+                        inputArray[index] = inputArray[
+                            index
+                        ].replace(/\{\{([^}]+)\}\}/, pLinkProper);
                     } else if (whatToLookFor === "[[") {
-                        inputArray[index] = inputArray[index].replace(/\[\[([^}]+)\]\]/, pLinkProper);
+                        inputArray[index] = inputArray[
+                            index
+                        ].replace(/\[\[([^}]+)\]\]/, pLinkProper);
                     }
                     checkForLinks(whatToLookFor);
                 }
@@ -260,12 +266,6 @@ function runGam() {
         }
         headTitle.text = headTitleText;
         head.appendChild(headTitle);
-        // Add viewport meta tag
-        // let viewportTag = newEl("META");
-        // viewportTag.name = "viewport";
-        // viewportTag.content = "width=device-width," +
-        // " initial-scale=1.0, maximum-scale=1.0, user-scalable=no";
-        // head.appendChild(viewportTag);
         // Add author meta tag
         if (textMetadata.author !== "") {
             let authorMetaTag = newEl("META");
@@ -549,7 +549,8 @@ function runGam() {
         audioCassetteDiv.appendChild(cassetteAnimatedDiv);
         let audioHoobaloo = newEl("DIV");
         audioHoobaloo.id = "audioInterfaceWrapper";
-        audioHoobaloo.innerHTML = "<object id='audioElement' type='image/svg+xml'" +
+        audioHoobaloo.innerHTML = "<object id='audioElement'" +
+        "type='image/svg+xml'" +
         "data='http://www.ndhfilms.com/assets/images/audiointerface.svg'>" +
         "Your browser does not support SVG</object></div>",
         audioCassetteDiv.appendChild(audioHoobaloo);
@@ -957,20 +958,16 @@ function runGam() {
                         paragraph.classList.add("alignLeft");
                         pText = item.slice(5);
                         pText = pText.replace(/\\"/g, "\"");
-                        // paragraph.innerHTML = pText;
                     } else if (item.slice(0, 7) === ":center") {
                         paragraph.classList.add("alignCenter");
                         pText = item.slice(7);
                         pText = pText.replace(/\\"/g, "\"");
-                        // paragraph.innerHTML = pText;
                     } else if (item.slice(0, 6) === ":right") {
                         paragraph.classList.add("alignRight");
                         pText = item.slice(6);
                         pText = pText.replace(/\\"/g, "\"");
-                        // paragraph.innerHTML = pText;
                     } else {
                         pText = item.replace(/\\"/g, "\"");
-                        // paragraph.innerHTML = item.replace(/\\"/g, "\"");
                     }
                     if (firstProperParagraph) {
                         pText = "<span class='dropcap'>" + pText.slice(0, 1) +
