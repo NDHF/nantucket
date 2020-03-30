@@ -161,7 +161,6 @@ function runGam() {
             if (item.includes("*")) {
                 inputArray[index] = inputArray[index].replace(/\*(.*?)\*/gm, "<i>$1</i>");
             }
-
             function checkForLinks(whatToLookFor) {
                 if (inputArray[index].includes(whatToLookFor)) {
                     let itemI;
@@ -229,8 +228,6 @@ function runGam() {
             checkForLinks("{{");
             checkForLinks("[[");
         }
-
-        // TODO 2020-02-15NJB Replace @@L with lyrics formatting
     }
     inputArray.forEach(replaceAsterisks);
 
@@ -944,9 +941,7 @@ function runGam() {
                 let footnoteText = "<a id='" + "footnote" + footnoteNumber +
                     "' href='#footnoteLink" + footnoteNumber + "'>" + "<sup>" +
                     footnoteNumber + "</sup>" + "</a>" + footnoteContents;
-                console.log(footnoteText);
                 footnote.innerHTML = footnoteText;
-                console.log(footnote);
                 footnoteSection.appendChild(footnote);
             } else {
                 if (htmlGrabberRunning === false) {
@@ -1215,8 +1210,8 @@ function runGam() {
         audioSourceArray.forEach(loopThroughAudioSourceArray);
         let currentAudio = newEl("P");
         currentAudio.id = "currentAudio";
-        let initialAudioText = ctn("CHOOSE AN AUDIO FILE");
-        currentAudio.appendChild(initialAudioText);
+        let initialAudioText = "CHOOSE AN AUDIO FILE &#9757;";
+        currentAudio.innerHTML = initialAudioText;
         if (audioSourceArray.length > 1) {
             audioListDiv.appendChild(audioSourceList);
             audioSourceMenu.appendChild(audioListDiv);
@@ -1483,7 +1478,7 @@ function runGam() {
         )[0]);
     }
     html.appendChild(body);
-    console.log(html);
+    // console.log(html);
 
     function createDownloadableFile(filename, fileContent) {
         let typeText = "text/html;charset=UTF-8";
