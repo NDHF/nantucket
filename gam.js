@@ -156,12 +156,10 @@ function runGam() {
             inputArray[index] = item.replace("****", "[break]");
         } else {
             if (item.includes("**")) {
-                inputArray[index] = item.replace(/\*\*(.*?)\*\*/gm, "" +
-                "<b>$1</b>");
+                inputArray[index] = item.replace(/\*\*(.*?)\*\*/gm, "<b>$1</b>");
             }
             if (item.includes("*")) {
-                inputArray[index] = inputArray[index].replace(/\*(.*?)\*/gm, ""+
-                "<i>$1</i>");
+                inputArray[index] = inputArray[index].replace(/\*(.*?)\*/gm, "<i>$1</i>");
             }
 
             function checkForLinks(whatToLookFor) {
@@ -552,7 +550,7 @@ function runGam() {
         audioHoobaloo.innerHTML = "<object id='audioElement'" +
         "type='image/svg+xml'" +
         "data='http://www.ndhfilms.com/assets/images/audiointerface.svg'>" +
-        "Your browser does not support SVG</object></div>",
+        "Your browser does not support SVG</object></div>";
         audioCassetteDiv.appendChild(audioHoobaloo);
         container.appendChild(audioCassetteDiv);
         audioDiv.appendChild(container);
@@ -1168,7 +1166,7 @@ function runGam() {
     let audioSourceMenuHgroup = newEl("HGROUP");
     if (textMetadata.title !== "") {
         let audioSourceMenuTitle = newEl("H1");
-        audioSourceMenuTitleText = ctn(textMetadata.title);
+        let audioSourceMenuTitleText = ctn(textMetadata.title);
         audioSourceMenuTitle.appendChild(audioSourceMenuTitleText);
         audioSourceMenuHgroup.appendChild(audioSourceMenuTitle);
         if (textMetadata.subtitle !== "") {

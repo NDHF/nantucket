@@ -142,21 +142,29 @@
 
             <p><strong>SHANTY</strong> is a syntax to make writing e-books easier.
                 With minimal markup, anything from a short story to a novel
-                can be easily converted into my Nantucket e-book platform.</p>
+                can be easily converted into my <b>Nantucket</b> e-book platform.</p>
 
-            <p><strong>Nantucket</strong> is an e-book platform that is <b>mobile-friendly</b>,
+            <p><strong><a href="http://www.ndhfilms.com/nantucket">Nantucket</a></strong> is an e-book platform that is <b>mobile-friendly</b>,
                 and will work in any modern browser. It includes interactive features like <strong>dark mode</strong>,
-            <strong>bookmarking</strong>, and <strong>audiobook integration</strong>.</p>
+                <strong>bookmarking</strong>, and <strong>audiobook integration</strong>.</p>
 
-            <p>To publish a Nantucket e-book, simply format your text in the Shanty syntax. 
-                You can use any text editor you wish, or you can use <a href="vvste.html">VVSTE</a> (<u>V</u>ery <u>V</u>ery
-                <u>S</u>imple <u>T</u>ext <u>E</u>ditor). VVSTE has a built-in text parsing script called <strong>Gam</strong>,
-                which formats your script into an HTML file in the Nantucket platform.
+            <p><a href="http://www.ndhfilms.com/writings/ereader/nantucket">Here's an example of a Nantucket e-book.</a></p>
+
+            <p>To publish a Nantucket e-book, simply format your text in the <b>Shanty</b> syntax.
+                You can use any text editor you wish: Notepad, Word, Google Docs, Pages, OpenOffice.org, you name it.
+                Since <b>Shanty</b> is plain-text,
+                it's <b>lightweight</b> and <b>future-proof</b>.
             </p>
 
-            <p>Shanty makes it a snap to convert your text files into an HTML file that
-                fits the format of the NDH E-Reader. You don't need to spend an hour
-                getting all the HTML tags into your story.
+            <p>To turn <b>Shanty</b>-formatted text into a <b>Nantucket</b> e-book, you can use <a href="vvste.html">VVSTE</a>, my
+                <u>V</u>ery <u>V</u>ery
+                <u>S</u>imple <u>T</u>ext <u>E</u>ditor. <b>VVSTE</b> has a built-in text parsing script called
+                <strong>Gam</strong>,
+                which formats your text into the <b>Nantucket</b> e-book platform.</p>
+
+            <p><b>If you're a writer, </b>Shanty makes it a snap to convert your text files into 
+                a <b>Nantucket</b> e-book. Eliminate the tedious task of adding HMTL tags to a document,
+                and spend your opportunity costs on more writing!
             </p>
         </section>
 
@@ -253,7 +261,7 @@
             <p><strong>To add a title and author to your e-book,</strong> add the following lines:</p>
             <ul>
                 <li class="inputExample"><kbd>!!TITLE <span class="exampleText">title of e-book</span></kbd></li>
-                <li class="inputExample"><kbd>!!AUTHOR <span class="exampleText">atuhor of e-book</span></kbd></li>
+                <li class="inputExample"><kbd>!!AUTHOR <span class="exampleText">author of e-book</span></kbd></li>
             </ul>
             <h2 id="addingChapters">ADDING CHAPTERS<a class="backToOriginalLink"
                     href="#addingChaptersLink"><sup>&uarr;</sup></a></h2>
@@ -277,15 +285,22 @@
             <p>Hyperlinks are what make digital documents truly powerful. To add a link to a paragraph, use the
                 following syntax:</p>
             <ul>
-                <li class="inputExample"><kbd>{{<span class="exampleText">hyperlink</span>||<span class="exampleText">name of hyperlink</span>||<span class="exampleText">id for link (optional)</span>||<span class="exampleText">download (optional)</span>}}</kbd></li>
+                <li class="inputExample">
+                    <kbd>{{<span class="exampleText">hyperlink</span>||<span class="exampleText">name of hyperlink</span>||<span class="exampleText">id for link (optional)</span>||<span class="exampleText">download (optional)</span>}}</kbd>
+                </li>
             </ul>
             <p>Links will open in a new tab, unless it's a link within the e-book itself, or a download link.</p>
             <p><b>If you add an id to your link, make sure there are no spaces.</b></p>
             <p>To specify the download option, type <kbd>download</kbd>.</p>
-            <p>You may want to give an id to a specific bit of text, which you can then link to. To do this, use the following syntax:</p>
+            <p>You may want to give an id to a specific bit of text, which you can then link to. To do this, use the
+                following syntax:</p>
             <ul>
-                <li class="inputExample"><kbd>[[<span class="exampleText">text you want to link to</span>||<span class="exampleText">ID for text</span>]]</kbd></li>
+                <li class="inputExample"><kbd>[[<span class="exampleText">text you want to link to</span>||<span
+                            class="exampleText">ID for text</span>]]</kbd></li>
             </ul>
+            <p>You should use the <a href="footnotes">footnote functionality</a>
+                to add a footnote.
+            </p>
             <h2 id="extras">EXTRAS<a class="backToOriginalLink" href="#extrasLink"><sup>&uarr;</sup></a></h2>
             <h3 id="breaks">BREAKS<a class="backToOriginalLink" href="#breakLink"><sup>&uarr;</sup></a></h3>
             <p>To add a line break, just add four asterisks, <kbd>****</kbd>, on a new line.</p>
@@ -296,11 +311,13 @@
             <ul>
                 <li class="inputExample"><kbd>**<span class="exampleText">bold text here</span>**</kbd></li>
             </ul>
-            <p>To add <i>italicized text</i> to your e-book, put <i>one</i> asterisk (<kbd>*</kbd>) on either side the
+            <p>To add <i>italicized text</i> to your e-book, put <i>one</i> asterisk (<kbd>*</kbd>) on either side of
+                the
                 word(s).</p>
             <ul>
                 <li class="inputExample"><kbd>*<span class="exampleText">italicized text here</span>*</kbd></li>
             </ul>
+            <p>Want to make text bold <em>and</em> italicized? Use three asterisks!</p>
             <h3 id="text-align">TEXT-ALIGN<a class="backToOriginalLink" href="#text-alignLink"><sup>&uarr;</sup></a>
             </h3>
             <p>Nantucket will default to justified paragraphs: each line has the same width.</p>
@@ -321,7 +338,8 @@
             </ul>
             <h3 id="specialCredits">SPECIAL CREDITS<a class="backToOriginalLink"
                     href="#specialCreditsLink"><sup>&uarr;</sup></a></h3>
-            <p>The program will automatically credit the e-book as "By <span class="exampleText">author's name</span>."</p>
+            <p>The program will automatically credit the e-book as "By <span class="exampleText">author's name</span>."
+            </p>
             <p>If you want to specify a different credit, use a <kbd>!!CREDIT</kbd> line.
                 <ul>
                     <li class="inputExample"><kbd>!!CREDIT <span class="exampleText">special credit</span></kbd></li>
@@ -333,7 +351,8 @@
                     in a specific time and place. To do so, use the following format:
                 </p>
                 <ul>
-                    <li class="inputExample"><kbd>!!LOCATION <span class="exampleText">Add any location you want</span></kbd></li>
+                    <li class="inputExample"><kbd>!!LOCATION <span class="exampleText">Add any location you
+                                want</span></kbd></li>
                     <li class="inputExample"><kbd>!!DATE <span class="exampleText">YYYY-MM-DD</span></kbd></li>
                 </ul>
                 <p>Nice. Just like Stephen King!</p>
@@ -354,11 +373,30 @@
                 <p>To add an epigraph, or any other special quote, use the following lines:</p>
                 <ul>
                     <li class="inputExample"><kbd>@@BLOCKQ <span class="exampleText">quote</span></kbd></li>
-                    <li class="inputExample"><kbd>@@QUOTEATTR <span class="exampleText">quote attribution</span></kbd></li>
+                    <li class="inputExample"><kbd>@@QUOTEATTR <span class="exampleText">quote attribution</span></kbd>
+                    </li>
                 </ul>
                 <h3 id="footnotes">FOOTNOTES<a class="backToOriginalLink" href="#footnotesLink"><sup>&uarr;</sup></a>
                 </h3>
-                <p>Please be advised that the footnotes feature is janky AF, Tom.</p>
+                <p>Please be advised that the footnotes feature is janky AF, Tom, and you might not want to use it.</p>
+                <p>If you absolutely must add a footnote, here's the steps:</p>
+                <p><b>1)</b> Include the notation <kbd>&lt;FN&gt;</kbd> for your footnote.</p>
+                <p><b>2)</b> <strong></strong>At the end of the paragraph containing the footnote,</strong>
+                    include the following:
+                </p>
+                <ul>
+                    <li class="inputExample"><kbd>@@FN [footnote text]</kbd></li>
+                </ul>
+                <p>Footnotes will appear in the Footnotes section of the e-book. Each footnote includes
+                    a link back to the original paragraph.
+                </p>
+                <p>As long as the order of the <kbd>&lt;FN&gt;</kbd>'s is the
+                    same as the <kbd>@@FN</kbd>'s, each footnote link will match with the
+                    intended footnote text. This is made easier by adding the footnote text directly below the
+                    corresponding paragraph.</p>
+                <p>You should use the <a href="addingLinks">hyperlink functionality</a>
+                    to link to other parts of the document.
+                </p>
                 <h2 id="lyricsAndPoetry">LYRICS AND POETRY<a class="backToOriginalLink"
                         href="#lyricsAndPoetryLink"><sup>&uarr;</sup></a></h2>
                 <p>If you need to add a few lines of a song or poetry to your e-book,
@@ -368,7 +406,7 @@
                     <li class="inputExample"><kbd>` <span class="exampleText">poetry line here</span></kbd></li>
                     <li class="inputExample"><kbd>` <span class="exampleText">poetry line here</span></kbd></li>
                 </ul>
-                <p>To add a bit of space between verses, preface the last line of each verse with two 
+                <p>To add a bit of space between verses, preface the last line of each verse with two
                     grave accents:
                 </p>
                 <li class="inputExample"><kbd>` <span class="exampleText">poetry line here</span></kbd></li>
@@ -396,7 +434,7 @@
                 to your e-book, add the following line:</p>
             <ul>
                 <li class="inputExample"><kbd>@@COVERIMG <span class="exampleText">link or filepath to
-                        to cover image</span>
+                            to cover image</span>
                     </kbd></li>
             </ul>
             <p><strong>The cover image will always come first in the e-book.</strong></p>
@@ -405,7 +443,8 @@
             </p>
             <ul>
                 <li class="inputExample"><kbd>!!COVERART <span class="exampleText">name of artist</span></kbd></li>
-                <li class="inputExample"><kbd>!!COVERDESC <span class="exampleText">description of cover art</span></kbd></li>
+                <li class="inputExample"><kbd>!!COVERDESC <span class="exampleText">description of cover
+                            art</span></kbd></li>
             </ul>
             <h2 id="addingIllustrations">ADDING ILLUSTRATIONS<a class="backToOriginalLink"
                     href="#addingIllustrationsLink"><sup>&uarr;</sup></a></h2>
@@ -414,10 +453,14 @@
             </p>
             <ul>
                 <li class="inputExample"><kbd>@@ILLO :source <span class="exampleText">link or filepath
-                        to illustration</span> :orientation <span class="exampleText">either "landscape" OR "portrait"</span>
-                        :illustrator <span class="exampleText">name of illustrator</span> :desc <span class="exampleText">a brief description for
-                        the image's title and alt tags</span> :buy <span class="exampleText">link to site where illustration
-                        can be purchased</span> :caption <span class="exampleText">Text to accompany illustration when it's clicked or tapped</span>
+                            to illustration</span> :orientation <span class="exampleText">either "landscape" OR
+                            "portrait"</span>
+                        :illustrator <span class="exampleText">name of illustrator</span> :desc <span
+                            class="exampleText">a brief description for
+                            the image's title and alt tags</span> :buy <span class="exampleText">link to site where
+                            illustration
+                            can be purchased</span> :caption <span class="exampleText">Text to accompany illustration
+                            when it's clicked or tapped</span>
                     </kbd></li>
             </ul>
             <p><strong>Only the :source attribute is required, and if :caption is used,
@@ -440,7 +483,8 @@
                 <kbd>!!AUDIO</kbd> tag at the beginning of your text:
             </p>
             <ul>
-                <li class="inputExample"><kbd>!!AUDIO :background <span class="exampleText">link or file path to a background image</span>
+                <li class="inputExample"><kbd>!!AUDIO :background <span class="exampleText">link or file path to a
+                            background image</span>
                         :copyright <span class="exampleText">Copyright information for audiobook</span>
                     </kbd></li>
             </ul>
@@ -458,7 +502,8 @@
             </p>
             <p>Add the following line to your text to include an audio file:</p>
             <ul>
-                <li class="inputExample"><kbd>@@AUDIO :source <span class="exampleText">link or file path to audio file</span>
+                <li class="inputExample"><kbd>@@AUDIO :source <span class="exampleText">link or file path to audio
+                            file</span>
                         :title <span class="exampleText">name for audio file</span>
                     </kbd></li>
             </ul>
@@ -499,7 +544,8 @@
                 be a good result.
             </p>
             <ul>
-                <li class="inputExample"><kbd>!!KEYWORDS <span class="exampleText">keywords, separated by commas, no spaces</span></kbd></li>
+                <li class="inputExample"><kbd>!!KEYWORDS <span class="exampleText">keywords, separated by commas, no
+                            spaces</span></kbd></li>
             </ul>
             <h2 id="pageDescriptions">PAGE DESCRIPTIONS<a class="backToOriginalLink"
                     href="#pageDescriptionsLink"><sup>&uarr;</sup></a></h2>
@@ -582,14 +628,17 @@
                 page in the menu.
             </p>
             <ul>
-                <li class="inputExample"><kbd>!!MONETIZELINK <span class="exampleText">link to web page</span></kbd></li>
-                <li class="inputExample"><kbd>!!MONETIZEICON <span class="exampleText">link to SVG icon for monetization site</span></kbd></li>
+                <li class="inputExample"><kbd>!!MONETIZELINK <span class="exampleText">link to web page</span></kbd>
+                </li>
+                <li class="inputExample"><kbd>!!MONETIZEICON <span class="exampleText">link to SVG icon for monetization
+                            site</span></kbd></li>
             </ul>
             <p>Second, you may want to include a call-to-action at the end of your page.
                 To do so, include the following line:
             </p>
             <ul>
-                <li class="inputExample"><kbd>@@SUPPORT :title <span class="exampleText">title of call-to-action</span> :text <span class="exampleText">necessary text</span></kbd>
+                <li class="inputExample"><kbd>@@SUPPORT :title <span class="exampleText">title of call-to-action</span>
+                        :text <span class="exampleText">necessary text</span></kbd>
                 </li>
             </ul>
             <p><strong>The text section supports HTML, so if you would like to add a link there, you may do so.</strong>
@@ -630,7 +679,8 @@
                 include the following line at the beginning of your text:
             </p>
             <ul>
-                <li class="inputExample"><kbd>!!MENU <span class="exampleText">link to your e-book menu</span></kbd></li>
+                <li class="inputExample"><kbd>!!MENU <span class="exampleText">link to your e-book menu</span></kbd>
+                </li>
             </ul>
             <h2 id="addingCustomHTMLToYourE-Book">ADDING CUSTOM HTML TO YOUR E-BOOK<a class="backToOriginalLink"
                     href="#addingCustomerHTMLToYourE-BookLink"><sup>&uarr;</sup></a></h2>
@@ -655,7 +705,8 @@
                 to your e-book, include the following line at the beginning of your text:
             </p>
             <ul>
-                <li class="inputExample"><kbd>!!STYLESHEET <span class="exampleText">link or file path to custom stylesheet</span></kbd></li>
+                <li class="inputExample"><kbd>!!STYLESHEET <span class="exampleText">link or file path to custom
+                            stylesheet</span></kbd></li>
             </ul>
             <h2 id="addingCustomFavicons">ADDING CUSTOM FAVICONS<a class="backToOriginalLink"
                     href="#addingCustomFaviconsLink"><sup>&uarr;</sup></a></h2>
@@ -667,7 +718,8 @@
                 at the beginning of your text:
             </p>
             <ul>
-                <li class="inputExample"><kbd>!!ICON <span class="exampleText">link or file path to your own favicon</span></kbd></li>
+                <li class="inputExample"><kbd>!!ICON <span class="exampleText">link or file path to your own
+                            favicon</span></kbd></li>
             </ul>
             <hr />
         </section>
