@@ -92,6 +92,12 @@ function runGam() {
                     textMetadata.stylesheet.push(
                         inputArray[i].slice(0, 12).replace(" ", "_")
                     );
+                } else if (kiaItem.toLowerCase() === "audio") {
+                    if (inputArray[i].length === 7) {
+                        textMetadata.audio = "yes";
+                    } else {
+                        textMetadata.audio = inputArray[i].slice(7);
+                    }
                 } else {
                     textMetadata[kiaItem.toLowerCase()] = inputArray[i].slice(
                         kiaItem.length + 3
@@ -484,6 +490,8 @@ function runGam() {
         if (audioDivObject.background !== undefined) {
             audioBackground.style.backgroundImage = "url('" +
                 audioDivObject.background + "')";
+        } else {
+            audioBackground.style.backgroundColor = "rgba(0,0,0,0)";
         }
         audioDiv.appendChild(audioBackground);
         let container = newEl("DIV");
@@ -509,7 +517,10 @@ function runGam() {
         let hAudioCopyright = newEl("H2");
         if (audioDivObject.copyright !== "") {
             let hAudioCopyrightText = "";
-            if (audioDivObject.copyright.slice(0, 6).toLowerCase() ===
+            if (audioDivObject.copyright === undefined) {
+                hAudioCopyrightText = "No copyright information available " +
+                "for this audiobook.";
+            } else if (audioDivObject.copyright.slice(0, 6).toLowerCase() ===
                 "public") {
                 hAudioCopyrightText = "Audio Recording <s>&COPY</s> " +
                     audioDivObject.copyright;
@@ -564,7 +575,6 @@ function runGam() {
 
         function appendInputArrayToBody(item, index) {
             if (item === "[break]") {
-                console.log(true);
                 let hr = newEl("HR");
                 hr.classList.add("style-two");
                 body.appendChild(hr);
@@ -1224,7 +1234,7 @@ function runGam() {
         currentAudio.id = "currentAudio";
         let initialAudioText = "CHOOSE AN AUDIO FILE &#9757;";
         currentAudio.innerHTML = initialAudioText;
-        if (audioSourceArray.length > 1) {
+        if (audioSourceArray.length > 0) {
             audioListDiv.appendChild(audioSourceList);
             audioSourceMenu.appendChild(audioListDiv);
             addACloseButton(audioSourceMenu);
@@ -1249,7 +1259,6 @@ function runGam() {
         let date = newEl("LI");
         let dateText = textMetadata.date;
         let dateTextArray = dateText.trim().split("-");
-        console.log(dateTextArray);
         let goodOlMonthArray = [
             "January", "February", "March", "April",
             "May", "June", "July", "August",
@@ -1454,7 +1463,6 @@ function runGam() {
         addToEndOfTOCs("#eReaderNotice", "NDH E-READER COPYRIGHT NOTICE");
     }
 
-    console.log(footnoteSection);
     if (footnoteSection.children.length > 0) {
         addToEndOfTOCs("#footnoteSection", "Footnotes");
     }
@@ -1493,7 +1501,7 @@ function runGam() {
         )[0]);
     }
     html.appendChild(body);
-    console.log(html);
+    // console.log(html);
 
     function createDownloadableFile(filename, fileContent) {
         let typeText = "text/html;charset=UTF-8";
