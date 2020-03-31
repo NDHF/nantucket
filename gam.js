@@ -1450,15 +1450,11 @@ function runGam() {
         addToEndOfTOCs("#creditsSection", "CREDITS");
     }
 
-    if ((body.querySelectorAll("#footnoteSection") !== null) &&
-        (inputArray.length > 0)) {
-        addToEndOfTOCs("#footnoteSection", "FOOTNOTES");
-    }
-
     if (inputArray.length > 0) {
         addToEndOfTOCs("#eReaderNotice", "NDH E-READER COPYRIGHT NOTICE");
     }
 
+    console.log(footnoteSection);
     if (footnoteSection.children.length > 0) {
         addToEndOfTOCs("#footnoteSection", "Footnotes");
     }
