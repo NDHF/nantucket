@@ -130,6 +130,8 @@ span.exampleText {
         width: 50%;
         flex-direction: column;
         justify-content: space-evenly;
+        text-align: center;
+        font-weight: bold;
     }
 
     div.sideBySide img {

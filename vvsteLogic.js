@@ -132,16 +132,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         } else {
+            console.log("here");
             if ((mode === "save") || (mode === "saveAs") ||
                 (mode === "new")) {
-                fileNameArrayParsed.push(textName);
-                let backToStringSave = JSON.stringify(fileNameArrayParsed);
-                sts("fileNameArray", backToStringSave);
-                if (mode === "new") {
-                    getById("textarea").value = "";
+                if (textName === null) {
+                    alert("No filename specified");
+                } else {
+                    fileNameArrayParsed.push(textName);
+                    let backToStringSave = JSON.stringify(fileNameArrayParsed);
+                    sts("fileNameArray", backToStringSave);
+                    if (mode === "new") {
+                        getById("textarea").value = "";
+                    }
+                    sts(textName, getById("textarea").value);
+                    sts("lastFileOpened", textName);
                 }
-                sts(textName, getById("textarea").value);
-                sts("lastFileOpened", textName);
             } else if (mode === "open") {
                 if (lastFile === undefined) {
                     alert("No file found with that name.");

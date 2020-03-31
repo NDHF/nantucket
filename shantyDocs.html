@@ -158,10 +158,12 @@
             <ul>
                 <li class="inputExample"><kbd>!!TITLE <span class="exampleText">title of e-book</span></kbd></li>
                 <li class="inputExample"><kbd>!!AUTHOR <span class="exampleText">author of e-book</span></kbd></li>
+                <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
             </ul>
             <div class="sideBySide">
                 <img src="images/titleAndSubtitle.png" />
                 <img src="images/titleAndSubtitleFinished.png" />
+                <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
             </div>
             <h2 id="addingChapters">ADDING CHAPTERS<a class="backToOriginalLink"
                     href="#addingChaptersLink"><sup>&uarr;</sup></a></h2>
@@ -175,6 +177,8 @@
             <ul>
                 <li class="inputExample"><kbd>#<span class="exampleText">chapter</span></kbd></li>
                 <li class="inputExample"><kbd>#<span class="exampleText">chapter subtitle</span></kbd></li>
+                <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
+
             </ul>
             <p>The program will look for these symbols, and use them
                 to build your table of contents.
@@ -202,7 +206,7 @@
                 <li class="inputExample"><kbd>[[<span class="exampleText">text you want to link to</span>||<span
                             class="exampleText">ID for text</span>]]</kbd></li>
             </ul>
-            <p>You should use the <a href="footnotes">footnote functionality</a>
+            <p>You should use the <a href="#footnotes">footnote functionality</a>
                 to add a footnote.
             </p>
             <h2 id="extras">EXTRAS<a class="backToOriginalLink" href="#extrasLink"><sup>&uarr;</sup></a></h2>
@@ -211,6 +215,7 @@
             <div class="sideBySide">
                 <img src="images/breaks.png" />
                 <img src="images/breaksFinished.png" />
+                <span>From <a href=""><i>Then A Skeleton Popped Out</i></a> by Nicholas Bernhard</span>
             </div>
             <p>To use an image as a break, check out the section on <a href="#addingAnImage">adding an image</a>.</p>
             <h3 id="boldAndItalicizedText">BOLD AND ITALICIZED TEXT<a class="backToOriginalLink"
@@ -229,6 +234,7 @@
             <div class="sideBySide">
                 <img src="images/italics.png" />
                 <img src="images/italicsFinished.png" />
+                <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
             </div>
             <p>Want to make text bold <em>and</em> italicized? Use three asterisks!</p>
             <h3 id="text-align">TEXT-ALIGN<a class="backToOriginalLink" href="#text-alignLink"><sup>&uarr;</sup></a>
@@ -255,97 +261,114 @@
             <div class="sideBySide">
                 <img src="images/subtitle.png" />
                 <img src="images/subtitleFinished.png" />
+                <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
             </div>
             <h3 id="specialCredits">SPECIAL CREDITS<a class="backToOriginalLink"
                     href="#specialCreditsLink"><sup>&uarr;</sup></a></h3>
             <p>The program will automatically credit the e-book as "By <span class="exampleText">author's name</span>."
             </p>
-            <p>If you want to specify a different credit, use a <kbd>!!CREDIT</kbd> line.
-                <ul>
-                    <li class="inputExample"><kbd>!!CREDIT <span class="exampleText">special credit</span></kbd></li>
-                </ul>
-                <h3 id="datesAndLocations">DATES AND LOCATIONS<a class="backToOriginalLink"
-                        href="#datesAndLocationsLink"><sup>&uarr;</sup></a></h3>
-                <p>You may want to end your piece with some information on
-                    when and where you wrote it. This helps ground your work
-                    in a specific time and place. To do so, use the following format:
-                </p>
-                <ul>
-                    <li class="inputExample"><kbd>!!LOCATION <span class="exampleText">Add any location you
-                                want</span></kbd></li>
-                    <li class="inputExample"><kbd>!!DATE <span class="exampleText">YYYY-MM-DD</span></kbd></li>
-                </ul>
-                <div class="sideBySide">
-                    <img src="images/locationDate.png" />
-                    <img src="images/locationDateFinished.png" />
-                </div>
-                <p>Nice. Just like Stephen King!</p>
-                <p>The location and date are both optional, you can use either, neither, or both.</p>
-                <p><strong>These will always be placed towards the end of your document.</strong></p>
-                <h3 id="dedications">DEDICATIONS<a class="backToOriginalLink"
-                        href="#dedicationsLink"><sup>&uarr;</sup></a>
-                </h3>
-                <p>To add a dedication to your e-book, add the following line:</p>
-                <ul>
-                    <li class="inputExample"><kbd>@@DED <span class="exampleText">dedication here</span></kbd></li>
-                </ul>
-                <h3 id="quotesAndEpigraphs">QUOTES AND EPIGRAPHS<a class="backToOriginalLink"
-                        href="#quotesAndEpigraphsLink"><sup>&uarr;</sup></a></h3>
-                <p>An epigraph is a quote at the beginning of your book
-                    that sets the tone, or provides the context, for the rest of the work.
-                </p>
-                <p>To add an epigraph, or any other special quote, use the following lines:</p>
-                <ul>
-                    <li class="inputExample"><kbd>@@BLOCKQ <span class="exampleText">quote</span></kbd></li>
-                    <li class="inputExample"><kbd>@@QUOTEATTR <span class="exampleText">quote attribution</span></kbd>
-                    </li>
-                </ul>
-                <h3 id="footnotes">FOOTNOTES<a class="backToOriginalLink" href="#footnotesLink"><sup>&uarr;</sup></a>
-                </h3>
-                <p>Please be advised that the footnotes feature is janky AF, Tom.</p>
-                <p>If you absolutely must add a footnote, here's the steps:</p>
-                <p><b>1)</b> Include the notation <kbd>&lt;FN&gt;</kbd> for your footnote.</p>
-                <p><b>2)</b> <strong></strong>At the end of the paragraph containing the footnote,</strong>
-                    include the following:
-                </p>
-                <ul>
-                    <li class="inputExample"><kbd>@@FN <span class="exampleText">footnote text</span></kbd></li>
-                </ul>
-                <p>Footnotes will appear in the Footnotes section of the e-book. Each footnote includes
-                    a link back to the original paragraph.
-                </p>
-                <p>As long as the order of the <kbd>&lt;FN&gt;</kbd>'s is the
-                    same as the <kbd>@@FN</kbd>'s, each footnote link will match with the
-                    intended footnote text. This is made easier by adding the footnote text directly below the
-                    corresponding paragraph.</p>
-                <p>You should use the <a href="addingLinks">hyperlink functionality</a>
-                    to link to other parts of the document.
-                </p>
-                <h2 id="lyricsAndPoetry">LYRICS AND POETRY<a class="backToOriginalLink"
-                        href="#lyricsAndPoetryLink"><sup>&uarr;</sup></a></h2>
-                <p>If you need to add a few lines of a song or poetry to your e-book,
-                    preface each line with a grave accent (<kbd>`</kbd>), like this:
-                </p>
-                <ul>
-                    <li class="inputExample"><kbd>` <span class="exampleText">poetry line here</span></kbd></li>
-                    <li class="inputExample"><kbd>` <span class="exampleText">poetry line here</span></kbd></li>
-                </ul>
-                <p>To add a bit of space between verses, preface the last line of each verse with two
-                    grave accents:
-                </p>
-                <ul>
-                    <li class="inputExample"><kbd>` <span class="exampleText">poetry line here</span></kbd></li>
-                    <li class="inputExample"><kbd>`` <span class="exampleText">last poetry line here</span></kbd></li>
-                </ul>
-                <div class="sideBySide">
-                    <img src="images/poetry.png" />
-                    <img src="images/poetryFinished.png" />
-                </div>
-                <p><strong>Since much of a poem's meaning comes from its presentation,
-                        I understand that this may be insufficient. If a poem has to be
-                        presented a certain way, check out the later sections on customization.</strong>
-                </p>
-                <hr />
+            <p>If you want to specify a different credit, use a <kbd>!!CREDIT</kbd> line.</p>
+            <ul>
+                <li class="inputExample"><kbd>!!CREDIT <span class="exampleText">special credit</span></kbd></li>
+            </ul>
+            <div class="sideBySide">
+                <img src="images/specialCredit.png" />
+                <img src="images/specialCreditFinished.png" />
+            </div>
+            <h3 id="datesAndLocations">DATES AND LOCATIONS<a class="backToOriginalLink"
+                    href="#datesAndLocationsLink"><sup>&uarr;</sup></a></h3>
+            <p>You may want to end your piece with some information on
+                when and where you wrote it. This helps ground your work
+                in a specific time and place. To do so, use the following format:
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>!!LOCATION <span class="exampleText">Add any location you
+                            want</span></kbd></li>
+                <li class="inputExample"><kbd>!!DATE <span class="exampleText">YYYY-MM-DD</span></kbd></li>
+                <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
+            </ul>
+            <p><b>The date must be either YYYY-MM-DD, YYYY-MM, or YYYY.</b></p>
+            <div class="sideBySide">
+                <img src="images/locationDate.png" />
+                <img src="images/locationDateFinished.png" />
+            </div>
+            <p>Nice. Just like Stephen King!</p>
+            <p>The location and date are both optional, you can use either, neither, or both.</p>
+            <p><strong>These will always be placed towards the end of your document.</strong></p>
+            <h3 id="dedications">DEDICATIONS<a class="backToOriginalLink" href="#dedicationsLink"><sup>&uarr;</sup></a>
+            </h3>
+            <p>To add a dedication to your e-book, add the following line:</p>
+            <ul>
+                <li class="inputExample"><kbd>@@DED <span class="exampleText">dedication here</span></kbd></li>
+            </ul>
+            <div class="sideBySide">
+                <img src="images/dedication.png" />
+                <img src="images/dedicationFinished.png" />
+                <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
+            </div>
+            <h3 id="quotesAndEpigraphs">QUOTES AND EPIGRAPHS<a class="backToOriginalLink"
+                    href="#quotesAndEpigraphsLink"><sup>&uarr;</sup></a></h3>
+            <p>An epigraph is a quote at the beginning of your book
+                that sets the tone, or provides the context, for the rest of the work.
+            </p>
+            <p>To add an epigraph, or any other special quote, use the following lines:</p>
+            <ul>
+                <li class="inputExample"><kbd>@@BLOCKQ <span class="exampleText">quote</span></kbd></li>
+                <li class="inputExample"><kbd>@@QUOTEATTR <span class="exampleText">quote attribution</span></kbd>
+                </li>
+            </ul>
+            <div class="sideBySide">
+                <img src="images/quotes.png" />
+                <img src="images/quotesFinished.png" />
+                <span>From <a href=""><i>Sweet Relief</i></a> by Nicholas Bernhard</span>
+            </div>
+            <h3 id="footnotes">FOOTNOTES<a class="backToOriginalLink" href="#footnotesLink"><sup>&uarr;</sup></a>
+            </h3>
+            <p>Please be advised that the footnotes feature is janky AF, Tom.</p>
+            <p>If you absolutely must add a footnote, here's the steps:</p>
+            <p><b>1)</b> Include the notation <kbd>&lt;FN&gt;</kbd> for your footnote.</p>
+            <p><b>2)</b> <strong></strong>At the end of the paragraph containing the footnote,</strong>
+                include the following:
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>@@FN <span class="exampleText">footnote text</span></kbd></li>
+            </ul>
+            <p>Footnotes will appear in the Footnotes section of the e-book. Each footnote includes
+                a link back to the original paragraph.
+            </p>
+            <p>As long as the order of the <kbd>&lt;FN&gt;</kbd>'s is the
+                same as the <kbd>@@FN</kbd>'s, each footnote link will match with the
+                intended footnote text. This is made easier by adding the footnote text directly below the
+                corresponding paragraph.</p>
+            <p>You should use the <a href="#addingLinks">hyperlink functionality</a>
+                to link to other parts of the document.
+            </p>
+            <h2 id="lyricsAndPoetry">LYRICS AND POETRY<a class="backToOriginalLink"
+                    href="#lyricsAndPoetryLink"><sup>&uarr;</sup></a></h2>
+            <p>If you need to add a few lines of a song or poetry to your e-book,
+                preface each line with a grave accent (<kbd>`</kbd>), like this:
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>` <span class="exampleText">poetry line here</span></kbd></li>
+                <li class="inputExample"><kbd>` <span class="exampleText">poetry line here</span></kbd></li>
+            </ul>
+            <p>To add a bit of space between verses, preface the last line of each verse with two
+                grave accents <kbd>(``)</kbd>:
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>` <span class="exampleText">poetry line here</span></kbd></li>
+                <li class="inputExample"><kbd>`` <span class="exampleText">last poetry line here</span></kbd></li>
+            </ul>
+            <div class="sideBySide">
+                <img src="images/poetry.png" />
+                <img src="images/poetryFinished.png" />
+                <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
+            </div>
+            <p><strong>Since much of a poem's meaning comes from its presentation,
+                    I understand that this may be insufficient. If a poem has to be
+                    presented a certain way, check out the later sections on customization.</strong>
+            </p>
+            <hr />
         </section>
 
         <section id="addingArtToYourE-Book">
@@ -358,6 +381,36 @@
                     and compression that minimizes file size, and maximizes quality.
                     A bit of experimenting is a great help.
                 </strong></p>
+            <p>Here are the general guidelines for which file types to use:</p>
+            <ul>
+                <li>If an image has a lot of detail and a broad color palette, you should use <b>.jpg</b></li>
+                <li>If an image does not have a lot of detail, and a smaller color pallete, you should use <b>.png</b>
+                </li>
+                <li>If an image is composed of simple shapes, and is monochrome, OR it's a moving image, you should use
+                    <b>.gif</b>.</li>
+            </ul>
+            <p>Please be very reserved about using moving images in your e-book, including GIFs and SVGs. Part of the
+                joy of reading is the escape from doo-dads and flashing lights.
+                Moving GIFs can also be hard on bandwidth. However, if they aren't abused, moving images can add a
+                certain effect to your e-book.
+                For example, some subtle movement in an illustration might create atmosphere for a horror story.
+                I only ask for you to be smart about it.
+            </p>
+            <p>I also highly encourage use of SVG images. SVG images have small file sizes, and will scale to any screen
+                size. The audio player
+                and menu icons for the Nantucket e-book platform are SVG images that I created by hand in my text
+                editor, after designing them with
+                paper and pencil. SVGs also support motion and interactivity, though be careful with those features.
+                It's a very, very powerful format,
+                and since it's an open standard, it's free to experiment with. Free and open-source vector graphics
+                software programs are available online
+                for creating SVG images.
+            </p>
+            <p>Host your image files locally. As a matter of nettiquette, avoid linking to an image on someone else's
+                site without the site's approval,
+                even if the image's licensing and copyright status allow it (for example, a public domain image on
+                Wikimedia Commons).
+            </p>
             <h2 id="addingACoverImage">ADDING A COVER IMAGE<a class="backToOriginalLink"
                     href="#addingACoverImageLink"><sup>&uarr;</sup></a></h2>
             <p>Can you say <i>pizzaz</i>? If you want to add a cover image
@@ -367,6 +420,9 @@
                             to cover image</span>
                     </kbd></li>
             </ul>
+            <div class="sideBySide">
+                <img src="images/coverimage.png" />
+            </div>
             <p><strong>The cover image will always come first in the e-book.</strong></p>
             <p>If you want to include a description of the cover image, and the artist's name,
                 include the following lines at the beginning of your document:
@@ -376,6 +432,15 @@
                 <li class="inputExample"><kbd>!!COVERDESC <span class="exampleText">description of cover
                             art</span></kbd></li>
             </ul>
+            <div class="sideBySide">
+                <img src="images/coverinfo.png">
+                <img src="images/coverinfoFinished.png">
+                <span>From <a href=""><i>Then A Skeleton Popped Out</i></a> by Nicholas Bernhard</span>
+            </div>
+            <p><kbd>!!COVERART</kbd> will add a credit to your title section, and to the Credits section at the end of
+                the e-book.</p>
+            <p><kbd>!!COVERDESC</kbd> will add <code>title</code> and <code>alt</code> text to your image,
+                which is helpful for accessibility, and makes your e-book more attractive to search engines.</p>
             <h2 id="addingIllustrations">ADDING ILLUSTRATIONS<a class="backToOriginalLink"
                     href="#addingIllustrationsLink"><sup>&uarr;</sup></a></h2>
             <p>You can add an indefinite number of illustrations to your e-book.
@@ -396,16 +461,30 @@
             <p><strong>Only the :source attribute is required, and if :caption is used,
                     it must come last.
                 </strong></p>
-            <h2 id="addingAnImage">ADDING AN IMAGE<a class="backToOriginalLink" href="#addingAnImageLink">&uarr;</a></h2>
+            <div class="sideBySide">
+                <img src="images/illo.png" />
+                <img src="images/illoFinished.png" />
+                <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
+            </div>
+            <h2 id="addingAnImage">ADDING AN IMAGE<a class="backToOriginalLink" href="#addingAnImageLink">&uarr;</a>
+            </h2>
             <p>If you want to add a plain ol' image to your e-book, use the following syntax:</p>
             <ul>
-                <li class="inputExample"><kbd>@@IMG :source <span class="exampleText">link or filepath to image</span> :title <span class="exampleText">description of image</span></kbd></li>
+                <li class="inputExample"><kbd>@@IMG :source <span class="exampleText">link or filepath to image</span>
+                        :title <span class="exampleText">description of image</span></kbd></li>
             </ul>
-            <p>The <kbd>:title</kbd> attribute is optional, though it is always recommended to descriptions of images on web pages. If you do make use 
-            of the <kbd>:title</kbd> attribute, make sure it comes <strong>after</strong> <kbd>:source</kbd>.</p>
-            <p>Images will be centered on the page. A small image is an excellent way to break up a text, 
+            <p>The <kbd>:title</kbd> attribute is optional, though it is always recommended to descriptions of images on
+                web pages. If you do make use
+                of the <kbd>:title</kbd> attribute, make sure it comes <strong>after</strong> <kbd>:source</kbd>.</p>
+            <p>Images will be centered on the page. A small image is an excellent way to break up a text,
                 and makes for a good alternative to the <kbd>****</kbd> break <a href="#breaks">described earlier</a>.
+                You will need to add your own styling to ensure the image displays at the intended size on various devices.
             </p>
+            <div class="sideBySide">
+                <img src="images/image.png" />
+                <img src="images/imageFinished.png" />
+                <span>From <a href=""><i>Then A Skeleton Popped Out</i></a> by Nicholas Bernhard</span>
+            </div>
             <hr />
         </section>
 
@@ -506,7 +585,7 @@
                 <li class="inputExample">!!LANG <span class="exampleText">two-letter language code</span></li>
             </ul>
             <p><strong>If you don't include this line, the program
-                    will automatically default to English, "EN."
+                    will automatically default to English, "EN"
                 </strong></p>
             <p>Here are the language codes for the top ten most-spoken languages,
                 according to Wikipedia:
@@ -581,7 +660,7 @@
                         :text <span class="exampleText">necessary text</span></kbd>
                 </li>
             </ul>
-            <p><strong>The text section supports HTML, so if you would like to add a link there, you may do so.</strong>
+            <p><strong>Don't forget to include <a href="#addingLinks">a link to your monetization site</a>.</strong>
             </p>
             <hr />
         </section>
@@ -649,7 +728,7 @@
             </ul>
             <h2 id="addingCustomFavicons">ADDING CUSTOM FAVICONS<a class="backToOriginalLink"
                     href="#addingCustomFaviconsLink"><sup>&uarr;</sup></a></h2>
-            <p>A favicon is a very small image that represents a web page. Is is usually
+            <p>A favicon is a very small image that represents a web page. It is usually
                 displayed on the tab of a desktop browser, or on the new window of a mobile browser:
             </p>
             <p>The program will automatically use my Bernhard Ltd. favicon, as seen on the top of this page.</p>

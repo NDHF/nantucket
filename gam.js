@@ -161,6 +161,7 @@ function runGam() {
             if (item.includes("*")) {
                 inputArray[index] = inputArray[index].replace(/\*(.*?)\*/gm, "<i>$1</i>");
             }
+
             function checkForLinks(whatToLookFor) {
                 if (inputArray[index].includes(whatToLookFor)) {
                     let itemI;
@@ -545,9 +546,9 @@ function runGam() {
         let audioHoobaloo = newEl("DIV");
         audioHoobaloo.id = "audioInterfaceWrapper";
         audioHoobaloo.innerHTML = "<object id='audioElement'" +
-        "type='image/svg+xml'" +
-        "data='http://www.ndhfilms.com/assets/images/audiointerface.svg'>" +
-        "Your browser does not support SVG</object></div>";
+            "type='image/svg+xml'" +
+            "data='http://www.ndhfilms.com/assets/images/audiointerface.svg'>" +
+            "Your browser does not support SVG</object></div>";
         audioCassetteDiv.appendChild(audioHoobaloo);
         container.appendChild(audioCassetteDiv);
         audioDiv.appendChild(container);
@@ -657,6 +658,7 @@ function runGam() {
                 let supportSectionH3Text = ctn(supportObject.title);
                 supportSectionH3.appendChild(supportSectionH3Text);
                 supportSection.appendChild(supportSectionH3);
+                // let supportSectionText = ctn(supportObject.text)
                 let supportSectionTextDiv = newEl("DIV");
                 supportSectionTextDiv.innerHTML = supportObject.text;
                 supportSection.appendChild(supportSectionTextDiv);
@@ -733,9 +735,9 @@ function runGam() {
                         illoMetadataObject.orientation = illoMetadataArray[
                             index + 1
                         ];
-                    } else if (item === ":desc") {
-                        illoMetadataObject.desc = illoMetadataArray[index +
-                            1];
+                    } else if (item === ":link") {
+                        illoMetadataObject.link = illoMetadataArray[index +
+                            1]
                     } else if (item === ":illustrator") {
                         let indexForIllustrator;
                         // nameOfIll = nameOfIllustrator
@@ -784,27 +786,23 @@ function runGam() {
                     illustrationObjectToPush.text = illMetObjCap;
                 }
                 illustrationArray.push(illustrationObjectToPush);
-                if ((illoMetadataObject.desc !== undefined) &&
-                    (illoMetadataObject.desc !== "")) {
-                    imgThumbnail.title = illoMetadataObject.desc;
-                    imgThumbnail.alt = illoMetadataObject.desc;
-                } else {
-                    let imgThumbnailMeta = "Illustration for " +
-                        textMetadata.title;
-                    imgThumbnail.title = imgThumbnailMeta;
-                    imgThumbnail.alt = imgThumbnailMeta;
-                    if ((illoMetadataObject.illustrator !== undefined) &&
-                        (illoMetadataObject.illustrator !== "")) {
-                        let textToConcat = " , illustration by " +
-                            illoMetadataObject.illustrator;
-                        imgThumbnail.title = imgThumbnail.title.concat(
-                            textToConcat
-                        );
-                        imgThumbnail.alt = imgThumbnail.alt.concat(
-                            textToConcat
-                        );
-                    }
+
+                let imgThumbnailMeta = "Illustration for " +
+                    textMetadata.title;
+                imgThumbnail.title = imgThumbnailMeta;
+                imgThumbnail.alt = imgThumbnailMeta;
+                if ((illoMetadataObject.illustrator !== undefined) &&
+                    (illoMetadataObject.illustrator !== "")) {
+                    let textToConcat = " , illustration by " +
+                        illoMetadataObject.illustrator;
+                    imgThumbnail.title = imgThumbnail.title.concat(
+                        textToConcat
+                    );
+                    imgThumbnail.alt = imgThumbnail.alt.concat(
+                        textToConcat
+                    );
                 }
+
                 imgThumbnail.classList.add("illustrationTarget");
                 if (illoMetadataObject.orientation === "portrait") {
                     imgThumbnail.classList.add("thumbnailPortrait");
@@ -863,9 +861,22 @@ function runGam() {
                 flexbox2Hgroup.appendChild(caption);
                 if (illoMetadataObject.illustrator !== undefined) {
                     let illustratorInfo = newEl("H3");
-                    let illustratorInfoText = ctn("Illustration by " +
-                        illoMetadataObject.illustrator);
+                    let illustratorInfoText = ctn("Illustration by ");
                     illustratorInfo.appendChild(illustratorInfoText);
+                    if (illoMetadataObject.link !== undefined) {
+                        let illustratorLink = newEl("A");
+                        illustratorLink.href = illoMetadataObject.link;
+                        let illustratorLinkText = ctn(
+                            illoMetadataObject.illustrator
+                        );
+                        illustratorLink.appendChild(illustratorLinkText);
+                        illustratorInfo.appendChild(illustratorLink);
+                    } else {
+                        let illustratorName = ctn(
+                            illoMetadataObject.illustrator
+                        );
+                        illustratorInfo.appendChild(illustratorName);
+                    }
                     flexbox2Hgroup.appendChild(illustratorInfo);
                 }
                 flexbox2.appendChild(flexbox2Hgroup);
@@ -1176,7 +1187,7 @@ function runGam() {
             let audioSourceMenuAuthorText = "";
             if (textMetadata.credit !== "") {
                 audioSourceMenuAuthorText = ctn(textMetadata.credit + " " +
-                textMetadata.author);
+                    textMetadata.author);
             } else {
                 audioSourceMenuAuthorText = ctn("by " + textMetadata.author);
             }
@@ -1237,31 +1248,38 @@ function runGam() {
         location.appendChild(locationText);
         let date = newEl("LI");
         let dateText = textMetadata.date;
-        let dateTextArray = dateText.split("-");
+        let dateTextArray = dateText.trim().split("-");
+        console.log(dateTextArray);
         let goodOlMonthArray = [
             "January", "February", "March", "April",
             "May", "June", "July", "August",
             "September", "October", "November", "December"
         ];
         let year = dateTextArray[0];
-        let month = goodOlMonthArray[parseInt(dateTextArray[1]) - 1];
-        let day = dateTextArray[2];
-        if (day.charAt(0) === "0") {
-            day = day.slice(1);
+        let month = "";
+        if (dateTextArray[1] !== undefined) {
+            month = goodOlMonthArray[parseInt(dateTextArray[1]) - 1] + " ";
         }
-        if ((day === "1") || (day === "21") || (day === "31")) {
-            day = day.concat("<sup>st</sup>");
-        } else if ((day === "2") || (day === "22")) {
-            day = day.concat("<sup>nd</sup>");
-        } else if ((day === "3") || (day === "23")) {
-            day = day.concat("<sup>rd</sup>");
-        } else {
-            day = day.concat("<sup>th</sup>");
+        let day = "";
+        if (dateTextArray[2] !== undefined) {
+            day = dateTextArray[2];
+            if (day.charAt(0) === "0") {
+                day = day.slice(1);
+            }
+            if ((day === "1") || (day === "21") || (day === "31")) {
+                day = day.concat("<sup>st</sup>");
+            } else if ((day === "2") || (day === "22")) {
+                day = day.concat("<sup>nd</sup>");
+            } else if ((day === "3") || (day === "23")) {
+                day = day.concat("<sup>rd</sup>");
+            } else {
+                day = day.concat("<sup>th</sup>");
+            }
+            day = day + ", ";
         }
         let completionTime = newEl("TIME");
         completionTime.datetime = dateText;
-
-        date.innerHTML = month + " " + day + ", " + year;
+        date.innerHTML = month + day + year;
         ul.appendChild(location);
         ul.appendChild(date);
         if (body.querySelectorAll("#supportSection") !== null) {
@@ -1434,7 +1452,7 @@ function runGam() {
 
     if ((body.querySelectorAll("#footnoteSection") !== null) &&
         (inputArray.length > 0)) {
-            addToEndOfTOCs("#footnoteSection", "FOOTNOTES");
+        addToEndOfTOCs("#footnoteSection", "FOOTNOTES");
     }
 
     if (inputArray.length > 0) {

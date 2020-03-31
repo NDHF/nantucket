@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        header {
+            text-align: center;
+        }
+        section#overviewSection {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+        pre {
+            font-weight: bold;
+            font-size: 125%;
+        }
+
+        span.red {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <hgroup>
+            <h1>HTML File Structure
+                <br>
+                For Nantucket E-Books</h1>
+        </hgroup>
+    </header>
+    <section id="overviewSection">
+        <p>Three things define a Nantucket e-book: the structure of the HTML file, a stylesheet that manages the appearance
+            of the HTML file, and a script which manages the interactive content of the e-book.</p>
+        <p>Nantucket e-books are written in a syntax called Shanty. A parsing script called Gam formats the plain text into an HTML file 
+            with the appropriate document structure. This is then paired with the stylesheet, and the Ahab script for the correct appearance and interactivity.
+        </p>
+    </section>
+    <pre>
+    &lt;!DOCTYPE html&gt;<span class="red"> - DEFINING AN HTML DOCUMENT</span>
+
+    &lt;html lang="en"&gt;<span class="red"> - LANGUAGE IS DEFINED USING !!LANG. IF A LANGUAGE CODE IS NOT SPECIFIED, IT WILL DEFAULT TO 'EN' FOR ENGLISH</span>
+        &lt;head&gt;
+            &lt;meta charset="UTF-8"&gt;<span class="red"> - ESTABLISHING THE CHARACTER SET</span>
+            &lt;title&gt;TITLE&lt;/title&gt;<span class="red"> - CUSTOM TITLE TAG IS GENERATED USING !!TITLE AND !!AUTHOR TAGS. SEE <a id="titleTagRulesLink" href="titleTagRules">RULES FOR TITLE TAG</a></span>
+            &lt;meta name="author" content="AUTHOR NAME"&gt;<span class="red"> - AUTHOR IS DEFINED USING !!AUTHOR. SEE <a id="metaAuthorRulesLink" href="metaAuthorRules">AUTHOR RULES</a></span>
+        &lt;/head&gt;
+
+        &lt;body&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
+    </pre>
+
+    &lt;&gt;
+    &lt;&gt;
+    &lt;&gt;
+    &lt;&gt;
+    &lt; &gt;
+    &lt; &gt;
+    &lt; &gt;
+    &lt; &gt;
+    &lt; &gt;
+    &lt; &gt;
+</body>
+
+</html>
