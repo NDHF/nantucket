@@ -7,8 +7,12 @@ header {
     margin-bottom: 2.5%;
 }
 
-header h1 {
+header hgroup {
     text-align: center;
+}
+
+header hgroup h2 {
+    font-style: italic;
 }
 
 div.sideBySide {

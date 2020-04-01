@@ -752,7 +752,7 @@ function runGam() {
                         ];
                     } else if (item === ":link") {
                         illoMetadataObject.link = illoMetadataArray[index +
-                            1]
+                            1];
                     } else if (item === ":illustrator") {
                         let indexForIllustrator;
                         // nameOfIll = nameOfIllustrator
