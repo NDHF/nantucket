@@ -700,7 +700,9 @@ function runGam() {
                 let imageInfoObject = {};
 
                 function loopThroughImageInfo(imageInfoItem, imageInfoIndex) {
-                    if (imageInfoItem === ":source") {
+                    if (imageInfoItem === ":ornament") {
+                        imageInfoObject.ornament = "ornament";
+                    } else if (imageInfoItem === ":source") {
                         imageInfoObject.source = imageInfo[imageInfoIndex + 1];
                     } else if (imageInfoItem === ":desc") {
                         let imageDesc = imageInfo.slice(imageInfoIndex);
@@ -710,6 +712,9 @@ function runGam() {
                 imageInfo.forEach(loopThroughImageInfo);
                 let plainImage = newEl("IMG");
                 plainImage.classList.add("plainImage");
+                if (imageInfoObject.ornament === "ornament") {
+                    plainImage.classList.add("ornament");
+                }
                 plainImage.src = imageInfoObject.source;
                 if (imageInfoObject.desc !== undefined) {
                     plainImage.alt = imageInfoObject.desc;

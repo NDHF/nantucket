@@ -79,6 +79,22 @@ span.exampleText {
     color: blue;
 }
 
+sup {
+    font-weight: bolder;
+}
+
+ul#exampleList ul {
+    margin-bottom: 5%;
+}
+
+ul#exampleList li {
+    list-style-type: square;
+}
+
+ul#exampleList ul li {
+    margin-top: 2%;
+}
+
 @media screen and (orientation: portrait) {
     figure  {
         display: block;

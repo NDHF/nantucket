@@ -146,6 +146,8 @@
                 <li><a id="favoritesLink" href="#favorites">
                         <h2>ADVANCED: FAVORITES</h2>
                     </a></li>
+                <li><a id="examplesLink" href="#examples"><h2>EXAMPLES</h2></a></li>
+                <li><a id="contactLink" href="#contact"><h2>CONTACT</h2></a></li>
             </ul>
             <hr />
         </section>
@@ -158,7 +160,6 @@
             <ul>
                 <li class="inputExample"><kbd>!!TITLE <span class="exampleText">title of e-book</span></kbd></li>
                 <li class="inputExample"><kbd>!!AUTHOR <span class="exampleText">author of e-book</span></kbd></li>
-                <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
             </ul>
             <div class="sideBySide">
                 <img src="images/titleAndSubtitle.png" />
@@ -177,8 +178,6 @@
             <ul>
                 <li class="inputExample"><kbd>#<span class="exampleText">chapter</span></kbd></li>
                 <li class="inputExample"><kbd>#<span class="exampleText">chapter subtitle</span></kbd></li>
-                <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
-
             </ul>
             <p>The program will look for these symbols, and use them
                 to build your table of contents.
@@ -416,7 +415,7 @@
             <p>Can you say <i>pizzaz</i>? If you want to add a cover image
                 to your e-book, add the following line:</p>
             <ul>
-                <li class="inputExample"><kbd>@@COVERIMG <span class="exampleText">link or filepath to
+                <li class="inputExample"><kbd>@@COVERIMG <span class="exampleText">link or file path to
                             to cover image</span>
                     </kbd></li>
             </ul>
@@ -441,13 +440,16 @@
                 the e-book.</p>
             <p><kbd>!!COVERDESC</kbd> will add <code>title</code> and <code>alt</code> text to your image,
                 which is helpful for accessibility, and makes your e-book more attractive to search engines.</p>
+            <p>For cover images, I recommend settings their dimensions to <b>five units wide by eight units tall</b>.
+                This is an aspect ratio of <b>1.6</b>.
+            </p>
             <h2 id="addingIllustrations">ADDING ILLUSTRATIONS<a class="backToOriginalLink"
                     href="#addingIllustrationsLink"><sup>&uarr;</sup></a></h2>
             <p>You can add an indefinite number of illustrations to your e-book.
                 To add an illustration, include the following line in your text:
             </p>
             <ul>
-                <li class="inputExample"><kbd>@@ILLO :source <span class="exampleText">link or filepath
+                <li class="inputExample"><kbd>@@ILLO :source <span class="exampleText">link or file path
                             to illustration</span> :orientation <span class="exampleText">either "landscape" OR
                             "portrait"</span>
                         :illustrator <span class="exampleText">name of illustrator</span> :desc <span
@@ -466,19 +468,35 @@
                 <img src="images/illoFinished.png" />
                 <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
             </div>
+            <p>If your book has one illustrator, you may want to credit them at the beginning. To do so, use the
+                following line
+                at the beginning of your text:
+            </p>
+            <ul>
+                <li class="inputExample"><kbd>!!ILLUSTRATOR <span class="exampleText">name of illustrator</span></kbd>
+                </li>
+            </ul>
+            <div class="sideBySide">
+                <img src="images/illustrator.png" />
+                <img src="images/illustratorFinished.png" />
+                <span>From <a href=""><i>Sweet Relief</i></a> by Nicholas Bernhard</span>
+            </div>
             <h2 id="addingAnImage">ADDING AN IMAGE<a class="backToOriginalLink" href="#addingAnImageLink">&uarr;</a>
             </h2>
             <p>If you want to add a plain ol' image to your e-book, use the following syntax:</p>
             <ul>
-                <li class="inputExample"><kbd>@@IMG :source <span class="exampleText">link or filepath to image</span>
+                <li class="inputExample"><kbd>@@IMG :source <span class="exampleText">link or file path to image</span>
+                        :ornament <span class="exampleText">[specifies if image is being used as an ornament]</span>
                         :title <span class="exampleText">description of image</span></kbd></li>
             </ul>
+            <p>The <kbd>:ornament</kbd> attribute is optional, and lets the program know if the image is being used in place of a <a href="#breaks">line break</a>.</p>
             <p>The <kbd>:title</kbd> attribute is optional, though it is always recommended to descriptions of images on
                 web pages. If you do make use
                 of the <kbd>:title</kbd> attribute, make sure it comes <strong>after</strong> <kbd>:source</kbd>.</p>
             <p>Images will be centered on the page. A small image is an excellent way to break up a text,
                 and makes for a good alternative to the <kbd>****</kbd> break <a href="#breaks">described earlier</a>.
-                You will need to add your own styling to ensure the image displays at the intended size on various devices.
+                You will need to add your own styling to ensure the image displays at the intended size on various
+                devices.
             </p>
             <div class="sideBySide">
                 <img src="images/image.png" />
@@ -507,7 +525,8 @@
                         :copyright <span class="exampleText">Copyright information for audiobook</span>
                     </kbd></li>
             </ul>
-            <p><b>Neither parameter is required.</b> If no copyright information is specified for the audiobook, the e-book will say so.</p>
+            <p><b>Neither parameter is required.</b> If no copyright information is specified for the audiobook, the
+                e-book will say so.</p>
             <p>If a background image is specified, it will be blurred and brightened to separate
                 it from the foreground elements.
                 If no background is specified, the program will default to a plain <span title="fff5ee / 100,96,93"
@@ -536,6 +555,8 @@
             <p>This section covers things that will make your website look more
                 appealing to search engines, plus copyright info.
             </p>
+            <p>Most of this information will be placed in the <code>&lt;head&gt;</code>
+                section of the HTML document, where readers won't see it, but search engines can.</p>
             <h2 id="copyrightInformation">COPYRIGHT INFORMATION<a class="backToOriginalLink"
                     href="#copyrightInformationLink"><sup>&uarr;</sup></a></h2>
             <p>It's a very, very good idea to include the copyright info for
@@ -545,12 +566,21 @@
             </p>
             <p>To add copyright info, add the following line to the beginning of your document:</p>
             <ul>
-                <li class="inputExample"><kbd>!!COPYRIGHT <span class="exampleText">YYYY</span></kbd></li>
+                <li class="inputExample"><kbd>!!COPYRIGHT <span class="exampleText">YYYY Copyright Holder</span></kbd></li>
             </ul>
+            <div class="sideBySide">
+                <img src="images/copyright.png" />
+                <img src="images/copyrightFinished.png" />
+                <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
+            </div>
             <p>If your work is public domain, use:</p>
             <ul>
                 <li class="inputExample"><kbd>!!COPYRIGHT PUBLIC DOMAIN</kbd></li>
             </ul>
+            <div class="sideBySide">
+                <img src="images/publicdomain.png" />
+                <img src="images/publicdomainFinished.png" />
+            </div>
             <p>This will put a strikethrough on the copyright symbol.</p>
             <h2 id="searchKeywords">SEARCH KEYWORDS<a class="backToOriginalLink"
                     href="#searchKeywordsLink"><sup>&uarr;</sup></a></h2>
@@ -564,9 +594,13 @@
                 be a good result.
             </p>
             <ul>
-                <li class="inputExample"><kbd>!!KEYWORDS <span class="exampleText">keywords, separated by commas, no
-                            spaces</span></kbd></li>
+                <li class="inputExample"><kbd>!!KEYWORDS <span class="exampleText">keywords, separated by
+                            commas</span></kbd></li>
             </ul>
+            <div class="sideBySide">
+                <img src="images/keywords.png" />
+                <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
+            </div>
             <h2 id="pageDescriptions">PAGE DESCRIPTIONS<a class="backToOriginalLink"
                     href="#pageDescriptionsLink"><sup>&uarr;</sup></a></h2>
             <p>Search engines will also look for descriptions of web pages.
@@ -576,6 +610,10 @@
             <ul>
                 <li class="inputExample"><kbd>!!DESC <span class="exampleText">Description of e-book</span></kbd></li>
             </ul>
+            <div class="sideBySide">
+                <img src="images/description.png" />
+                <span>From <a href=""><i>November in America</i></a> by Nicholas Bernhard</span>
+            </div>
             <h2 id="pageLanguage">PAGE LANGUAGE<a class="backToOriginalLink"
                     href="#pageLanguageLink"><sup>&uarr;</sup></a></h2>
             <p>Lastly, search engines will try to figure out which language
@@ -583,8 +621,12 @@
                 guess, make it easy, and just tell it what the language is.
             </p>
             <ul>
-                <li class="inputExample">!!LANG <span class="exampleText">two-letter language code</span></li>
+                <li class="inputExample"><kbd>!!LANG <span class="exampleText">two-letter language code</span></kbd>
+                </li>
             </ul>
+            <div class="sideBySide">
+                <img src="images/language.png" />
+            </div>
             <p><strong>If you don't include this line, the program
                     will automatically default to English, "EN"
                 </strong></p>
@@ -653,6 +695,11 @@
                 <li class="inputExample"><kbd>!!MONETIZEICON <span class="exampleText">link to SVG icon for monetization
                             site</span></kbd></li>
             </ul>
+            <div class="sideBySide">
+                <img src="images/monetizationLink.png" />
+                <img src="images/monetizationIcon.png" />
+                <span>From <a href=""><i>The Nantucket E-Book Platform</i></a> by Nicholas Bernhard</span>
+            </div>
             <p>Second, you may want to include a call-to-action at the end of your page.
                 To do so, include the following line:
             </p>
@@ -661,6 +708,11 @@
                         :text <span class="exampleText">necessary text</span></kbd>
                 </li>
             </ul>
+            <div class="sideBySide">
+                <img src="images/support.png" />
+                <img src="images/supportFinished.png" />
+                <span>From <a href=""><i>The Nantucket E-Book Platform</i></a> by Nicholas Bernhard</span>
+            </div>
             <p><strong>Don't forget to include <a href="#addingLinks">a link to your monetization site</a>.</strong>
             </p>
             <hr />
@@ -701,6 +753,10 @@
                 <li class="inputExample"><kbd>!!MENU <span class="exampleText">link to your e-book menu</span></kbd>
                 </li>
             </ul>
+            <div class="sideBySide">
+                <img src="images/menu.png" />
+                <span>From <a href=""><i>The Nantucket E-Book Platform</i></a> by Nicholas Bernhard</span>
+            </div>
             <h2 id="addingCustomHTMLToYourE-Book">ADDING CUSTOM HTML TO YOUR E-BOOK<a class="backToOriginalLink"
                     href="#addingCustomerHTMLToYourE-BookLink"><sup>&uarr;</sup></a></h2>
             <p>To add custom HTML to your e-book, use the following:</p>
@@ -712,7 +768,7 @@
             <p><strong>If you don't include the <kbd>@@HTMLEND</kbd>, the earth will
                     crash into the sun.</strong></p>
             <p>Custom HTML would be useful if there your text requires some extra-special formatting.
-                You may use the HTML <code>PRE</code> tag to preserve
+                You may use the HTML <code>&lt;PRE&gt;</code> tag to preserve
                 line spacing for a stylized poem.
             </p>
             <p>In the example below, I have used custom HTML, and the <code>PRE</code> tag
@@ -733,6 +789,9 @@
                 displayed on the tab of a desktop browser, or on the new window of a mobile browser:
             </p>
             <p>The program will automatically use my Bernhard Ltd. favicon, as seen on the top of this page.</p>
+            <div class="sideBySide">
+                <img style="width:10%;" src="images/default.png" />
+            </div>
             <p>If you would like to replace it with your own favicon, include the following line
                 at the beginning of your text:
             </p>
@@ -768,8 +827,42 @@
             <p>This part of the program is still under development.</p>
             <hr />
         </section>
+        <section id="examples">
+            <h1>EXAMPLES<a class="backToOriginalLink" href="#examplesLink"><sup>&uarr;</sup></a></h1>
+            <p>I have included links to the Nantucket e-books used as examples in this document, 
+                plus the original plain-text files. You may also download them for your review.
+            </p>
+            <p><b>All books by Nicholas Bernhard.</b></p>
+            <ul id="exampleList">
+                <li><b><i>The Nantucket E-Book Platform</i></b>
+                    <ul>
+                        <li><a href="">E-Book</a> // <a href="" download>Download</a></li>
+                        <li><a href="">Original Shanty text</a> // <a href="" download>Download</a></li>
+                    </ul>
+                </li>
+                <li><b><i>November in America: A Story of Thanksgiving</i></b>
+                    <ul>
+                        <li><a href="">E-Book</a> // <a href="" download>Download</a></li>
+                        <li><a href="">Original Shanty text</a> // <a href="" download>Download</a></li>
+                    </ul>
+                </li>
+                <li><b><i>Then A Skeleton Popped Out</i></b>
+                    <ul>
+                        <li><a href="">E-Book</a> // <a href="" download>Download</a></li>
+                        <li><a href="">Original Shanty text</a> // <a href="" download>Download</a></li>
+                    </ul>
+                </li>
+                <li><b><i>Sweet Relief</i></b>
+                    <ul>
+                        <li><a href="">E-Book</a> // <a href="" download>Download</a></li>
+                        <li><a href="">Original Shanty text</a> // <a href="" download>Download</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <hr />
+        </section>
         <section id="contact">
-            <h1>CONTACT<a class="backToOriginalLink" href="contactLink"><sup>&uarr;</sup></a></h1>
+            <h1>CONTACT<a class="backToOriginalLink" href="#contactLink"><sup>&uarr;</sup></a></h1>
             <p>Questions? Comments? Suggestions? You may e-mail me at Nicholas[at]NDHFilms[the Warner sister][com]</p>
         </section>
     </main>
