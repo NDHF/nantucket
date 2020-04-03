@@ -231,9 +231,9 @@ function runGam() {
                     }
                     checkForLinks(whatToLookFor);
                 }
+                checkForLinks("{{");
+                checkForLinks("[[");
             }
-            checkForLinks("{{");
-            checkForLinks("[[");
         }
     }
     inputArray.forEach(replaceAsterisks);
@@ -325,7 +325,7 @@ function runGam() {
             head.appendChild(stylesheet);
         }
         buildStylesheetTag("http://www.ndhfilms.com/assets/" +
-            "style/e-readerstyle.css");
+            "style/nantucket/nantucketStylesheet.css");
         // CHECK FOR OTHER STYLESHEETS
         function loopThroughStylesheetArray(item) {
             buildStylesheetTag(item);
@@ -359,13 +359,6 @@ function runGam() {
         html.appendChild(head);
     }
     createHead();
-
-    // CREATE KEYWORD
-    // THIS IS STILL NEEDED FOR DARK MODE TO WORK
-
-    let darkModeStorage = newEl("P");
-    darkModeStorage.id = "darkModeStorage";
-    body.appendChild(darkModeStorage);
 
     function addHeader() {
         let header = newEl("HEADER");
@@ -1487,7 +1480,8 @@ function runGam() {
 
     function addJavascriptLink() {
         let script = newEl("SCRIPT");
-        script.src = "http://www.ndhfilms.com/assets/javascript/e-readerjs.js";
+        script.src = "http://www.ndhfilms.com/assets/scripts/nantucket/" +
+        "ahab.js";
         body.appendChild(script);
     }
     addJavascriptLink();
