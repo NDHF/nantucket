@@ -1,0 +1,1264 @@
+/* 
+
+THE NANTUCKET E-BOOK PLATFORM 
+STYLE SHEET
+
+*/
+
+/* THE STYLING RULES THAT ***ALWAYS*** APPLY */
+
+html {
+    width: 100%;
+}
+
+body {
+    background-color: seashell;
+    transition: background-color 2s;
+    transition-timing-function: ease;
+}
+
+span#darkModeStorage {
+    display: none;
+}
+
+img#coverImg,
+img.illustrationTarget {
+    display: block;
+    margin-top: 2%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.ornamentation {
+    display: block;
+    height: auto;
+}
+
+div#tableOfContents {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+div#tableOfContents.active {
+    overflow: scroll;
+}
+
+div#audioSourceMenu {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    overflow: scroll;
+}
+
+section#tableOfContentsSection {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    transition: color 2s;
+    transition-timing-function: ease;
+}
+
+section#tableOfContentsSection h2 {
+    text-align: center;
+}
+
+section#tableOfContentsSection li.listHeading {
+    list-style: none;
+}
+
+section#tableOfContentsSection li:not(.listHeading) {
+    list-style: square;
+}
+
+header {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    color: black;
+    transition: color 2s;
+    font-family: Verdana, sans-serif;
+    transition-timing-function: ease;
+}
+
+p#currentAudio {
+    display: block;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: seashell;
+    border: 1px solid darkgray;
+    border-radius: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+p:not(#currentAudio):not(.dedication) {
+    line-height: 1.6;
+    font-family: Verdana, sans-serif;
+    transition: color 2s;
+    transition-timing-function: ease;
+    color: black;
+}
+
+p:not(#currentAudio):not(.alignLeft):not(.alignCenter):not(.alignRight):not(.dedication):not(#copyrightNotice) {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+p.alignLeft {
+    text-align: left;
+}
+
+p.alignCenter {
+    text-align: center;
+}
+
+p.alignRight {
+    text-align: right;
+}
+
+span.dropcap {
+    float: left;
+    font-size: 275%;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    line-height: 60px;
+    padding-top: 4px;
+    padding-right: 8px;
+    padding-left: 3px;
+}
+
+blockquote {
+    line-height: 1.6;
+    font-family: Verdana, sans-serif;
+    transition: color 2s;
+    transition-timing-function: ease;
+    text-align: justify;
+    text-justify: inter-word;
+    color: black;
+    font-style: oblique;
+}
+
+p#copyrightNotice {
+    text-align: center;
+}
+
+p:last-of-type:not(#currentAudio):not(.dedication) {
+    margin-bottom: 15vh;
+}
+
+ul.mainTextUL {
+    color: black;
+    transition: color 2s;
+    transition-timing-function: ease;
+}
+
+ul#endingDate {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-style: italic;
+    list-style-type: none;
+    text-align: right;
+}
+
+ul#creditsList {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: left;
+    list-style-type: square;
+}
+
+h3.sectionHeader {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    color: black;
+    transition: color 2s;
+    transition-timing-function: ease;
+}
+
+section.endingSection {
+    color: black;
+    transition: color 2s;
+    transition-timing-function: ease;
+}
+
+object#cassetteAnimatedObject {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+object#audioElement {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+hr.style-two {
+    border: 0;
+    height: 3px;
+    width: 80%;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    transition: background-image 2s;
+    transition-timing-function: ease;
+}
+
+select:not(#audioSourceSelect) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-left: 1%;
+    margin-top: 1%;
+    width: 20%;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 125%;
+}
+
+label {
+    color: rgba(0, 0, 0, 0);
+}
+
+select.selectOpen {
+    visibility: visible;
+}
+
+select.selectClosed {
+    visibility: collapse;
+}
+
+div.active:not(#audioSourceMenu) {
+    visibility: visible;
+    background-color: seashell;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 700;
+}
+
+div#audioSourceMenu.active {
+    visibility: visible;
+    background-color: seashell;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 900;
+}
+
+div#audioSourceMenu.active hgroup {
+    text-align: center;
+}
+
+div#audioSourceMenu.active h2 {
+    font-size: 100%;
+    font-style: italic;
+}
+
+div#audioSourceMenu.active h3 {
+    font-style: italic;
+}
+
+div.standby {
+    display: none;
+}
+
+div.tocStandby {
+    color: black;
+    transition: color 2s, background-color 2s;
+    transition-timing-function: ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+div.tocStandby div#tocMobileDiv {
+    visibility: collapse;
+}
+
+div#audioSourceMenu.audioSourceMenuStandby {
+    visibility: collapse;
+    height: 0px;
+}
+
+div.audioSourceMenuStandby div#audioListDiv {
+    visibility: collapse;
+}
+
+div.active h1 {
+    text-align: center;
+    transition: color 2s;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    transition-timing-function: ease;
+}
+
+a {
+    transition: color 2s;
+    transition-timing-function: ease;
+}
+
+a.tocLink {
+    color: black;
+}
+
+ul#tocList li {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 2%;
+}
+
+ul#audioSourceList li {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 2%;
+}
+
+p.center {
+    text-align: center;
+}
+
+h2#subtitle {
+    font-style: italic;
+}
+
+h1.chapterHeading,
+h2.chapterHeading {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    transition: color 2s;
+    transition-timing-function: ease;
+}
+
+p.dedication {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+    margin-top: 5%;
+    text-align: center;
+    font-style: italic;
+}
+
+ul#tocList li.listHeading {
+    list-style-type: none;
+}
+
+ul#audioSourceList li {
+    list-style-type: none;
+}
+
+img.closeButton {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin-top: 3%;
+    margin-right: 3%;
+    z-index: 50;
+}
+
+div.audioSourceMenuStandby img.closeButton {
+    visibility: hidden;
+}
+
+div.container {
+    display: flex;
+    height: 100%;
+}
+
+div.flexbox1 {
+    order: 1;
+}
+
+div.flexbox2 {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+div.illustrationDiv {
+    background-color: seashell;
+    transition: background-color 2s;
+    transition-timing-function: ease;
+}
+
+div.illustrationDiv img.portraitIllustration {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.landscapeIllustration {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#buttonContainer {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    background-color: seashell;
+    transition: background-color 2s, border-top 2s;
+}
+
+div#audioDiv {
+    background-color: seashell;
+}
+
+div#audioBackground {
+    background-color: seashell;
+    height: 100%;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(10px) contrast(25%) brightness(200%);
+}
+
+div#audioContainer {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+hgroup.illustrationCaption {
+    color: black;
+    transition: color 2s;
+    transition-timing-function: ease;
+}
+
+hgroup.illustrationCaption h2 {
+    font-style: italic;
+}
+
+div#audioDiv img:not(#audioCloseButton) {
+    display: block;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#audioDiv hgroup {
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+div#lightswitchDiv {
+    order: 1;
+}
+
+div#bookmarkDiv {
+    order: 2;
+}
+
+div#cassetteDiv {
+    order: 3;
+}
+
+div#monetizationDiv {
+    order: 4;
+}
+
+div#starDiv {
+    order: 5;
+}
+
+svg#cassetteIcon {
+    order: 3;
+}
+
+img.enlargeIcon {
+    width: 100px;
+    height: 100px;
+    transform: scale(.6);
+    margin-left: 40%;
+}
+
+p.lyricalP {
+    font-style: italic;
+}
+
+img.plainImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+p.endOfVerse {
+    margin-bottom: 5%;
+}
+
+/* General styling for laptops and desktop */
+
+@media screen and (min-width: 1201px) and (orientation: landscape) {
+
+
+    div#audioSourceMenu.active h3 {
+        font-size: 150%;
+        font-style: italic;
+    }
+
+    div#audioSourceMenu h1 {
+        font-size: 200%;
+    }
+
+    div#menuIconContainer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding-left: 5px;
+    }
+
+    div#audioSourceMenu.active ul {
+        font-size: 125%;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 3%;
+    }
+
+    div#audioSourceMenu.active li {
+        margin-bottom: 5%;
+    }
+
+    p#currentAudio {
+        width: 50%;
+        margin-left: 20%;
+        margin-right: 30%;
+        font-size: 150%;
+    }
+
+    object#cassetteAnimatedObject {
+        width: 50%;
+        padding-right: 10%;
+    }
+
+    object#audioElement {
+        padding-right: 10%;
+    }
+
+    div.flexbox1 {
+        width: 50%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+
+    div.flexbox2 {
+        width: 50%;
+        height: 100%;
+        position: absolute;
+        margin: 0;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        justify-content: center;
+    }
+
+    div#audioDiv img:not(#audioCloseButton) {
+        width: 33%;
+    }
+
+    div.illustrationDiv img.portraitIllustration {
+        height: 80vh;
+        margin-top: 10%;
+    }
+
+    img.landscapeIllustration {
+        width: 90%;
+        padding-left: 10%;
+        margin-right: 5%;
+        height: auto;
+        margin: 0;
+        position: relative;
+    }
+
+    hgroup.illustrationCaption {
+        text-align: center;
+        margin-right: 15%;
+        font-size: 150%;
+    }
+
+    img.closeButton {
+        width: 5vw;
+        height: 5vw;
+        margin-right: 2%;
+        z-index: 50;
+    }
+
+    div.container {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+
+    div.tocStandby {
+        visibility: collapse;
+    }
+
+    img#coverImg {
+        height: 85vh;
+
+    }
+
+    img.illustrationTarget.thumbnailPortrait {
+        height: 85vh;
+        width: auto
+    }
+
+    img.illustrationTarget.thumbnailLandscape {
+        width: 50%;
+        height: auto;
+    }
+
+    img.ornamentation {
+        width: 10%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    section#tableOfContentsSection {
+        font-size: 120%;
+        margin-left: 25%;
+        margin-right: 25%;
+        width: 50%;
+    }
+
+    h1.chapterHeading,
+    h2.chapterHeading {
+        width: 50%;
+        margin-left: 25%;
+        margin-right: 25%;
+    }
+
+    p:not(#currentAudio):not(.dedication) {
+        margin-left: 25%;
+        margin-right: 25%;
+        width: 50%;
+    }
+
+    pre {
+        font-size: 150%;
+    }
+
+    p:not(.lyricalP):not(#currentAudio) {
+        font-size: 150%;
+    }
+
+    p.lyricalP {
+        line-height: 1;
+        font-size: 125%;
+    }
+
+    div.rawHTMLDiv {
+        width: 100%;
+    }
+
+    blockquote,
+    p.blockquoteAttr {
+        font-size: 150%;
+        margin-left: 30%;
+        margin-right: 30%;
+        width: 40%;
+    }
+
+    ul.mainTextUL li {
+        font-size: 150%;
+        margin-left: 25%;
+        margin-right: 25%;
+        width: 50%;
+    }
+
+    h3.sectionHeader {
+        font-size: 150%;
+    }
+
+    select {
+        visibility: visible;
+    }
+
+    div.buttons {
+        transform: scale(.5);
+        margin-top: -35px;
+    }
+
+    div#menuIconDiv {
+        margin-top: 0px;
+    }
+
+    div.menuOpen div:not(#menuIconDiv) {
+        visibility: visible;
+        position: relative;
+        transition: position 2s;
+    }
+
+    div.menuClosed div:not(#menuIconDiv) {
+        visibility: hidden;
+        position: fixed;
+        top: 0;
+        transition: position 2s;
+    }
+
+    div#buttonContainer {
+        align-items: flex-end;
+        align-content: center;
+        justify-content: flex-start;
+        top: 0;
+        left: 0;
+        margin-top: 4%;
+        margin-left: 1%;
+        border: 2px solid black;
+    }
+}
+
+/* General styling for Landscape mode on smart devices */
+
+@media screen and (max-width: 1200px) and (orientation: landscape) {
+
+    img.closeButton {
+        width: 5vw;
+        height: 5vw;
+        margin-top: 2%;
+    }
+
+    div#audioSourceMenu.active h1 {
+        font-size: 200%;
+    }
+
+    div#audioSourceMenu.active h3 {
+        font-size: 150%;
+        font-style: italic;
+    }
+
+    div.container {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    div.flexbox1 {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    div.flexbox2 {
+        width: 50%;
+        justify-content: center;
+    }
+
+    object#cassetteAnimatedObject {
+        width: 33%;
+    }
+
+    object#audioElement {
+        transform: scale(.66);
+    }
+
+    select#audioSourceSelect {
+        visibility: visible;
+        display: block;
+        width: 75%;
+        margin-left: 12.5%;
+        margin-right: 12.5%;
+    }
+
+    div#audioIllustrationDiv {
+        height: 100%;
+    }
+
+    div#audioCassetteDiv {
+        height: 100%;
+    }
+
+    div#audioDiv img:not(#audioCloseButton) {
+        width: 33%;
+    }
+
+    div#audioDiv hgroup {
+        font-size: 65%;
+    }
+
+    div.illustrationDiv img.portraitIllustration {
+        height: 90vh;
+        width: auto;
+    }
+
+    img.landscapeIllustration {
+        height: auto;
+        width: 90%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    ul#endingDate {
+        font-size: 150%;
+    }
+
+    ul#creditsList {
+        font-size: 150%;
+    }
+
+    hgroup.illustrationCaption {
+        text-align: center;
+    }
+
+    div.tocStandby {
+        visibility: hidden;
+    }
+
+    div.audioSourceMenuStandby {
+        visibility: hidden;
+    }
+
+    div.tocStandby h1.tocHeader {
+        text-align: center;
+        font-size: 100%;
+    }
+
+    img#coverImg {
+        height: 75vh;
+    }
+
+    img.illustrationTarget.thumbnailPortrait {
+        height: 75vh;
+        width: auto;
+    }
+
+    img.illustrationTarget.thumbnailLandscape {
+        width: 70%;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    img.ornamentation {
+        width: 10%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    hr.style-two {
+        width: 70%;
+        margin-right: 15%;
+        margin-right: 15%;
+    }
+
+    p {
+        width: 70%;
+        margin-left: 15%;
+        margin-right: 15%;
+        font-size: 150%;
+    }
+
+    h1.chapterHeading,
+    h2.chapterHeading {
+        display: block;
+        width: 70%;
+        margin-left: 15%;
+        margin-right: 15%;
+    }
+
+    section#tableOfContentsSection {
+        width: 70%;
+        margin-left: 15%;
+        margin-right: 15%;
+        font-size: 150%;
+    }
+
+    blockquote,
+    p.blockquoteAttr {
+        font-size: 150%;
+        margin-left: 20%;
+        margin-right: 20%;
+        width: 60%;
+    }
+
+    ul.mainTextUL li {
+        width: 70%;
+        margin-left: 15%;
+        margin-right: 15%;
+        font-size: 100%;
+    }
+
+    h3.sectionHeader {
+        font-size: 150%;
+        width: 70%;
+        margin-left: 15%;
+        margin-right: 15%;
+    }
+
+    ul#tocList {
+        font-size: 150%;
+    }
+
+    ul#audioSourceList {
+        font-size: 150%;
+    }
+
+    select:not(#audioSourceSelect) {
+        visibility: collapse;
+    }
+
+    div.buttons {
+        transform: scale(.4);
+        margin-top: -55px;
+    }
+
+    div#menuIconDiv {
+        margin-top: 0px;
+    }
+
+    div.menuOpen div:not(#menuIconDiv) {
+        visibility: visible;
+        position: relative;
+        transition: position 2s;
+    }
+
+    div.menuClosed div:not(#menuIconDiv) {
+        visibility: hidden;
+        position: fixed;
+        top: 0;
+        transition: position 2s;
+    }
+
+    div#buttonContainer {
+        align-items: flex-end;
+        align-content: center;
+        justify-content: flex-start;
+        top: 0;
+        left: 0;
+        margin-top: 1%;
+        border: 1px solid black;
+    }
+
+}
+
+/* General Portrait Mode Styling */
+
+@media screen and (orientation: portrait) {
+
+    div#audioSourceMenu.active h3 {
+        font-size: 250%;
+        font-style: italic;
+    }
+
+    p#currentAudio {
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 250%;
+    }
+
+    img.closeButton {
+        width: 10vw;
+        height: 10vw;
+    }
+
+    div.container {
+        flex-direction: column;
+    }
+
+    div.flexbox1 {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    div.flexbox2 {
+        width: 100%;
+    }
+
+    div#audioDiv img:not(#audioCloseButton) {
+        height: 70%;
+        margin-top: 5%;
+    }
+
+    div#audioDiv hgroup {
+        height: 25%;
+        font-size: 100%;
+    }
+
+    a#audioCreditsLink {
+        font-size: 150%;
+    }
+
+    div.illustrationDiv img.portraitIllustration {
+        width: 90vw;
+        height: auto;
+    }
+
+    img.landscapeIllustration {
+        margin-top: 15%;
+        width: 90%;
+    }
+
+    hgroup.illustrationCaption {
+        font-size: 250%;
+        text-align: center;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    div.tocStandby {
+        visibility: hidden;
+    }
+
+    h1.chapterHeading {
+        font-size: 350%;
+        text-align: center;
+    }
+
+    h2.chapterHeading {
+        font-size: 300%;
+        text-align: center;
+    }
+
+    div.tocStandby h1.tocHeader {
+        font-size: 350%;
+        text-align: center;
+    }
+
+    div.audioSourceMenuStandby h1 {
+        font-size: 350%;
+        text-align: center;
+    }
+
+    header {
+        font-size: 200%;
+    }
+
+    select#audioSourceSelect {
+        visibility: visible;
+        width: 70%;
+        margin-left: 15%;
+        margin-right: 15%;
+        height: 10%;
+        font-size: 125%;
+    }
+
+    img#coverImg {
+        height: 65vh;
+        margin-top: 15%;
+    }
+
+    img.illustrationTarget {
+        width: 90%;
+    }
+
+    img.ornamentation {
+        width: 20%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    section#tableOfContentsSection {
+        font-size: 300%;
+        width: 80%;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    p:not(#currentAudio):not(.dedication) {
+        font-size: 300%;
+        width: 80%;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    p.endOfVerse {
+        margin-bottom: 10%;
+    }
+
+    blockquote,
+    p.blockquoteAttr {
+        font-size: 300%;
+        margin-left: 15%;
+        margin-right: 15%;
+        width: 70%;
+    }
+
+    ul.mainTextUL li {
+        font-size: 300%;
+        width: 80%;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    h3.sectionHeader {
+        font-size: 300%;
+    }
+
+    select:not(#audioSourceSelect) {
+        visibility: collapse;
+    }
+
+    div.active h1.tocHeader {
+        font-size: 300%;
+    }
+
+    div.active h1 {
+        font-size: 300%;
+    }
+
+    ul#tocList {
+        font-size: 200%;
+    }
+
+    ul#audioSourceList {
+        font-size: 200%;
+    }
+
+    div#buttonContainer {
+        flex-direction: row;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        justify-content: center;
+        align-content: center;
+        border-top: 1px solid black;
+        align-items: center;
+        background-color: seashell;
+        padding-top: 30px;
+        padding-bottom: 40px;
+        z-index: 500;
+        transition: background-color 2s, border-top 2s;
+    }
+
+    div.menuClosed {
+        height: 5vh;
+    }
+
+    div.menuOpen {
+        height: 5vh;
+    }
+
+    div.buttons {
+        transform: scale(1);
+        margin: 0px 10px 0px 10px;
+    }
+
+    div#menuIconDiv {
+        margin-top: 0px;
+    }
+
+    div.menuClosed div.buttons {
+        position: fixed;
+        left: 45%;
+    }
+
+    div.menuOpen div:not(#menuIconDiv) {
+        visibility: visible;
+    }
+
+    div.menuClosed div:not(#menuIconDiv) {
+        visibility: hidden;
+    }
+
+    img.enlargeIcon {
+        transform: scale(1);
+    }
+
+}
+
+div#audioBackground {
+    z-index: 0;
+}
+
+/* Portrait for iPhone 5/SE */
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+
+    div#audioDiv img:not(#audioCloseButton) {
+        height: 60%;
+    }
+
+    object#cassetteAnimatedObject {
+        width: 50%;
+    }
+
+    object#audioElement {
+        transform: scale(1.25);
+    }
+
+    div#audioIllustrationDiv {
+        height: 50%;
+    }
+
+    div#audioCassetteDiv {
+        height: 50%;
+    }
+
+}
+
+/* Landscape for iPhone 5/SE */
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+
+    div#audioDiv img:not(#audioCloseButton) {
+        margin-top: 3%;
+        width: 33%;
+    }
+
+    a#audioCreditsLink {
+        font-size: 150%;
+    }
+}
+
+/* Portrait for iPad Mini 3 */
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1) {
+
+    div.illustrationDiv img.portraitIllustration {
+        width: 40%;
+    }
+
+    ul#mainTextUL li {
+        font-size: 300%;
+    }
+
+    div.tocStandby {
+        height: 10%;
+    }
+
+    div#audioIllustrationDiv {
+        height: 40%;
+    }
+
+    div#audioCassetteDiv {
+        height: 60%;
+        padding-top: 10%;
+        justify-content: center;
+    }
+
+    object#cassetteAnimatedObject {
+        width: 33%;
+    }
+}
+
+/* Landscape for iPad Mini 3 */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
+    div.tocStandby {
+        margin-left: 5%;
+    }
+
+    ul#mainTextUL li {
+        font-size: 300%;
+    }
+
+    div.buttons {
+        transform: scale(.5);
+        margin-top: -35px;
+    }
+
+    div#buttonContainer {
+        margin-left: 1%;
+    }
+}
