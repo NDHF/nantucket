@@ -125,6 +125,21 @@ document.onreadystatechange = function () {
             audioInterface.getElementById(
                 "scrubberLine"
             ).x2.baseVal.value = newScrubberX;
+            if (currentAudiobookSource.currentTime ===
+                currentAudiobookSource.duration) {
+                currentAudiobookSource.pause();
+                audioInterface = document.getElementById(
+                    "audioElement"
+                ).contentDocument.documentElement;
+                audioInterface.getElementById(
+                    "playSymbol"
+                ).style.fill = "rgb(0, 0, 0)";
+                audioInterface.getElementById(
+                    "pauseSymbol"
+                ).style.stroke = "rgba(0, 0, 0, 0)";
+                currentAudiobookSource.currentTime = 0;
+                pauseAnimationAndSaveSpot();
+            }
         }
 
         function toggleAudioDiv() {
