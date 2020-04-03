@@ -429,7 +429,7 @@ function runGam() {
             "type='image/svg+xml'" +
             "data='http://www.ndhfilms.com/assets/images/tocicon.svg'>" +
             "Your browser does not support SVG</object></div>",
-            "<div id='lightbulbDiv' class=' buttons' onclick=''>" +
+            "<div id='lightbulbDiv' class='buttons' onclick=''>" +
             "<object ID='lightbulbObject'" +
             "type='image/svg+xml'" +
             "data='http://www.ndhfilms.com/assets/images/lightbulb.svg'>" +
