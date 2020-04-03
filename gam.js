@@ -705,7 +705,7 @@ function runGam() {
                     } else if (imageInfoItem === ":source") {
                         imageInfoObject.source = imageInfo[imageInfoIndex + 1];
                     } else if (imageInfoItem === ":desc") {
-                        let imageDesc = imageInfo.slice(imageInfoIndex);
+                        let imageDesc = imageInfo.slice(imageInfoIndex + 1);
                         imageInfoObject.desc = imageDesc.join(" ");
                     }
                 }
