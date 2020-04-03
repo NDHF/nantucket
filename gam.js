@@ -168,6 +168,8 @@ function runGam() {
                 inputArray[index] = inputArray[index].replace(/\*(.*?)\*/gm, "<i>$1</i>");
             }
 
+            let checkForLinksCounter = 0;
+
             function checkForLinks(whatToLookFor) {
                 if (inputArray[index].includes(whatToLookFor)) {
                     let itemI;
@@ -229,11 +231,18 @@ function runGam() {
                             index
                         ].replace(/\[\[([^}]+)\]\]/, pLinkProper);
                     }
-                    checkForLinks(whatToLookFor);
+                    checkForLinksCounter += 1;
+                    if (checkForLinksCounter >= 100) {
+                        alert("You have probably forgotten to close " +
+                            "a link. The resulting file will have issues.");
+                        return;
+                    } else {
+                        checkForLinks(whatToLookFor);
+                    }
                 }
-                checkForLinks("{{");
-                checkForLinks("[[");
             }
+            checkForLinks("{{");
+            checkForLinks("[[");
         }
     }
     inputArray.forEach(replaceAsterisks);
@@ -512,7 +521,7 @@ function runGam() {
             let hAudioCopyrightText = "";
             if (audioDivObject.copyright === undefined) {
                 hAudioCopyrightText = "No copyright information available " +
-                "for this audiobook.";
+                    "for this audiobook.";
             } else if (audioDivObject.copyright.slice(0, 6).toLowerCase() ===
                 "public") {
                 hAudioCopyrightText = "Audio Recording <s>&COPY</s> " +
@@ -661,7 +670,6 @@ function runGam() {
                 let supportSectionH3Text = ctn(supportObject.title);
                 supportSectionH3.appendChild(supportSectionH3Text);
                 supportSection.appendChild(supportSectionH3);
-                // let supportSectionText = ctn(supportObject.text)
                 let supportSectionTextDiv = newEl("DIV");
                 supportSectionTextDiv.innerHTML = supportObject.text;
                 supportSection.appendChild(supportSectionTextDiv);
@@ -1481,7 +1489,7 @@ function runGam() {
     function addJavascriptLink() {
         let script = newEl("SCRIPT");
         script.src = "http://www.ndhfilms.com/assets/scripts/nantucket/" +
-        "ahab.js";
+            "ahab.js";
         body.appendChild(script);
     }
     addJavascriptLink();
