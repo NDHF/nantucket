@@ -1489,7 +1489,7 @@ function runGam() {
     function addJavascriptLink() {
         let script = newEl("SCRIPT");
         script.src = "http://www.ndhfilms.com/assets/scripts/nantucket/" +
-            "ahab.js";
+            "ahab-min.js";
         body.appendChild(script);
     }
     addJavascriptLink();
