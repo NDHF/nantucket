@@ -21,7 +21,7 @@ function runGam() {
         }
         closeButton.alt = "Click or tap to close";
         closeButton.classList.add("closeButton");
-        closeButton.src = "http://www.ndhfilms.com/assets/images/" +
+        closeButton.src = "https://www.ndhfilms.com/assets/images/" +
             "closeButton.svg";
         nodeToAppendTo.appendChild(closeButton);
     }
@@ -65,7 +65,8 @@ function runGam() {
         small: "",
         stylesheet: [],
         menu: "",
-        favorites: ""
+        favorites: "",
+        patrons: ""
     };
 
     let illustrationArray = [];
@@ -121,7 +122,7 @@ function runGam() {
                     "KYWD", "COPYRIGHT", "LOCATION", "DATE",
                     "LANG", "ICON", "DESC", "KEYWORDS", "AUDIO",
                     "MONETIZELINK", "MONETIZEICON", "SMALL",
-                    "STYLESHEET", "MENU", "FAVORITES"
+                    "STYLESHEET", "MENU", "FAVORITES", "PATRONS"
                 ];
                 keyIndexArray.forEach(loopKeyIndexArray);
                 inputArray.splice(i, 1);
@@ -153,6 +154,13 @@ function runGam() {
         monetizationObject = monetizationObject.replace(
             "[monetizationIcon]", textMetadata.monetizeicon
         );
+    }
+
+    // CHECK FOR PATRONS
+
+    if (textMetadata.patrons !== "") {
+        let patronArray = textMetadata.patrons.split(":");
+        function loopThroughPatronArray(patronArray)
     }
 
     function replaceAsterisks(item, index) {
@@ -333,7 +341,7 @@ function runGam() {
             stylesheet.href = link;
             head.appendChild(stylesheet);
         }
-        buildStylesheetTag("http://www.ndhfilms.com/assets/" +
+        buildStylesheetTag("https://www.ndhfilms.com/assets/" +
             "style/nantucket/nantucketStylesheet.css");
         // CHECK FOR OTHER STYLESHEETS
         function loopThroughStylesheetArray(item) {
@@ -347,7 +355,7 @@ function runGam() {
         favicon.type = "image/gif";
         // If no alternate source for icon is specified,
         // default to my icon.
-        let iconSource = "http://www.ndhfilms.com/assets/" +
+        let iconSource = "https://www.ndhfilms.com/assets/" +
             "images/walkingfavicon.gif";
         if (textMetadata.icon !== "") {
             iconSource = textMetadata.icon;
@@ -423,27 +431,27 @@ function runGam() {
         let buttonArray = [
             "<div id='menuIconDiv' class='buttons' onclick=''>" +
             "<img id='menuIconImg' alt='Click or tap to toggle menu'" +
-            "src='http://www.ndhfilms.com/assets/" +
+            "src='https://www.ndhfilms.com/assets/" +
             "images/menuicon_black.svg' />" +
             "</div>",
             "<div id='tocIconDiv' class='buttons' onclick=''>" +
             "<object id='tocIconObject'" +
             "type='image/svg+xml'" +
-            "data='http://www.ndhfilms.com/assets/images/tocicon.svg'>" +
+            "data='https://www.ndhfilms.com/assets/images/tocicon.svg'>" +
             "Your browser does not support SVG</object></div>",
             "<div id='lightbulbDiv' class='buttons' onclick=''>" +
             "<object ID='lightbulbObject'" +
             "type='image/svg+xml'" +
-            "data='http://www.ndhfilms.com/assets/images/lightbulb.svg'>" +
+            "data='https://www.ndhfilms.com/assets/images/lightbulb.svg'>" +
             "Your browser does not support SVG</object></div>",
             "<div id='bookmarkDiv'" +
             "class='buttons'>" +
             "<object id='bookmarkObject' type='image/svg+xml'" +
-            "data='http://www.ndhfilms.com/assets/images/bookmark.svg'>" +
+            "data='https://www.ndhfilms.com/assets/images/bookmark.svg'>" +
             "Your browser does not support SVG</object></div>",
             "<div id='cassetteDiv' class='buttons'>" +
             "<object id='cassetteObject' type='image/svg+xml'" +
-            "data='http://www.ndhfilms.com/assets/images/cassette.svg'>" +
+            "data='https://www.ndhfilms.com/assets/images/cassette.svg'>" +
             "Your browser does not support SVG</object></div>"
         ];
         if (monetizationObject !== "") {
@@ -552,7 +560,7 @@ function runGam() {
         let cassetteAnimatedObject = newEl("OBJECT");
         cassetteAnimatedObject.id = "cassetteAnimatedObject";
         cassetteAnimatedObject.type = "image/svg+xml";
-        cassetteAnimatedObject.data = "http://www.ndhfilms.com/assets/" +
+        cassetteAnimatedObject.data = "https://www.ndhfilms.com/assets/" +
             "images/cassetteAnimated.svg";
         cassetteAnimatedDiv.appendChild(cassetteAnimatedObject);
         audioCassetteDiv.appendChild(cassetteAnimatedDiv);
@@ -560,7 +568,7 @@ function runGam() {
         audioHoobaloo.id = "audioInterfaceWrapper";
         audioHoobaloo.innerHTML = "<object id='audioElement'" +
             "type='image/svg+xml'" +
-            "data='http://www.ndhfilms.com/assets/images/audiointerface.svg'>" +
+            "data='https://www.ndhfilms.com/assets/images/audiointerface.svg'>" +
             "Your browser does not support SVG</object></div>";
         audioCassetteDiv.appendChild(audioHoobaloo);
         container.appendChild(audioCassetteDiv);
@@ -833,7 +841,7 @@ function runGam() {
                 let enlargeIcon = newEl("IMG");
                 enlargeIcon.classList.add("enlargeIcon");
                 enlargeIcon.alt = "Click or tap to enlarge illustration";
-                enlargeIcon.src = "http://www.ndhfilms.com/assets/images/" +
+                enlargeIcon.src = "https://www.ndhfilms.com/assets/images/" +
                     "enlargeicon_black.svg";
                 body.appendChild(enlargeIcon);
 
@@ -1488,7 +1496,7 @@ function runGam() {
 
     function addJavascriptLink() {
         let script = newEl("SCRIPT");
-        script.src = "http://www.ndhfilms.com/assets/scripts/nantucket/" +
+        script.src = "https://www.ndhfilms.com/assets/scripts/nantucket/" +
             "ahab-min.js";
         body.appendChild(script);
     }

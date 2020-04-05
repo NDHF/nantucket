@@ -132,7 +132,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         } else {
-            console.log("here");
             if ((mode === "save") || (mode === "saveAs") ||
                 (mode === "new")) {
                 if (textName === null) {
