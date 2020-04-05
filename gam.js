@@ -160,7 +160,10 @@ function runGam() {
 
     if (textMetadata.patrons !== "") {
         let patronArray = textMetadata.patrons.split(":");
-        function loopThroughPatronArray(patronArray)
+        function loopThroughPatronArray(patronArray) {
+            console.log("nothing to report");
+        }
+        patronArray.forEach(loopThroughPatronArray);
     }
 
     function replaceAsterisks(item, index) {
