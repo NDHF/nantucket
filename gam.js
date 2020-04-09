@@ -66,7 +66,7 @@ function runGam() {
         stylesheet: [],
         menu: "",
         favorites: "",
-        patrons: ""
+        supporters: ""
     };
 
     let illustrationArray = [];
@@ -122,7 +122,7 @@ function runGam() {
                     "KYWD", "COPYRIGHT", "LOCATION", "DATE",
                     "LANG", "ICON", "DESC", "KEYWORDS", "AUDIO",
                     "MONETIZELINK", "MONETIZEICON", "SMALL",
-                    "STYLESHEET", "MENU", "FAVORITES", "PATRONS"
+                    "STYLESHEET", "MENU", "FAVORITES", "SUPPORTERS"
                 ];
                 keyIndexArray.forEach(loopKeyIndexArray);
                 inputArray.splice(i, 1);
@@ -154,16 +154,6 @@ function runGam() {
         monetizationObject = monetizationObject.replace(
             "[monetizationIcon]", textMetadata.monetizeicon
         );
-    }
-
-    // CHECK FOR PATRONS
-
-    if (textMetadata.patrons !== "") {
-        let patronArray = textMetadata.patrons.split(":");
-        function loopThroughPatronArray(patronArray) {
-            console.log("nothing to report");
-        }
-        patronArray.forEach(loopThroughPatronArray);
     }
 
     function replaceAsterisks(item, index) {
@@ -1465,10 +1455,55 @@ function runGam() {
     }
 
     if ((body.querySelectorAll("#supportSection") !== undefined) &&
-        (typeof body.querySelectorAll("#supportSection") !== "object")) {
+        (typeof body.querySelectorAll("#supportSection") === "object") &&
+        (body.querySelectorAll("#supportSection").length > 0)) {
         addToEndOfTOCs("#supportSection", body.querySelectorAll(
             "#supportSection"
         )[0].children[0].innerText);
+    }
+
+    if (textMetadata.supporters !== "") {
+        let supportersSection = newEl("SECTION");
+        supportersSection.id = "supportersSection";
+        let supportersSectionHeader = newEl("H3");
+        supportersSectionHeader.classList.add("sectionHeader");
+        let supportersSectionHeaderText = ctn("SUPPORTERS");
+        supportersSectionHeader.appendChild(supportersSectionHeaderText);
+        supportersSection.appendChild(supportersSectionHeader);
+        let supporterSectionP = newEl("P");
+        supporterSectionP.id = "supportersSectionP";
+        let supporterSectionPText = ctn("This work was made possible " +
+            "thanks to the following individuals. Their support " +
+            "is gratefully acknowledged:"
+        );
+        supporterSectionP.appendChild(supporterSectionPText);
+        supportersSection.appendChild(supporterSectionP);
+
+        let supportersArray = JSON.parse(
+            textMetadata.supporters.replace(/\\/g, "")
+        );
+
+        function loopThroughTierMembers(item, index) {
+            let tierMemberSpan = newEl("SPAN");
+            let tierMemberSpanText = ctn(item);
+            tierMemberSpan.appendChild(tierMemberSpanText);
+            supportersSection.appendChild(tierMemberSpan);
+        }
+
+        function loopThroughSupportersArray(item, index) {
+            let tierHeading = newEl("H2");
+            let tierHeadingText = ctn(item.tier);
+            tierHeading.appendChild(tierHeadingText);
+            supportersSection.appendChild(tierHeading);
+            item.supporters.forEach(loopThroughTierMembers);
+        }
+        supportersArray.forEach(loopThroughSupportersArray);
+        let supportersSectionBreak = newEl("HR");
+        supportersSectionBreak.classList.add("style-two");
+        supportersSection.appendChild(supportersSectionBreak);
+        body.insertBefore(
+            supportersSection, body.querySelectorAll("#creditsSection")[0]);
+        addToEndOfTOCs("#supportersSection", "SUPPORTERS AND PATRONS");
     }
 
     if ((body.querySelectorAll("#creditsSection") !== null) &&
@@ -1519,7 +1554,7 @@ function runGam() {
         )[0]);
     }
     html.appendChild(body);
-    // console.log(html);
+    console.log(html);
 
     function createDownloadableFile(filename, fileContent) {
         let typeText = "text/html;charset=UTF-8";
@@ -1548,6 +1583,9 @@ function runGam() {
 
         let link = newEl("A");
         let fullFilename = filename + "_" + currentDate + ".html";
+        if (filename === null) {
+            fullFilename = "Untitled_Nantucket_E-Book_" + currentDate + ".html";
+        }
         link.download = fullFilename;
         link.href = url;
         link.textContent = fullFilename;

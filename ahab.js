@@ -30,7 +30,7 @@ document.onreadystatechange = function () {
         }
 
         function playSound(nameOfAudioFile) {
-            let audioSrc = ("http://www.ndhfilms.com/assets/audio/" +
+            let audioSrc = ("https://www.ndhfilms.com/assets/audio/" +
                 nameOfAudioFile + ".mp3");
             let sound = new Audio(audioSrc);
             sound.play();
@@ -268,13 +268,13 @@ document.onreadystatechange = function () {
         function toggleMenu() {
             loopThroughMetaArray();
             classToggle("buttonContainer", "menuClosed", "menuOpen");
-            let baseLocation = "http://www.ndhfilms.com/assets/images/";
+            let baseLocation = "https://www.ndhfilms.com/assets/images/";
             let menuIcon = "menuicon";
             let collapseIcon = "collapseicon";
             let menuIconSrc = getById("menuIconImg").src;
             if (menuIconSrc.includes(menuIcon)) {
                 if (localStorage.getItem(pageKeyword +
-                    "darkMode") === "darkModeOn") {
+                        "darkMode") === "darkModeOn") {
                     getById("menuIconImg").src = baseLocation + collapseIcon +
                         "_white.svg";
                 } else {
@@ -286,7 +286,7 @@ document.onreadystatechange = function () {
                 }
             } else if (menuIconSrc.includes(collapseIcon)) {
                 if (localStorage.getItem(pageKeyword +
-                    "darkMode") === "darkModeOn") {
+                        "darkMode") === "darkModeOn") {
                     getById("menuIconImg").src = baseLocation + menuIcon +
                         "_white.svg";
                 } else {
@@ -398,7 +398,7 @@ document.onreadystatechange = function () {
                         } else if (className === "style-two") {
                             item.style.backgroundImage = hrGradient;
                         } else if (className === "enlargeIcon") {
-                            item.src = "http://www.ndhfilms.com/assets/" +
+                            item.src = "https://www.ndhfilms.com/assets/" +
                                 "images/enlargeicon_" + typefaceColor + ".svg";
                         } else {
                             item.style.color = typefaceColor;
@@ -448,13 +448,13 @@ document.onreadystatechange = function () {
                 }
                 // MONETIZATION ICON
                 if (getById("monetizationIcon") !== null) {
-                    getById("monetizationIcon").src = ("http://" +
+                    getById("monetizationIcon").src = ("https://" +
                         "www.ndhfilms.com/assets/images/monetization_" +
                         typefaceColor + ".svg");
                 }
                 // MENU ICON
                 function changeMenuIconColor() {
-                    let menuIconBase = "http://www.ndhfilms.com/assets/images/";
+                    let menuIconBase = "https://www.ndhfilms.com/assets/images/";
                     let currentMenuIcon = getById("menuIconImg").src;
                     if (currentMenuIcon.includes("menuicon")) {
                         getById("menuIconImg").src = menuIconBase +
@@ -468,13 +468,13 @@ document.onreadystatechange = function () {
             }
             loopThroughMetaArray("darkModeToggle");
             if (localStorage.getItem(pageKeyword +
-                "darkMode") === "darkModeOff") {
+                    "darkMode") === "darkModeOff") {
                 changeElementAppearances(
                     "black", "white", "white", "black", darkModeGradient);
-                    localStorage.setItem(pageKeyword +
-                        "darkMode", "darkModeOn");
+                localStorage.setItem(pageKeyword +
+                    "darkMode", "darkModeOn");
             } else if (localStorage.getItem(pageKeyword +
-                "darkMode") === "darkModeOn") {
+                    "darkMode") === "darkModeOn") {
                 localStorage.setItem(pageKeyword +
                     "darkMode", "darkModeOff");
                 changeElementAppearances(
@@ -643,15 +643,17 @@ document.onreadystatechange = function () {
                     currentAudiobookSource.currentTime = timecode;
                 }
             } else {
-                if (getById("audioSourceList").childNodes.length === 1) {
-                    getById(
-                        "currentAudio"
-                    ).innerHTML = getById(
-                        "audioSourceList"
-                    ).childNodes[0].innerHTML;
-                    currentAudiobookSource = new Audio(getById("audioSource" +
-                        "List").childNodes[0].title);
-                    currentAudiobookSource.currentTime = 0;
+                if (getById("audioSourceList") !== null) {
+                    if (getById("audioSourceList").childNodes.length === 1) {
+                        getById(
+                            "currentAudio"
+                        ).innerHTML = getById(
+                            "audioSourceList"
+                        ).childNodes[0].innerHTML;
+                        currentAudiobookSource = new Audio(getById(
+                            "audioSourceList").childNodes[0].title);
+                        currentAudiobookSource.currentTime = 0;
+                    }
                 }
             }
         }
@@ -778,15 +780,26 @@ document.onreadystatechange = function () {
         listenFor("menuIconDiv", "click", toggleMenu);
 
         // DARK MODE
-        listenFor("lightbulbObject", "click", toggleDarkMode, "menuIcon");
+        if (getById("lightbulbObject").contentDocument !== null) {
+            listenFor("lightbulbObject", "click", toggleDarkMode, "menuIcon");
+        }
 
         // BOOKMARKING
-        listenFor("bookmarkObject", "click", saveScrollPosition, "menuIcon");
+        if (getById("bookmarkObject").contentDocument !== null) {
+            listenFor(
+                "bookmarkObject", "click", saveScrollPosition, "menuIcon"
+            );
+        }
 
         // AUDIO DIV
         if (getById("cassetteObject") !== null) {
-            listenFor("cassetteObject", "click", toggleAudioDiv, "menuIcon");
+            if (getById("cassetteObject").contentDocument !== null) {
+                listenFor(
+                    "cassetteObject", "click", toggleAudioDiv, "menuIcon"
+                );
+            }
         }
+
         if (getById("audioCreditsLink") !== null) {
             listenFor("audioCreditsLink", "click", audioPauseSaveAndToggle);
         }
@@ -835,8 +848,14 @@ document.onreadystatechange = function () {
         // SELECT ELEMENT
         // TABLE OF CONTENTS SELECT TOGGLE
         if (getById("tocIconObject") !== null) {
-            listenFor("tocIconObject", "click", toggleTOCSelect, "menuIcon");
-            listenFor("tocSelect", "change", tocSelectLogic);
+            if (getById("tocIconObject").contentDocument !== null) {
+                listenFor(
+                    "tocIconObject", "click", toggleTOCSelect, "menuIcon"
+                );
+            }
+            if (getById("tocSelect") !== null) {
+                listenFor("tocSelect", "change", tocSelectLogic);
+            }
         }
 
         // ILLUSTRATION DIV

@@ -400,6 +400,8 @@ document.addEventListener("DOMContentLoaded", function () {
             toggleCommands();
         } else if ((alt) && (currentKey === "m")) {
             generateEmail();
+        } else if ((alt) && (currentKey === "r")) {
+            supporterParser();
         }
         if (keylogArray.length === 1) {
             keylogArray.shift();
