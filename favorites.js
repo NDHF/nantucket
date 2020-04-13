@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         favoritesArray = JSON.parse(
             localStorage.getItem(nameOfFavoritesArray)
         );
-    };
+    }
 
     function createAllWritingsArray() {
         allWritingsArray = [];
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 localStorage.getItem(nameOfFavoritesArray)
             );
         }
-    };
+    }
 
     // GET NAME OF FAVORITES ARRAY
     function loopMetaArray(item) {
@@ -46,8 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     Array.from(document.getElementsByTagName("META")).forEach(loopMetaArray);
 
-    // This debugging function will clear all items from keywordArray 
-    // in localStorage. 
+    // This debugging function will clear all items from keywordArray
+    // in localStorage.
 
     // function flushFavorites() {
     //     keywordArray.forEach(function (keywordArrayItem) {
@@ -86,7 +86,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function clearColumns() {
-        let figureColumnArray = Array.from(document.getElementsByClassName("figureColumns"));
+        let figureColumnArray = Array.from(
+            document.getElementsByClassName("figureColumns")
+        );
 
         function clearAColumn(column) {
             let columnId = column.id;
@@ -108,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
             documentFavoritesButton.classList.add("starDivActive");
             appendLogic(item);
         }
-    };
+    }
     createArrays();
     allWritingsArray.forEach(checkForFavorites);
 
@@ -122,25 +124,25 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Add to favorites array, then save favorites array
                 // to local storage.
                 favoritesArray.push(keyword);
-                localStorage.setItem(
-                    nameOfFavoritesArray, JSON.stringify(favoritesArray)
-                );
+                let faveArrayStr1 = JSON.stringify(favoritesArray);
+                localStorage.setItem(nameOfFavoritesArray, faveArrayStr1);
                 appendLogic(keyword.replace("FavoriteButton", ""));
             } else if (thisStarDiv.classList.contains("starDivActive")) {
                 thisStarDiv.classList.remove("starDivActive");
                 thisStarDiv.classList.add("starDivStandby");
-                favoritesArray.splice(
-                    favoritesArray.indexOf(keyword), 1
-                );
-                localStorage.setItem(
-                    nameOfFavoritesArray, JSON.stringify(favoritesArray)
-                );
+                favoritesArray.splice(favoritesArray.indexOf(keyword), 1);
+                let faveArrayStr2 = JSON.stringify(favoritesArray);
+                localStorage.setItem(nameOfFavoritesArray, faveArrayStr2);
                 clearColumns();
                 allWritingsArray.forEach(checkForFavorites);
-                getById(keyword + "FavoriteButton").classList.remove("starDivActive");
-                getById(keyword + "FavoriteButton").classList.add("starDivStandby");
+                getById(
+                    keyword + "FavoriteButton"
+                ).classList.remove("starDivActive");
+                getById(
+                    keyword + "FavoriteButton"
+                ).classList.add("starDivStandby");
             }
         }
-    };
+    }
     document.body.addEventListener("click", checkForStarDiv);
 });
